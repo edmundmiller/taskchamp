@@ -1,4 +1,5 @@
 import Foundation
+import os.log
 import SQLite
 import WidgetKit
 
@@ -13,6 +14,7 @@ public class DBServiceDEPRECATED {
 
     public static let shared = DBServiceDEPRECATED()
     private var dbConnection: Connection?
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "DBService")
 
     private init() {}
 
@@ -20,7 +22,7 @@ public class DBServiceDEPRECATED {
         do {
             dbConnection = try Connection(path)
         } catch {
-            print(error)
+            logger.error("Failed to connect to database at path \(path): \(error.localizedDescription)")
         }
     }
 

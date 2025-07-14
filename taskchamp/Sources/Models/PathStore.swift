@@ -1,8 +1,10 @@
+import os.log
 import SwiftUI
 
 @Observable
 class PathStore {
     var path: NavigationPath
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "PathStore")
 
     private let savePath = URL.documentsDirectory.appending(path: "SavedPath")
 
@@ -23,7 +25,7 @@ class PathStore {
             let data = try JSONEncoder().encode(representation)
             try data.write(to: savePath)
         } catch {
-            print("Failed to save navigation data")
+            logger.error("Failed to save navigation data: \(error.localizedDescription)")
         }
     }
 

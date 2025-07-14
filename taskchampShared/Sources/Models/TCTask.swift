@@ -172,7 +172,8 @@ public struct TCTask: Codable, Hashable {
 
     public var url: URL {
         guard let url = URL(string: "taskchamp://task/\(uuid)") else {
-            fatalError("Failed to construct url.")
+            // Fallback to safe URL if task URL construction fails
+            return URL(string: "taskchamp://")!
         }
 
         return url
@@ -180,7 +181,8 @@ public struct TCTask: Codable, Hashable {
 
     public static var newTaskUrl: URL {
         guard let url = URL(string: "taskchamp://task/new") else {
-            fatalError("Failed to construct url.")
+            // Fallback to safe URL if new task URL construction fails
+            return URL(string: "taskchamp://")!
         }
 
         return url

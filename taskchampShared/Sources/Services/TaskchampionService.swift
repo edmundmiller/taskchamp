@@ -1,9 +1,11 @@
 import Foundation
+import os.log
 import Taskchampion
 
 public class TaskchampionService {
     public static let shared = TaskchampionService()
     private var replica: Replica?
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
 
     public func setDbUrl(_: String) {
         // TODO: use replica from disk
@@ -20,7 +22,7 @@ public class TaskchampionService {
             throw TCError.genericError("Query was null")
         }
         for task in tasks {
-            print("TASK", task)
+            logger.debug("Processing task: \(String(describing: task))")
             // TODO: TCTask init from taskchampion task
             // taskObjects.append(task)
         }

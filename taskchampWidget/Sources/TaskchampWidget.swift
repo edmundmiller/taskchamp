@@ -1,8 +1,11 @@
+import os.log
 import SwiftUI
 import taskchampShared
 import WidgetKit
 
 struct Provider: TimelineProvider {
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "Widget")
+
     func placeholder(in _: Context) -> TaskEntry {
         let tasks = getTasks()
         let entry = TaskEntry(date: Date(), tasks: tasks)
@@ -29,7 +32,7 @@ struct Provider: TimelineProvider {
             let tasks = try DBServiceDEPRECATED.shared.getTasks()
             return tasks
         } catch {
-            print("Error getting tasks \(error)")
+            logger.error("Error getting tasks: \(error.localizedDescription)")
             return []
         }
     }

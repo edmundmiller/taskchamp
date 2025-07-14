@@ -1,3 +1,4 @@
+import os.log
 import SwiftUI
 import taskchampShared
 
@@ -5,6 +6,8 @@ public struct ContentView: View {
     @State private var pathStore = PathStore()
     @State private var isShowingAlert = false
     @State private var selectedFilter: TCFilter = .defaultFilter
+
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "ContentView")
 
     private func getSelectedFilter() -> TCFilter {
         do {
@@ -26,9 +29,9 @@ public struct ContentView: View {
         .onAppear {
             selectedFilter = getSelectedFilter()
             if FileService.shared.isICloudAvailable() {
-                print("iCloud Available")
+                logger.info("iCloud is available")
             } else {
-                print("iCloud Unavailable")
+                logger.warning("iCloud is unavailable")
                 isShowingAlert = true
             }
         }
