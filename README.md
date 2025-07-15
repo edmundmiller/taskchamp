@@ -6,6 +6,57 @@ Use [Taskwarrior](https://taskwarrior.org/), a simple command line interface to 
 
 > For contributing to Taskchamp, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
+## Using Cloudflare R2 as a Sync Backend
+
+Taskchamp supports using Cloudflare R2 as a sync backend, enabling you to store task data remotely with ease. Follow these steps to configure and use R2:
+
+### Setting Up Cloudflare R2
+
+1. **Create an R2 Storage Bucket**: Log in to your Cloudflare dashboard and create a new R2 storage bucket. Note down the bucket name and your access credentials.
+   ![R2 Setup](./assets/cloudflare-r2-setup.gif)
+
+2. **Add Access Keys**: Obtain your Access Key ID and Secret Access Key from the Cloudflare dashboard.
+
+### Configuring Taskchamp
+
+You'll need to configure Taskchamp to use R2 with the following settings:
+
+- **R2 Account ID**: Your Cloudflare account ID.
+- **R2 Bucket**: The name of your R2 bucket.
+- **Access Key ID**: Your Cloudflare R2 Access Key.
+- **Secret Access Key**: Your Cloudflare R2 Secret Key.
+- **Endpoint**: `https://<account_id>.r2.cloudflarestorage.com`
+
+Here are examples in different languages:
+
+#### Swift
+
+```swift
+let r2Config = R2Config(region: "auto", bucket: "<your-bucket>", accessKeyId: "<your-access-key>", secretAccessKey: "<your-secret>", encryptionSecret: "<your-encryption-secret>", endpoint: "<your-endpoint>")
+TaskchampionService.shared.configureR2WithAccessKey(config: r2Config)
+```
+
+#### CLI
+
+```bash
+taskchamp config set sync.r2.region auto
+taskchamp config set sync.r2.bucket <your-bucket>
+taskchamp config set sync.r2.access_key_id <your-access-key>
+taskchamp config set sync.r2.secret_access_key <your-secret>
+taskchamp config set sync.r2.endpoint <your-endpoint>
+```
+
+### Troubleshooting
+
+| Issue                     | Cause                              | Solution                                                             |
+|---------------------------|------------------------------------|----------------------------------------------------------------------|
+| CORS Error                | CORS not configured                | Ensure R2's CORS settings allow the origin.                          |
+| 403 Forbidden             | Invalid API key or bucket policy   | Double-check keys and ensure bucket policy allows access.            |
+| Invalid Signature v4      | Clock Skew                         | Ensure client and server times are synchronized.                     |
+| Connection Timeout        | Network issues                     | Check internet connection and R2 service status.                     |
+
+For further details, you can view Cloudflare's [R2 pricing and limits](https://www.cloudflare.com/products/r2/pricing/).
+
 ## Installation
 
 To install Taskchamp, download the latest [release from the App Store](https://apps.apple.com/us/app/taskchamp-tasks-for-devs/id6633442700).
