@@ -29,7 +29,7 @@ public class DBServiceDEPRECATED {
                     let userVersion = try db.scalar("PRAGMA user_version")
                     let journalMode = try db.scalar("PRAGMA journal_mode")
                     let foreignKeys = try db.scalar("PRAGMA foreign_keys")
-                    logger.debug("Database info - user_version: \(userVersion), journal_mode: \(journalMode), foreign_keys: \(foreignKeys)")
+                    logger.debug("Database info - user_version: \(String(describing: userVersion)), journal_mode: \(String(describing: journalMode)), foreign_keys: \(String(describing: foreignKeys))")
                 } catch {
                     logger.warning("Could not read database pragmas: \(error.localizedDescription)")
                 }
@@ -170,8 +170,8 @@ public class DBServiceDEPRECATED {
             throw TCError.genericError("Query was null")
         }
 
-        for task in queryTasks {
-            let oldData = task[TasksColumns.data].data(using: .utf8)
+        for taskRow in queryTasks {
+            let oldData = taskRow[TasksColumns.data].data(using: .utf8)
             guard let oldData else {
                 throw TCError.genericError("oldData was null")
             }
@@ -194,9 +194,9 @@ public class DBServiceDEPRECATED {
             }
             do {
                 try dbConnection?.run(query.update(TasksColumns.data <- jsonString))
-                logger.debug("Successfully updated task with UUID: \(task.uuid)")
+                logger.debug("Successfully updated task with UUID: \(taskRow[TasksColumns.uuid])")
             } catch {
-                logger.error("Failed to update task \(task.uuid): \(error.localizedDescription)")
+                logger.error("Failed to update task \(taskRow[TasksColumns.uuid]): \(error.localizedDescription)")
                 throw TCError.genericError("Database update failed: \(error.localizedDescription)")
             }
             WidgetCenter.shared.reloadAllTimelines()

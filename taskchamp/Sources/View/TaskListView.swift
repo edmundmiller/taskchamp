@@ -196,9 +196,9 @@ public struct TaskListView: View {
                             performAWSSync()
                         }
                         .disabled(isSyncInProgress)
-                        
+
                         if isSyncInProgress {
-                            Button("Syncing...") { }
+                            Button("Syncing...") {}
                                 .disabled(true)
                         }
                     }
@@ -257,7 +257,7 @@ public struct TaskListView: View {
             AWSSettingsView()
         }
         .alert("AWS Sync Result", isPresented: $showSyncAlert) {
-            Button("OK") { }
+            Button("OK") {}
         } message: {
             Text(syncMessage)
         }

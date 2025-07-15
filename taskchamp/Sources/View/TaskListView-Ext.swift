@@ -110,28 +110,28 @@ extension TaskListView {
             }
         }
     }
-    
+
     // MARK: - AWS Sync Functions
-    
+
     func performAWSSync() {
         guard !isSyncInProgress else { return }
-        
+
         isSyncInProgress = true
-        
+
         Task {
             do {
                 // Initialize the replica if needed
                 if let path = taskChampionFileUrlString {
                     TaskchampionService.shared.setDbUrl(path)
                 }
-                
+
                 try TaskchampionService.shared.syncToAWSFromUserDefaults()
-                
+
                 await MainActor.run {
                     syncMessage = "✅ AWS sync completed successfully!"
                     showSyncAlert = true
                     isSyncInProgress = false
-                    
+
                     // Refresh tasks after sync
                     updateTasks()
                 }

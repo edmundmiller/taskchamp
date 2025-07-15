@@ -23,7 +23,7 @@ opt_in_rules:
   - convenience_type
   - discouraged_object_literal
   - empty_collection_literal
-  - empty_count
+  # - empty_count
   - empty_string
   - enum_case_associated_values_count
   - fatal_error_message

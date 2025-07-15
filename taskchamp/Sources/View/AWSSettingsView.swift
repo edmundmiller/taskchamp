@@ -16,7 +16,7 @@ struct AWSSettingsView: View {
     @State private var showTestSyncAlert = false
     @State private var testSyncMessage = ""
     @State private var isTestingSyncInProgress = false
-    
+
     var body: some View {
         NavigationStack {
             Form {
@@ -24,11 +24,11 @@ struct AWSSettingsView: View {
                 Section {
                     Text(
                         "Configure AWS S3 sync for Taskwarrior 3.3.0 compatibility." +
-                        "\n\nThis allows you to sync your tasks with an Amazon S3 bucket, " +
-                        "just like the native Taskwarrior AWS sync feature."
+                            "\n\nThis allows you to sync your tasks with an Amazon S3 bucket, " +
+                            "just like the native Taskwarrior AWS sync feature."
                     )
                     .foregroundStyle(.secondary)
-                    
+
                     Button {
                         showAWSInfoPopover.toggle()
                     } label: {
@@ -39,7 +39,7 @@ struct AWSSettingsView: View {
                         AWSHelpView()
                     }
                 }
-                
+
                 // Authentication Method Section
                 Section("Authentication Method") {
                     Picker("Auth Method", selection: $authMethod) {
@@ -49,22 +49,22 @@ struct AWSSettingsView: View {
                     }
                     .pickerStyle(.segmented)
                 }
-                
+
                 // Basic Configuration Section
                 Section("Basic Configuration") {
                     TextField("AWS Region (e.g., us-west-2)", text: $region)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                    
+
                     TextField("S3 Bucket Name", text: $bucket)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                    
+
                     TextField("Encryption Secret", text: $encryptionSecret)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                 }
-                
+
                 // Authentication-specific Configuration
                 switch authMethod {
                 case .accessKey:
@@ -72,47 +72,49 @@ struct AWSSettingsView: View {
                         TextField("Access Key ID", text: $accessKeyId)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
-                        
+
                         SecureField("Secret Access Key", text: $secretAccessKey)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
-                    
+
                 case .profile:
                     Section("AWS Profile Configuration") {
                         TextField("Profile Name", text: $profileName)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
-                        
+
                         Text("Uses AWS credentials from ~/.aws/credentials")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
-                    
+
                 case .defaultCredentials:
                     Section("Default Credentials") {
-                        Text("Uses default AWS credentials from environment variables, IAM roles, or other default sources")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        Text(
+                            "Uses default AWS credentials from environment variables, IAM roles, or other default sources"
+                        )
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 // Advanced Options Section
                 Section("Advanced Options") {
                     Toggle("Avoid Snapshots", isOn: $avoidSnapshots)
-                    
+
                     Text("Improves performance by avoiding snapshot operations during sync")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                
+
                 // Test Sync Section
                 Section("Test Configuration") {
                     Button("Test Sync") {
                         testAWSSync()
                     }
                     .disabled(!isConfigurationValid || isTestingSyncInProgress)
-                    
+
                     if isTestingSyncInProgress {
                         HStack {
                             ProgressView()
@@ -140,18 +142,18 @@ struct AWSSettingsView: View {
             }
             .navigationTitle("AWS Sync Settings")
             .alert("Sync Test Result", isPresented: $showTestSyncAlert) {
-                Button("OK") { }
+                Button("OK") {}
             } message: {
                 Text(testSyncMessage)
             }
         }
     }
-    
+
     private var isConfigurationValid: Bool {
         guard !region.isEmpty, !bucket.isEmpty, !encryptionSecret.isEmpty else {
             return false
         }
-        
+
         switch authMethod {
         case .accessKey:
             return !accessKeyId.isEmpty && !secretAccessKey.isEmpty
@@ -161,39 +163,39 @@ struct AWSSettingsView: View {
             return true
         }
     }
-    
+
     private func saveConfiguration() {
         let userDefaults = UserDefaults.standard
-        
+
         userDefaults.awsRegion = region
         userDefaults.awsBucket = bucket
         userDefaults.awsEncryptionSecret = encryptionSecret
         userDefaults.awsAvoidSnapshots = avoidSnapshots
         userDefaults.awsAuthMethod = authMethod
-        
+
         switch authMethod {
         case .accessKey:
             userDefaults.awsAccessKeyId = accessKeyId
             userDefaults.awsSecretAccessKey = secretAccessKey
             userDefaults.awsProfileName = "" // Clear profile name
-            
+
         case .profile:
             userDefaults.awsProfileName = profileName
             userDefaults.awsAccessKeyId = "" // Clear access keys
             userDefaults.awsSecretAccessKey = ""
-            
+
         case .defaultCredentials:
             userDefaults.awsAccessKeyId = "" // Clear both
             userDefaults.awsSecretAccessKey = ""
             userDefaults.awsProfileName = ""
         }
-        
+
         userDefaults.isAWSConfigured = true
     }
-    
+
     private func testAWSSync() {
         isTestingSyncInProgress = true
-        
+
         // Save current configuration temporarily
         let tempDefaults = UserDefaults.standard
         let oldRegion = tempDefaults.awsRegion
@@ -205,15 +207,15 @@ struct AWSSettingsView: View {
         let oldSecretAccessKey = tempDefaults.awsSecretAccessKey
         let oldProfileName = tempDefaults.awsProfileName
         let oldIsConfigured = tempDefaults.isAWSConfigured
-        
+
         // Set temporary configuration
         saveConfiguration()
-        
+
         // Test sync
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try TaskchampionService.shared.syncToAWSFromUserDefaults()
-                
+
                 DispatchQueue.main.async {
                     self.testSyncMessage = "✅ AWS sync test successful!"
                     self.showTestSyncAlert = true
@@ -227,7 +229,7 @@ struct AWSSettingsView: View {
                 }
             }
         }
-        
+
         // Restore original configuration after test
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             tempDefaults.awsRegion = oldRegion
@@ -253,29 +255,29 @@ struct AWSHelpView: View {
                     .font(.title2)
                     .bold()
                     .padding(.bottom, 5)
-                
+
                 Group {
                     Text("Prerequisites:")
                         .font(.headline)
-                    
+
                     Text("1. An AWS account with S3 access")
                     Text("2. An S3 bucket for storing tasks")
                     Text("3. AWS credentials configured")
-                    
+
                     Text("Authentication Methods:")
                         .font(.headline)
                         .padding(.top)
-                    
+
                     VStack(alignment: .leading, spacing: 8) {
                         Text("**Access Key**: Direct AWS access key and secret")
                         Text("**AWS Profile**: Uses credentials from ~/.aws/credentials")
                         Text("**Default Credentials**: Uses environment variables or IAM roles")
                     }
-                    
+
                     Text("Equivalent Taskwarrior 3.3.0 Configuration:")
                         .font(.headline)
                         .padding(.top)
-                    
+
                     Text("""
                     $ task config sync.aws.region us-west-2
                     $ task config sync.aws.bucket my-bucket
@@ -286,13 +288,15 @@ struct AWSHelpView: View {
                     .padding()
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
-                    
+
                     Text("Security Note:")
                         .font(.headline)
                         .padding(.top)
-                    
-                    Text("Your AWS credentials are stored securely in the iOS Keychain. The encryption secret is used to encrypt your task data before uploading to S3.")
-                        .foregroundStyle(.secondary)
+
+                    Text(
+                        "Your AWS credentials are stored securely in the iOS Keychain. The encryption secret is used to encrypt your task data before uploading to S3."
+                    )
+                    .foregroundStyle(.secondary)
                 }
             }
             .padding()
