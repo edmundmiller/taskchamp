@@ -23,8 +23,20 @@ public struct ContentView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: $pathStore.path) {
-            TaskListView(isShowingICloudAlert: $isShowingAlert, selectedFilter: $selectedFilter)
+        TabView {
+            NavigationStack(path: $pathStore.path) {
+                TaskListView(isShowingICloudAlert: $isShowingAlert, selectedFilter: $selectedFilter)
+            }
+            .tabItem {
+                Label("Tasks", systemImage: "list.bullet")
+            }
+            .environment(pathStore)
+            
+            CalendarView(selectedFilter: $selectedFilter)
+                .tabItem {
+                    Label("Calendar", systemImage: "calendar")
+                }
+                .environment(pathStore)
         }
         .onAppear {
             selectedFilter = getSelectedFilter()
@@ -35,7 +47,6 @@ public struct ContentView: View {
                 isShowingAlert = true
             }
         }
-        .environment(pathStore)
         .alert(isPresented: $isShowingAlert) {
             Alert(
                 title: Text("iCloud Required"),

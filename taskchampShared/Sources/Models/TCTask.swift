@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TCTask: Codable, Hashable {
+public struct TCTask: Codable, Hashable, Identifiable {
     public enum Status: String, Codable, CaseIterable {
         case pending
         case completed
@@ -146,6 +146,11 @@ public struct TCTask: Codable, Hashable {
 
     public var hasNote: Bool {
         obsidianNote != nil
+    }
+    
+    // Identifiable conformance
+    public var id: String {
+        return uuid
     }
 
     public var localDate: String {

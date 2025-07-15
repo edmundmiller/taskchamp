@@ -295,3 +295,69 @@ public class DBServiceDEPRECATED {
         return diagnostics.joined(separator: "\n")
     }
 }
+
+// MARK: - Unified DBService
+
+/// Unified DBService that provides a clean interface for task operations
+/// This service wraps both the deprecated and new services while maintaining compatibility
+public class DBService {
+    
+    public static let shared = DBService()
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "DBService")
+    
+    public init() {}
+    
+    public func setDbUrl(_ path: String) throws {
+        DBServiceDEPRECATED.shared.setDbUrl(path)
+        TaskchampionService.shared.setDbUrl(path)
+    }
+    
+    public func getTasks(
+        sortType: TasksHelper.TCSortType = .defaultSort,
+        filter: TCFilter = TCFilter.defaultFilter
+    ) throws -> [TCTask] {
+        return try DBServiceDEPRECATED.shared.getTasks(sortType: sortType, filter: filter)
+    }
+    
+    public func getTasks(filters: [String]) async throws -> [TCTask] {
+        // For now, use the deprecated service with converted filters
+        let filter = TCFilter.defaultFilter
+        // Apply the string filters to the filter object if needed
+        return try DBServiceDEPRECATED.shared.getTasks(sortType: .defaultSort, filter: filter)
+    }
+    
+    public func getTask(uuid: String) throws -> TCTask {
+        return try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
+    }
+    
+    public func updateTask(_ task: TCTask) async throws {
+        try DBServiceDEPRECATED.shared.updateTask(task)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    public func createTask(task: TCTask) throws {
+        try DBServiceDEPRECATED.shared.createTask(task)
+    }
+    
+    public func togglePendingTasksStatus(uuids: Set<String>) throws {
+        try DBServiceDEPRECATED.shared.togglePendingTasksStatus(uuids: uuids)
+    }
+    
+    public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) throws {
+        try DBServiceDEPRECATED.shared.updatePendingTasks(uuids, withStatus: newStatus)
+    }
+    
+    // MARK: - AWS Sync Methods
+    
+    public func syncToAWSFromUserDefaults() throws {
+        try TaskchampionService.shared.syncToAWSFromUserDefaults()
+    }
+    
+    public func needsSync() throws -> Bool {
+        return try TaskchampionService.shared.needsSync()
+    }
+    
+    public func getLocalOperationsCount() throws -> UInt32 {
+        return try TaskchampionService.shared.getLocalOperationsCount()
+    }
+}
