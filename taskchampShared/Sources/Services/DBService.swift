@@ -21,6 +21,19 @@ public class DBServiceDEPRECATED {
     public func setDbUrl(_ path: String) {
         do {
             dbConnection = try Connection(path)
+            logger.info("Successfully connected to database at path: \(path)")
+            
+            // Log database info for debugging
+            if let db = dbConnection {
+                do {
+                    let userVersion = try db.scalar("PRAGMA user_version")
+                    let journalMode = try db.scalar("PRAGMA journal_mode")
+                    let foreignKeys = try db.scalar("PRAGMA foreign_keys")
+                    logger.debug("Database info - user_version: \(userVersion), journal_mode: \(journalMode), foreign_keys: \(foreignKeys)")
+                } catch {
+                    logger.warning("Could not read database pragmas: \(error.localizedDescription)")
+                }
+            }
         } catch {
             logger.error("Failed to connect to database at path \(path): \(error.localizedDescription)")
         }
@@ -179,7 +192,13 @@ public class DBServiceDEPRECATED {
             guard let jsonString else {
                 throw TCError.genericError("jsonString was null")
             }
-            try dbConnection?.run(query.update(TasksColumns.data <- jsonString))
+            do {
+                try dbConnection?.run(query.update(TasksColumns.data <- jsonString))
+                logger.debug("Successfully updated task with UUID: \(task.uuid)")
+            } catch {
+                logger.error("Failed to update task \(task.uuid): \(error.localizedDescription)")
+                throw TCError.genericError("Database update failed: \(error.localizedDescription)")
+            }
             WidgetCenter.shared.reloadAllTimelines()
         }
     }
@@ -209,10 +228,70 @@ public class DBServiceDEPRECATED {
             throw TCError.genericError("jsonString was null")
         }
         let tasks = Table("tasks")
-        try dbConnection?.run(tasks.insert(
-            TasksColumns.uuid <- task.uuid.lowercased(),
-            TasksColumns.data <- jsonString
-        ))
+        do {
+            try dbConnection?.run(tasks.insert(
+                TasksColumns.uuid <- task.uuid.lowercased(),
+                TasksColumns.data <- jsonString
+            ))
+            logger.debug("Successfully created task with UUID: \(task.uuid)")
+        } catch {
+            logger.error("Failed to create task \(task.uuid): \(error.localizedDescription)")
+            throw TCError.genericError("Database insert failed: \(error.localizedDescription)")
+        }
         WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    /// Diagnose database compatibility issues with different Taskwarrior versions
+    public func diagnoseDatabaseCompatibility() -> String {
+        guard let db = dbConnection else {
+            return "No database connection available"
+        }
+        
+        var diagnostics: [String] = []
+        
+        do {
+            // Check database version and settings
+            let userVersion = try db.scalar("PRAGMA user_version") as! Int64
+            let journalMode = try db.scalar("PRAGMA journal_mode") as! String
+            let foreignKeys = try db.scalar("PRAGMA foreign_keys") as! Int64
+            let walAutocheckpoint = try db.scalar("PRAGMA wal_autocheckpoint") as! Int64
+            
+            diagnostics.append("Database version: \(userVersion)")
+            diagnostics.append("Journal mode: \(journalMode)")
+            diagnostics.append("Foreign keys: \(foreignKeys == 1 ? "enabled" : "disabled")")
+            diagnostics.append("WAL autocheckpoint: \(walAutocheckpoint)")
+            
+            // Check table schema
+            let tableInfo = try db.prepare("PRAGMA table_info(tasks)")
+            var columns: [String] = []
+            for row in tableInfo {
+                let name = row[1] as! String
+                let type = row[2] as! String
+                columns.append("\(name) (\(type))")
+            }
+            diagnostics.append("Tasks table columns: \(columns.joined(separator: ", "))")
+            
+            // Check for additional tables that might cause conflicts
+            let tables = try db.prepare("SELECT name FROM sqlite_master WHERE type='table'")
+            var tableNames: [String] = []
+            for row in tables {
+                tableNames.append(row[0] as! String)
+            }
+            diagnostics.append("All tables: \(tableNames.joined(separator: ", "))")
+            
+            // Test write permissions
+            do {
+                try db.run("CREATE TEMP TABLE test_write (id INTEGER)")
+                try db.run("DROP TABLE test_write")
+                diagnostics.append("Write permissions: OK")
+            } catch {
+                diagnostics.append("Write permissions: FAILED - \(error.localizedDescription)")
+            }
+            
+        } catch {
+            diagnostics.append("Error during diagnosis: \(error.localizedDescription)")
+        }
+        
+        return diagnostics.joined(separator: "\n")
     }
 }
