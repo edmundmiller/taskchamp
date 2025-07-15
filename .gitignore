@@ -40,3 +40,7 @@ amplifytools.xcconfig
 ### Cargo
 task-champion-swift/
 taskchampion-swift/
+
+### Swift Package Manager
+.build/
+Package.resolved
