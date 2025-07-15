@@ -19,6 +19,10 @@ public struct TaskListView: View {
     @State var searchText = ""
     @State var isShowingFilterView = false
     @State var isShowingObsidianSettings = false
+    @State var isShowingAWSSettings = false
+    @State var showSyncAlert = false
+    @State var syncMessage = ""
+    @State var isSyncInProgress = false
     @State var sortType: TasksHelper.TCSortType = .init(
         rawValue: UserDefaults.standard
             .string(forKey: "sortType") ?? TasksHelper.TCSortType.defaultSort.rawValue
@@ -182,6 +186,22 @@ public struct TaskListView: View {
                     Button("Obsidian Settings") {
                         isShowingObsidianSettings.toggle()
                     }
+                    Button("AWS Sync Settings") {
+                        isShowingAWSSettings.toggle()
+                    }
+                    Divider()
+                    // AWS Sync Actions
+                    if UserDefaults.standard.isAWSConfigured {
+                        Button("Sync to AWS") {
+                            performAWSSync()
+                        }
+                        .disabled(isSyncInProgress)
+                        
+                        if isSyncInProgress {
+                            Button("Syncing...") { }
+                                .disabled(true)
+                        }
+                    }
                     Menu("Sort by") {
                         sortButton(sortType: .defaultSort)
                         sortButton(sortType: .date)
@@ -232,6 +252,14 @@ public struct TaskListView: View {
         }
         .sheet(isPresented: $isShowingObsidianSettings) {
             ObsidianSettingsView()
+        }
+        .sheet(isPresented: $isShowingAWSSettings) {
+            AWSSettingsView()
+        }
+        .alert("AWS Sync Result", isPresented: $showSyncAlert) {
+            Button("OK") { }
+        } message: {
+            Text(syncMessage)
         }
         .navigationDestination(for: TCTask.self) { task in
             EditTaskView(task: task)
