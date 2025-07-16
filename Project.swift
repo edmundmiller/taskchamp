@@ -11,7 +11,7 @@ let project = Project(
             name: "taskchamp",
             destinations: .iOS,
             product: .app,
-            bundleId: "com.mav.taskchamp",
+            bundleId: "com.edmundmiller.taskchamp",
             deploymentTargets: .iOS("17.0"),
             infoPlist: .extendingDefault(
                 with: [
@@ -21,26 +21,27 @@ let project = Project(
                     ],
                     "NSAccentColorName": "AccentColor",
                     "ITSAppUsesNonExemptEncryption": false,
-                    "NSUbiquitousContainers": [
-                        "iCloud.com.mav.taskchamp":
-                            [
-                                "NSUbiquitousContainerIsDocumentScopePublic": true,
-                                "NSUbiquitousContainerName": "taskchamp",
-                                "NSUbiquitousContainerSupportedFolderLevels": "Any"
-                            ]
-                    ],
+                    // iCloud container requires paid Apple Developer account
+                    // "NSUbiquitousContainers": [
+                    //     "iCloud.com.mav.taskchamp":
+                    //         [
+                    //             "NSUbiquitousContainerIsDocumentScopePublic": true,
+                    //             "NSUbiquitousContainerName": "taskchamp",
+                    //             "NSUbiquitousContainerSupportedFolderLevels": "Any"
+                    //         ]
+                    // ],
                     "CFBundleShortVersionString": "1.3"
                 ]
             ),
             sources: ["taskchamp/Sources/**"],
             resources: ["taskchamp/Resources/**"],
             entitlements: .dictionary(
-                [
-                    "com.apple.developer.icloud-container-identifiers": ["iCloud.com.mav.taskchamp"],
-                    "com.apple.developer.icloud-services": ["CloudDocuments", "CloudKit"],
-                    "com.apple.developer.ubiquity-container-identifiers": ["iCloud.com.mav.taskchamp"],
-                    "com.apple.developer.usernotifications.time-sensitive": true
-                ]
+                [:]
+                // iCloud and time-sensitive notifications require paid Apple Developer account
+                // "com.apple.developer.icloud-container-identifiers": ["iCloud.com.mav.taskchamp"],
+                // "com.apple.developer.icloud-services": ["CloudDocuments", "CloudKit"],
+                // "com.apple.developer.ubiquity-container-identifiers": ["iCloud.com.mav.taskchamp"],
+                // "com.apple.developer.usernotifications.time-sensitive": true
             ),
             scripts: [
                 .pre(script: "./scripts/pre_build_script.sh", name: "Prebuild", basedOnDependencyAnalysis: false)
@@ -54,7 +55,7 @@ let project = Project(
             name: "taskchampTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.taskchampTests",
+            bundleId: "com.edmundmiller.taskchamp.taskchampTests",
             deploymentTargets: .iOS("17.0"),
             infoPlist: .default,
             sources: ["taskchamp/Tests/**"],
@@ -65,30 +66,31 @@ let project = Project(
             name: "taskchampWidget",
             destinations: .iOS,
             product: .appExtension,
-            bundleId: "com.mav.taskchamp.taskchampWidget",
+            bundleId: "com.edmundmiller.taskchamp.taskchampWidget",
             deploymentTargets: .iOS("17.0"),
             infoPlist: .extendingDefault(with: [
                 "CFBundleDisplayName": "$(PRODUCT_NAME)",
                 "NSExtension": [
                     "NSExtensionPointIdentifier": "com.apple.widgetkit-extension"
                 ],
-                "NSUbiquitousContainers": [
-                    "iCloud.com.mav.taskchamp":
-                        [
-                            "NSUbiquitousContainerIsDocumentScopePublic": true,
-                            "NSUbiquitousContainerName": "taskchamp",
-                            "NSUbiquitousContainerSupportedFolderLevels": "Any"
-                        ]
-                ],
+                // iCloud container requires paid Apple Developer account
+                // "NSUbiquitousContainers": [
+                //     "iCloud.com.mav.taskchamp":
+                //         [
+                //             "NSUbiquitousContainerIsDocumentScopePublic": true,
+                //             "NSUbiquitousContainerName": "taskchamp",
+                //             "NSUbiquitousContainerSupportedFolderLevels": "Any"
+                //         ]
+                // ],
                 "CFBundleShortVersionString": "1.3"
             ]),
             sources: "taskchampWidget/Sources/**",
             entitlements: .dictionary(
-                [
-                    "com.apple.developer.icloud-container-identifiers": ["iCloud.com.mav.taskchamp"],
-                    "com.apple.developer.icloud-services": ["CloudDocuments"],
-                    "com.apple.developer.ubiquity-container-identifiers": ["iCloud.com.mav.taskchamp"]
-                ]
+                [:]
+                // iCloud capabilities require paid Apple Developer account
+                // "com.apple.developer.icloud-container-identifiers": ["iCloud.com.mav.taskchamp"],
+                // "com.apple.developer.icloud-services": ["CloudDocuments"],
+                // "com.apple.developer.ubiquity-container-identifiers": ["iCloud.com.mav.taskchamp"]
             ),
             dependencies: [
                 .target(name: "taskchampShared")
@@ -98,7 +100,7 @@ let project = Project(
             name: "taskchampShared",
             destinations: .iOS,
             product: .staticFramework,
-            bundleId: "com.mav.taskchamp.taskchampShared",
+            bundleId: "com.edmundmiller.taskchamp.taskchampShared",
             deploymentTargets: .iOS("17.0"),
             infoPlist: .default,
             sources: "taskchampShared/Sources/**",
