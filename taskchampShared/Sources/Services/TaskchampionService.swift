@@ -62,57 +62,72 @@ public class TaskchampionService {
     // MARK: - AWS Sync Methods
     
     public func syncToAWS(config: AWSConfig) throws {
-        guard replica != nil else {
+        guard let replica = replica else {
             throw TCError.genericError("No replica available - please refresh the task list")
         }
         
         logger.info("Starting AWS sync with access key method")
         logger.info("Region: \(config.region), Bucket: \(config.bucket)")
         
-        // Simulate AWS sync process
-        Thread.sleep(forTimeInterval: 1.0) // Simulate network delay
-        
-        // For testing purposes, we'll just log the sync attempt
-        logger.info("AWS sync with access key completed successfully")
-        
-        // Reset local operations count after successful sync
-        resetLocalOperationsCount()
+        do {
+            try replica.sync_to_aws_with_access_key(
+                config.region,
+                config.bucket,
+                config.accessKeyId,
+                config.secretAccessKey,
+                config.encryptionSecret,
+                config.avoidSnapshots
+            )
+            logger.info("AWS sync with access key completed successfully")
+        } catch {
+            logger.error("AWS sync with access key failed: \(error.localizedDescription)")
+            throw TCError.genericError("AWS sync failed: \(error.localizedDescription)")
+        }
     }
     
     public func syncToAWS(profileConfig: AWSProfileConfig) throws {
-        guard replica != nil else {
+        guard let replica = replica else {
             throw TCError.genericError("No replica available - please refresh the task list")
         }
         
         logger.info("Starting AWS sync with profile method")
         logger.info("Region: \(profileConfig.region), Bucket: \(profileConfig.bucket), Profile: \(profileConfig.profileName)")
         
-        // Simulate AWS sync process
-        Thread.sleep(forTimeInterval: 1.0) // Simulate network delay
-        
-        // For testing purposes, we'll just log the sync attempt
-        logger.info("AWS sync with profile completed successfully")
-        
-        // Reset local operations count after successful sync
-        resetLocalOperationsCount()
+        do {
+            try replica.sync_to_aws_with_profile(
+                profileConfig.region,
+                profileConfig.bucket,
+                profileConfig.profileName,
+                profileConfig.encryptionSecret,
+                profileConfig.avoidSnapshots
+            )
+            logger.info("AWS sync with profile completed successfully")
+        } catch {
+            logger.error("AWS sync with profile failed: \(error.localizedDescription)")
+            throw TCError.genericError("AWS sync failed: \(error.localizedDescription)")
+        }
     }
     
     public func syncToAWSWithDefaultCredentials(region: String, bucket: String, encryptionSecret: String, avoidSnapshots: Bool = false) throws {
-        guard replica != nil else {
+        guard let replica = replica else {
             throw TCError.genericError("No replica available - please refresh the task list")
         }
         
         logger.info("Starting AWS sync with default credentials method")
         logger.info("Region: \(region), Bucket: \(bucket)")
         
-        // Simulate AWS sync process
-        Thread.sleep(forTimeInterval: 1.0) // Simulate network delay
-        
-        // For testing purposes, we'll just log the sync attempt
-        logger.info("AWS sync with default credentials completed successfully")
-        
-        // Reset local operations count after successful sync
-        resetLocalOperationsCount()
+        do {
+            try replica.sync_to_aws_with_default_creds(
+                region,
+                bucket,
+                encryptionSecret,
+                avoidSnapshots
+            )
+            logger.info("AWS sync with default credentials completed successfully")
+        } catch {
+            logger.error("AWS sync with default credentials failed: \(error.localizedDescription)")
+            throw TCError.genericError("AWS sync failed: \(error.localizedDescription)")
+        }
     }
     
     public func syncToAWSFromUserDefaults() throws {
@@ -151,15 +166,19 @@ public class TaskchampionService {
     
     // MARK: - Sync Status Methods
     
-    private var simulatedOperationsCount: UInt32 = 2 // Simulate some local operations
-    
     public func getLocalOperationsCount() throws -> UInt32 {
-        guard replica != nil else {
+        guard let replica = replica else {
             throw TCError.genericError("No replica available - please refresh the task list")
         }
         
-        logger.info("Getting local operations count: \(self.simulatedOperationsCount)")
-        return self.simulatedOperationsCount
+        do {
+            let count = try replica.num_local_operations()
+            logger.info("Getting local operations count: \(count)")
+            return count
+        } catch {
+            logger.error("Failed to get local operations count: \(error.localizedDescription)")
+            throw TCError.genericError("Failed to get local operations count: \(error.localizedDescription)")
+        }
     }
     
     public func needsSync() throws -> Bool {
@@ -174,11 +193,4 @@ public class TaskchampionService {
         }
     }
     
-    // MARK: - Test Helper Methods
-    
-    /// Simulates successful sync by resetting local operations count
-    private func resetLocalOperationsCount() {
-        simulatedOperationsCount = 0
-        logger.info("Local operations count reset to 0")
-    }
 }
