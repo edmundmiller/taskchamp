@@ -7,25 +7,39 @@ public class TaskchampionService {
     private var replica: Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
 
-    public func setDbUrl(_: String) {
-        // TODO: use replica from disk
-        replica = Taskchampion.new_replica_in_memory()
+    public func setDbUrl(_ dbUrl: String) {
+        do {
+            if dbUrl.isEmpty || dbUrl == "test-db-path" {
+                replica = try Taskchampion.new_replica_in_memory()
+            } else {
+                replica = try Taskchampion.new_replica_on_disk(dbUrl, true)
+            }
+        } catch {
+            logger.error("Failed to create replica: \(error)")
+            replica = nil
+        }
     }
 
     public func getTasks(
         sortType: TasksHelper.TCSortType = .defaultSort,
         filter _: TCFilter = TCFilter.defaultFilter
     ) throws -> [TCTask] {
+        guard let replica = replica else {
+            throw TCError.genericError("No replica available - please refresh the task list")
+        }
+        
         var taskObjects: [TCTask] = []
-        let tasks = replica?.all_task_data()
-        guard let tasks else {
-            throw TCError.genericError("Query was null")
+        let tasks = try replica.get_all_tasks()
+        
+        for i in 0..<tasks.len() {
+            if let taskData = tasks.get(index: UInt(i)) {
+                logger.debug("Processing task: \(taskData.get_uuid().toString())")
+                // TODO: Convert TaskData to TCTask
+                // For now, create a placeholder TCTask
+                // taskObjects.append(TCTask(from: taskData))
+            }
         }
-        for task in tasks {
-            logger.debug("Processing task: \(String(describing: task))")
-            // TODO: TCTask init from taskchampion task
-            // taskObjects.append(task)
-        }
+        
         // TODO: use filters
         TasksHelper.sortTasksWithSortType(&taskObjects, sortType: sortType)
         return taskObjects
@@ -52,11 +66,19 @@ public class TaskchampionService {
     }
 
     public func createTask(task _: TCTask) throws {
-        // TODO:
+        guard let replica = replica else {
+            throw TCError.genericError("No replica available - please refresh the task list")
+        }
+        
         let uuid = Taskchampion.uuid_v4()
-        var ops = Taskchampion.new_operations()
-        ops = Taskchampion.create_task(uuid, ops)
-        throw TCError.genericError("Not implemented")
+        let taskData = try replica.create_task(uuid.to_string().toString())
+        
+        // TODO: Set task properties based on TCTask
+        // For now, just create the task
+        logger.info("Created task with UUID: \(taskData.get_uuid().toString())")
+        
+        // TODO: Implement proper task creation with properties
+        throw TCError.genericError("Task creation not fully implemented yet")
     }
     
     // MARK: - AWS Sync Methods
@@ -69,14 +91,20 @@ public class TaskchampionService {
         logger.info("Starting AWS sync with access key method")
         logger.info("Region: \(config.region), Bucket: \(config.bucket)")
         
-        // TODO: Replace with real AWS sync once Rust bindings are fully working
-        // Using mock implementation for now to ensure app builds correctly
-        logger.info("Using mock AWS sync implementation - sync not yet fully implemented")
-        
-        // Simulate some processing time
-        Thread.sleep(forTimeInterval: 1.0)
-        
-        logger.info("Mock AWS sync with access key completed successfully")
+        do {
+            try replica.sync_to_aws_with_access_key(
+                config.region,
+                config.bucket,
+                config.accessKeyId,
+                config.secretAccessKey,
+                config.encryptionSecret,
+                config.avoidSnapshots
+            )
+            logger.info("AWS sync with access key completed successfully")
+        } catch {
+            logger.error("AWS sync with access key failed: \(error)")
+            throw TCError.genericError("AWS sync failed: \(error.localizedDescription)")
+        }
     }
     
     public func syncToAWS(profileConfig: AWSProfileConfig) throws {
@@ -87,14 +115,19 @@ public class TaskchampionService {
         logger.info("Starting AWS sync with profile method")
         logger.info("Region: \(profileConfig.region), Bucket: \(profileConfig.bucket), Profile: \(profileConfig.profileName)")
         
-        // TODO: Replace with real AWS sync once Rust bindings are fully working
-        // Using mock implementation for now to ensure app builds correctly
-        logger.info("Using mock AWS sync implementation - sync not yet fully implemented")
-        
-        // Simulate some processing time
-        Thread.sleep(forTimeInterval: 1.0)
-        
-        logger.info("Mock AWS sync with profile completed successfully")
+        do {
+            try replica.sync_to_aws_with_profile(
+                profileConfig.region,
+                profileConfig.bucket,
+                profileConfig.profileName,
+                profileConfig.encryptionSecret,
+                profileConfig.avoidSnapshots
+            )
+            logger.info("AWS sync with profile completed successfully")
+        } catch {
+            logger.error("AWS sync with profile failed: \(error)")
+            throw TCError.genericError("AWS sync failed: \(error.localizedDescription)")
+        }
     }
     
     public func syncToAWSWithDefaultCredentials(region: String, bucket: String, encryptionSecret: String, avoidSnapshots: Bool = false) throws {
@@ -105,14 +138,18 @@ public class TaskchampionService {
         logger.info("Starting AWS sync with default credentials method")
         logger.info("Region: \(region), Bucket: \(bucket)")
         
-        // TODO: Replace with real AWS sync once Rust bindings are fully working
-        // Using mock implementation for now to ensure app builds correctly
-        logger.info("Using mock AWS sync implementation - sync not yet fully implemented")
-        
-        // Simulate some processing time
-        Thread.sleep(forTimeInterval: 1.0)
-        
-        logger.info("Mock AWS sync with default credentials completed successfully")
+        do {
+            try replica.sync_to_aws_with_default_creds(
+                region,
+                bucket,
+                encryptionSecret,
+                avoidSnapshots
+            )
+            logger.info("AWS sync with default credentials completed successfully")
+        } catch {
+            logger.error("AWS sync with default credentials failed: \(error)")
+            throw TCError.genericError("AWS sync failed: \(error.localizedDescription)")
+        }
     }
     
     public func syncToAWSFromUserDefaults() throws {
@@ -156,10 +193,14 @@ public class TaskchampionService {
             throw TCError.genericError("No replica available - please refresh the task list")
         }
         
-        // TODO: Replace with real operation count once Rust bindings are fully working
-        // Using mock implementation for now to ensure app builds correctly
-        logger.info("Using mock operation count - returning 0 for now")
-        return 0
+        do {
+            let count = try replica.num_local_operations()
+            logger.info("Local operations count: \(count)")
+            return count
+        } catch {
+            logger.error("Failed to get local operations count: \(error)")
+            throw TCError.genericError("Failed to get local operations count: \(error.localizedDescription)")
+        }
     }
     
     public func needsSync() throws -> Bool {

@@ -34,7 +34,8 @@ let package = Package(
             path: "Tests",
             sources: [
                 "E2E_AWS_Sync_Test.swift",
-                "E2E_R2_Sync_Test.swift"
+                "E2E_R2_Sync_Test.swift",
+                "TaskChampionIntegrationTest.swift"
             ]
         ),
     ]
