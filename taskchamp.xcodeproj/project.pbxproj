@@ -1052,7 +1052,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchampWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = HJKN5N7T2L;
+				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
@@ -1085,7 +1085,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchamp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = HJKN5N7T2L;
+				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1117,7 +1117,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchampWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = HJKN5N7T2L;
+				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
@@ -1151,7 +1151,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchamp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = HJKN5N7T2L;
+				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
