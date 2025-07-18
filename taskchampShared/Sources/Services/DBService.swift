@@ -1,11 +1,13 @@
 import Foundation
 import os.log
-import SQLite
+// import SQLite  // Commented out to fix build issue - SQLite not available in Xcode project
 import WidgetKit
 
 // This class is going to be deprecated in favor of the Taskchampion service:
 // Please do not add any more features into this service, but rather make a PR to
 // https://github.com/LostLaplace/taskchampion-swift
+// TEMPORARILY DISABLED due to SQLite dependency not being available in Xcode build
+/*
 public class DBServiceDEPRECATED {
     enum TasksColumns {
         static let uuid = SQLite.Expression<String>("uuid")
@@ -295,6 +297,7 @@ public class DBServiceDEPRECATED {
         return diagnostics.joined(separator: "\n")
     }
 }
+*/
 
 // MARK: - Unified DBService
 
@@ -308,43 +311,53 @@ public class DBService {
     public init() {}
     
     public func setDbUrl(_ path: String) throws {
-        DBServiceDEPRECATED.shared.setDbUrl(path)
         TaskchampionService.shared.setDbUrl(path)
     }
     
     public func getTasks(
         sortType: TasksHelper.TCSortType = .defaultSort,
         filter: TCFilter = TCFilter.defaultFilter
-    ) throws -> [TCTask] {
-        return try DBServiceDEPRECATED.shared.getTasks(sortType: sortType, filter: filter)
+    ) async throws -> [TCTask] {
+        // Convert old filter format to new format
+        let filters = filter.convertToSqlFilters()
+        return try await TaskchampionService.shared.getTasks(filters: filters)
     }
     
     public func getTasks(filters: [String]) async throws -> [TCTask] {
-        // For now, use the deprecated service with converted filters
-        let filter = TCFilter.defaultFilter
-        // Apply the string filters to the filter object if needed
-        return try DBServiceDEPRECATED.shared.getTasks(sortType: .defaultSort, filter: filter)
+        return try await TaskchampionService.shared.getTasks(filters: filters)
     }
     
-    public func getTask(uuid: String) throws -> TCTask {
-        return try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
+    public func getTask(uuid: String) async throws -> TCTask {
+        return try await TaskchampionService.shared.getTask(uuid: uuid)
     }
     
     public func updateTask(_ task: TCTask) async throws {
-        try DBServiceDEPRECATED.shared.updateTask(task)
+        try await TaskchampionService.shared.updateTask(task)
         WidgetCenter.shared.reloadAllTimelines()
     }
     
-    public func createTask(task: TCTask) throws {
-        try DBServiceDEPRECATED.shared.createTask(task)
+    public func createTask(task: TCTask) async throws {
+        try await TaskchampionService.shared.createTask(task: task)
     }
     
-    public func togglePendingTasksStatus(uuids: Set<String>) throws {
-        try DBServiceDEPRECATED.shared.togglePendingTasksStatus(uuids: uuids)
+    public func togglePendingTasksStatus(uuids: Set<String>) async throws {
+        // Convert to individual task operations using TaskchampionService
+        for uuid in uuids {
+            let task = try await TaskchampionService.shared.getTask(uuid: uuid)
+            var updatedTask = task
+            updatedTask.status = task.status == .pending ? .completed : .pending
+            try await TaskchampionService.shared.updateTask(updatedTask)
+        }
     }
     
-    public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) throws {
-        try DBServiceDEPRECATED.shared.updatePendingTasks(uuids, withStatus: newStatus)
+    public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) async throws {
+        // Convert to individual task operations using TaskchampionService
+        for uuid in uuids {
+            let task = try await TaskchampionService.shared.getTask(uuid: uuid)
+            var updatedTask = task
+            updatedTask.status = newStatus
+            try await TaskchampionService.shared.updateTask(updatedTask)
+        }
     }
     
     // MARK: - AWS Sync Methods

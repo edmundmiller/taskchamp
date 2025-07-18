@@ -19,7 +19,6 @@
 		2CEA485DCFBAB7276DEB15AC /* CompleteTaskIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A30E1DA957DE7E2960314B /* CompleteTaskIntent.swift */; };
 		32445444D1CB88D6D9DE1BCF /* TCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEAB42DBB996D5F59399955 /* TCError.swift */; };
 		326501ECADA6E1B3911598B0 /* TaskchampWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E61018C4EBA687DF3BF7CC4 /* TaskchampWidgetBundle.swift */; };
-		33906BE826F6B778BE2D176D /* taskchampWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F21F712EED5F62F18391F945 /* taskchampWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		413A8809616CFB60B06A8CA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619CA7FD65A00AA1BA2AB645 /* NotificationService.swift */; };
 		4625BB894A4B9F914176D0BC /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055D31B94CF71924BE538895 /* FileService.swift */; };
 		47827CDEC102BB70F9D83769 /* TuistBundle+Taskchamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC349F818F4DCEAE96315985 /* TuistBundle+Taskchamp.swift */; };
@@ -88,13 +87,6 @@
 			remoteGlobalIDString = 547B5DE6DBABDEA0FDBA1CDE;
 			remoteInfo = taskchampShared;
 		};
-		E448740C2F3428372EFAD5B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BAF81EB5E561A8E96E008B74 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0853A140B10F7507002AB79D;
-			remoteInfo = taskchampWidget;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -148,16 +140,6 @@
 				9986CC26A9B66D6F8CD4F1C1 /* SoulverCore.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F68CC57A45757CDC7FB871D5 /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstSubfolderSpec = 13;
-			files = (
-				33906BE826F6B778BE2D176D /* taskchampWidget.appex in Embed Foundation Extensions */,
-			);
-			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -613,7 +595,6 @@
 				2CDF7AFA1364303F8CF1805D /* Prebuild */,
 				359F6467A80433B4179FB008 /* Sources */,
 				5436E32B64598ACA13B92F43 /* Resources */,
-				F68CC57A45757CDC7FB871D5 /* Embed Foundation Extensions */,
 				7058C4B52798FB959F522CC3 /* Frameworks */,
 				EB04AE9010DA4D6B7FC2069A /* Embed Frameworks */,
 			);
@@ -621,7 +602,6 @@
 			);
 			dependencies = (
 				55B0DDAECEFE3F4407A9A526 /* PBXTargetDependency */,
-				90F9C42F25A1A3FB1413AF65 /* PBXTargetDependency */,
 			);
 			name = taskchamp;
 			packageProductDependencies = (
@@ -851,12 +831,6 @@
 			target = 547B5DE6DBABDEA0FDBA1CDE /* taskchampShared */;
 			targetProxy = 5978C06E4262B3EA727CE998 /* PBXContainerItemProxy */;
 		};
-		90F9C42F25A1A3FB1413AF65 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = taskchampWidget;
-			target = 0853A140B10F7507002AB79D /* taskchampWidget */;
-			targetProxy = E448740C2F3428372EFAD5B8 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1052,7 +1026,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchampWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
@@ -1085,7 +1058,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchamp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1117,7 +1089,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchampWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
@@ -1151,7 +1122,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchamp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

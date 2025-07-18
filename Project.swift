@@ -47,8 +47,8 @@ let project = Project(
                 .pre(script: "./scripts/pre_build_script.sh", name: "Prebuild", basedOnDependencyAnalysis: false)
             ],
             dependencies: [
-                .target(name: "taskchampShared"),
-                .target(name: "taskchampWidget")
+                .target(name: "taskchampShared")
+                // .target(name: "taskchampWidget") // Temporarily disabled due to build issues
             ]
         ),
         .target(
