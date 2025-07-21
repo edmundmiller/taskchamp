@@ -2,6 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## AI Agent Guidelines
+
+### Core Constraints
+- NEVER create new architectural patterns - follow existing conventions in taskchampShared/
+- ALWAYS reference existing code patterns before implementing new features
+- USE the migration status below to understand what services to modify vs avoid
+- FOCUS on SwiftUI + Combine patterns found in existing views
+- FOLLOW the established service layer architecture (see Key Services section)
+
 ## Development Setup
 
 This is an iOS SwiftUI app built with Tuist and mise. Before working on the project:
@@ -45,11 +54,18 @@ This is an iOS SwiftUI app built with Tuist and mise. Before working on the proj
 - **taskchampWidget/**: iOS widget extension for displaying tasks
 
 ### Key Services (taskchampShared/)
-- **DBServiceDEPRECATED**: Legacy SQLite-based database service (being phased out)
-- **TaskchampionService**: New service using taskchampion-swift Rust library (incomplete migration)
-- **NotificationService**: Handles local notifications
-- **NLPService**: Natural language processing for task parsing
-- **FileService**: iCloud Drive file operations
+- **DBServiceDEPRECATED**: Legacy SQLite-based database service (being phased out) - DO NOT MODIFY
+- **TaskchampionService**: New service using taskchampion-swift Rust library (incomplete migration) - PREFERRED FOR NEW FEATURES
+- **NotificationService**: Handles local notifications - STABLE, CAN MODIFY
+- **NLPService**: Natural language processing for task parsing - STABLE, CAN MODIFY
+- **FileService**: iCloud Drive file operations - STABLE, CAN MODIFY
+
+### Code Reference Patterns
+When working with this codebase, ALWAYS:
+1. Check taskchampShared/Models/ for existing data structures before creating new ones
+2. Reference taskchampShared/Services/ patterns for dependency injection and service architecture
+3. Follow SwiftUI view patterns in taskchamp/Views/ for UI consistency
+4. Use existing TCTask and TCFilter models rather than creating alternatives
 
 ### Models
 - **TCTask**: Core task model with support for projects, priorities, due dates, and Obsidian notes
@@ -64,6 +80,18 @@ The project is migrating from a custom SQLite implementation to the upstream tas
 2. PRs must target `dev` branch (not main)
 3. Code must pass linting (`make lint`) before submission
 4. Beta testing happens via TestFlight before App Store release
+
+### AI-Assisted Development Process
+1. **Exploration Phase**: Use existing file structure to understand patterns before coding
+2. **Implementation Phase**: Reference similar existing implementations, don't create from scratch
+3. **Validation Phase**: Run `make lint` and `make build` to ensure code quality
+4. **Integration Phase**: Test changes fit within existing service architecture
+
+### Common Pitfalls to Avoid
+- Creating new service classes when existing ones can be extended
+- Ignoring the migration status (avoid touching DBServiceDEPRECATED)
+- Implementing UI patterns inconsistent with existing SwiftUI views
+- Adding dependencies without checking if functionality already exists
 
 ## External Integration
 
