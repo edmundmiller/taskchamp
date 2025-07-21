@@ -9,7 +9,7 @@ struct DayCalendarView: View {
     let onTaskMoved: (TCTask, Date) -> Void
 
     private let hourHeight: CGFloat = 60
-    private let hours = Array(0...23)
+    private let hours = Array(0 ... 23)
 
     var body: some View {
         GeometryReader { geometry in
@@ -99,7 +99,7 @@ struct DayCalendarView: View {
         }
     }
 
-    private func currentTimeIndicator(hour: Int, width: CGFloat) -> some View {
+    private func currentTimeIndicator(hour: Int, width _: CGFloat) -> some View {
         let now = Date()
         let currentHour = Calendar.current.component(.hour, from: now)
         let currentMinute = Calendar.current.component(.minute, from: now)

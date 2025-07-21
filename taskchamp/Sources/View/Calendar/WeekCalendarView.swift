@@ -19,7 +19,7 @@ struct WeekCalendarView: View {
         var days: [Date] = []
         var currentDate = weekInterval.start
 
-        for _ in 0..<7 {
+        for _ in 0 ..< 7 {
             days.append(currentDate)
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
         }
@@ -41,7 +41,7 @@ struct WeekCalendarView: View {
         }
     }
 
-    private func weekHeader(width: CGFloat) -> some View {
+    private func weekHeader(width _: CGFloat) -> some View {
         HStack(spacing: 0) {
             // Time column placeholder
             Rectangle()
@@ -75,7 +75,7 @@ struct WeekCalendarView: View {
         let columnWidth = (width - 60) / 7
 
         return VStack(spacing: 0) {
-            ForEach(Array(6...23), id: \.self) { hour in
+            ForEach(Array(6 ... 23), id: \.self) { hour in
                 HStack(spacing: 0) {
                     // Time label
                     timeLabel(hour: hour)

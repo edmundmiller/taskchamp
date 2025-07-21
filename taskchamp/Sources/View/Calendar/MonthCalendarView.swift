@@ -30,7 +30,7 @@ struct MonthCalendarView: View {
         VStack(spacing: 0) {
             // Weekday headers
             HStack(spacing: 0) {
-                ForEach(0..<7) { index in
+                ForEach(0 ..< 7) { index in
                     Text(weekdayName(index: index))
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -91,7 +91,7 @@ struct MonthCalendarView: View {
 
     private func taskDots(for date: Date) -> some View {
         HStack(spacing: 2) {
-                ForEach(tasksForDay(date: date), id: \.uuid) { task in
+            ForEach(tasksForDay(date: date), id: \.uuid) { task in
                 Circle()
                     .fill(priorityColor(task.priority))
                     .frame(width: 6, height: 6)

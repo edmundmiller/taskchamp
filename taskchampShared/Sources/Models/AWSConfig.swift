@@ -7,7 +7,7 @@ public struct AWSConfig: Codable {
     public let secretAccessKey: String
     public let encryptionSecret: String
     public let avoidSnapshots: Bool
-    
+
     public init(
         region: String,
         bucket: String,
@@ -31,7 +31,7 @@ public struct AWSProfileConfig: Codable {
     public let profileName: String
     public let encryptionSecret: String
     public let avoidSnapshots: Bool
-    
+
     public init(
         region: String,
         bucket: String,
@@ -49,7 +49,7 @@ public struct AWSProfileConfig: Codable {
 
 // MARK: - UserDefaults Extensions for AWS Config
 
-extension UserDefaults {
+public extension UserDefaults {
     private enum AWSConfigKeys {
         static let region = "aws.region"
         static let bucket = "aws.bucket"
@@ -61,12 +61,12 @@ extension UserDefaults {
         static let authMethod = "aws.authMethod"
         static let isConfigured = "aws.isConfigured"
     }
-    
-    public enum AWSAuthMethod: String, CaseIterable {
-        case accessKey = "accessKey"
-        case profile = "profile"
-        case defaultCredentials = "defaultCredentials"
-        
+
+    enum AWSAuthMethod: String, CaseIterable {
+        case accessKey
+        case profile
+        case defaultCredentials
+
         public var displayName: String {
             switch self {
             case .accessKey:
@@ -78,73 +78,75 @@ extension UserDefaults {
             }
         }
     }
-    
+
     // MARK: - Getters
-    
-    public var awsRegion: String {
+
+    var awsRegion: String {
         get { string(forKey: AWSConfigKeys.region) ?? "" }
         set { set(newValue, forKey: AWSConfigKeys.region) }
     }
-    
-    public var awsBucket: String {
+
+    var awsBucket: String {
         get { string(forKey: AWSConfigKeys.bucket) ?? "" }
         set { set(newValue, forKey: AWSConfigKeys.bucket) }
     }
-    
-    public var awsAccessKeyId: String {
+
+    var awsAccessKeyId: String {
         get { string(forKey: AWSConfigKeys.accessKeyId) ?? "" }
         set { set(newValue, forKey: AWSConfigKeys.accessKeyId) }
     }
-    
-    public var awsSecretAccessKey: String {
+
+    var awsSecretAccessKey: String {
         get { string(forKey: AWSConfigKeys.secretAccessKey) ?? "" }
         set { set(newValue, forKey: AWSConfigKeys.secretAccessKey) }
     }
-    
-    public var awsEncryptionSecret: String {
+
+    var awsEncryptionSecret: String {
         get { string(forKey: AWSConfigKeys.encryptionSecret) ?? "" }
         set { set(newValue, forKey: AWSConfigKeys.encryptionSecret) }
     }
-    
-    public var awsAvoidSnapshots: Bool {
+
+    var awsAvoidSnapshots: Bool {
         get { bool(forKey: AWSConfigKeys.avoidSnapshots) }
         set { set(newValue, forKey: AWSConfigKeys.avoidSnapshots) }
     }
-    
-    public var awsProfileName: String {
+
+    var awsProfileName: String {
         get { string(forKey: AWSConfigKeys.profileName) ?? "" }
         set { set(newValue, forKey: AWSConfigKeys.profileName) }
     }
-    
-    public var awsAuthMethod: AWSAuthMethod {
-        get { 
+
+    var awsAuthMethod: AWSAuthMethod {
+        get {
             guard let rawValue = string(forKey: AWSConfigKeys.authMethod),
-                  let method = AWSAuthMethod(rawValue: rawValue) else {
+                  let method = AWSAuthMethod(rawValue: rawValue) else
+            {
                 return .accessKey
             }
             return method
         }
         set { set(newValue.rawValue, forKey: AWSConfigKeys.authMethod) }
     }
-    
-    public var isAWSConfigured: Bool {
+
+    var isAWSConfigured: Bool {
         get { bool(forKey: AWSConfigKeys.isConfigured) }
         set { set(newValue, forKey: AWSConfigKeys.isConfigured) }
     }
-    
+
     // MARK: - Helper Methods
-    
-    public func getAWSConfig() -> AWSConfig? {
+
+    func getAWSConfig() -> AWSConfig? {
         guard isAWSConfigured,
               awsAuthMethod == .accessKey,
               !awsRegion.isEmpty,
               !awsBucket.isEmpty,
               !awsAccessKeyId.isEmpty,
               !awsSecretAccessKey.isEmpty,
-              !awsEncryptionSecret.isEmpty else {
+              !awsEncryptionSecret.isEmpty else
+        {
             return nil
         }
-        
+
         return AWSConfig(
             region: awsRegion,
             bucket: awsBucket,
@@ -154,17 +156,18 @@ extension UserDefaults {
             avoidSnapshots: awsAvoidSnapshots
         )
     }
-    
-    public func getAWSProfileConfig() -> AWSProfileConfig? {
+
+    func getAWSProfileConfig() -> AWSProfileConfig? {
         guard isAWSConfigured,
               awsAuthMethod == .profile,
               !awsRegion.isEmpty,
               !awsBucket.isEmpty,
               !awsProfileName.isEmpty,
-              !awsEncryptionSecret.isEmpty else {
+              !awsEncryptionSecret.isEmpty else
+        {
             return nil
         }
-        
+
         return AWSProfileConfig(
             region: awsRegion,
             bucket: awsBucket,
@@ -173,14 +176,15 @@ extension UserDefaults {
             avoidSnapshots: awsAvoidSnapshots
         )
     }
-    
-    public func validateAWSConfig() -> Bool {
+
+    func validateAWSConfig() -> Bool {
         guard !awsRegion.isEmpty,
               !awsBucket.isEmpty,
-              !awsEncryptionSecret.isEmpty else {
+              !awsEncryptionSecret.isEmpty else
+        {
             return false
         }
-        
+
         switch awsAuthMethod {
         case .accessKey:
             return !awsAccessKeyId.isEmpty && !awsSecretAccessKey.isEmpty
@@ -190,8 +194,8 @@ extension UserDefaults {
             return true
         }
     }
-    
-    public func clearAWSConfig() {
+
+    func clearAWSConfig() {
         removeObject(forKey: AWSConfigKeys.region)
         removeObject(forKey: AWSConfigKeys.bucket)
         removeObject(forKey: AWSConfigKeys.accessKeyId)

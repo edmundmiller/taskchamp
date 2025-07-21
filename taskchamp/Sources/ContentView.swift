@@ -31,7 +31,7 @@ public struct ContentView: View {
                 Label("Tasks", systemImage: "list.bullet")
             }
             .environment(pathStore)
-            
+
             CalendarView(selectedFilter: $selectedFilter)
                 .tabItem {
                     Label("Calendar", systemImage: "calendar")

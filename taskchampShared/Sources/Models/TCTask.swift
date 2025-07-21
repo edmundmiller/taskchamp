@@ -147,7 +147,7 @@ public struct TCTask: Codable, Hashable, Identifiable {
     public var hasNote: Bool {
         obsidianNote != nil
     }
-    
+
     // Identifiable conformance
     public var id: String {
         return uuid
