@@ -105,3 +105,31 @@ The app integrates with:
 - **SQLite.swift**: Database access (legacy)
 - **SoulverCore**: Natural language calculation
 - **Taskchampion**: Rust-based task management library (future)
+
+## Troubleshooting Build Issues
+
+### Getting Build Error Logs
+When Xcode builds fail, export build logs: Press ⌘+9 to open Reports navigator, click on a build, then click "Export" to save the build log file.
+
+### Common Build Issues
+
+**Rust Bridge Types Missing (`RustStr`, `__private__FfiSlice` not found)**
+- **Cause**: TaskChampion Rust library not properly built or linked
+- **Fix**: 
+  ```bash
+  make clean
+  make build_taskchampion  # Rebuild Rust library
+  make generate           # Regenerate project
+  ```
+
+**iOS Version Availability Errors (`PassthroughSubject` only available in iOS 13.0+)**
+- **Cause**: Minimum deployment target too low for Combine framework
+- **Fix**: Update deployment target to iOS 13.0+ in Tuist project configuration
+
+**SQLite Compilation Errors**
+- **Cause**: Version incompatibility with current Xcode/Swift
+- **Fix**: Clean build and regenerate:
+  ```bash
+  make clean
+  make up
+  ```
