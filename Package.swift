@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.14.1"),
         .package(url: "https://github.com/SoulverTeam/SoulverCore.git", from: "2.0.0"),
-        .package(path: "Dependencies/taskchampion-swift"),
+        .package(path: "./Dependencies/taskchampion-swift"),
     ],
     targets: [
         .target(
