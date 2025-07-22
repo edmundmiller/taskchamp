@@ -12,6 +12,42 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - FOLLOW the established service layer architecture (see Key Services section)
 - Stop telling me you've completed something when you've "laid the ground work" or "When you're ready to fully enable...". Write the code or state the problem you're facing
 
+## 🚨 TASKCHAMPION INTEGRATION STATUS - READ THIS FIRST 🚨
+
+### CURRENT STATUS: INCOMPLETE - NO MOCKS ALLOWED
+
+**BEFORE working on TaskChampion integration, read this section completely.**
+
+The TaskChampion integration has been started multiple times but never completed. Every attempt falls into the same pattern:
+1. Start integration work
+2. Hit complexity of Rust/Swift bridge 
+3. Create mocks, placeholders, "foundations", or "pragmatic fallbacks"
+4. Claim integration is "ready for activation" 
+5. User asks to actually complete it
+6. Cycle repeats
+
+**This ends now. The integration is ONLY complete when:**
+- ✅ App creates/reads/updates tasks using ONLY TaskChampion Rust library
+- ✅ S3 sync works with real PBKDF2+ChaCha20 encryption (tested end-to-end)
+- ✅ No SQLite database is used anywhere in the app
+- ✅ DBServiceDEPRECATED can be completely deleted
+- ✅ No fallback, mock, or placeholder code exists
+
+**FORBIDDEN approaches:**
+- ❌ Creating mock implementations
+- ❌ "Pragmatic fallbacks" to DBServiceDEPRECATED  
+- ❌ Saying "foundation is ready" or "when you're ready to enable"
+- ❌ Placeholder/stub implementations
+- ❌ "TODO: implement actual TaskChampion" comments
+
+**Required approach:**
+- ✅ Fix the actual Rust/Swift bridge integration problems
+- ✅ Make real TaskChampion operations work end-to-end
+- ✅ Test encryption actually works, don't simulate it
+- ✅ State specific problems you're facing, don't work around them
+
+**If you catch yourself about to create a mock or placeholder, STOP and solve the real integration problem instead.**
+
 ## Development Setup
 
 This is an iOS SwiftUI app built with Tuist and mise. Before working on the project:
