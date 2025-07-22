@@ -122,7 +122,7 @@ extension TaskListView {
                     TaskchampionService.shared.setDbUrl(path)
                 }
 
-                try TaskchampionService.shared.syncToAWSFromUserDefaults()
+                try await TaskchampionService.shared.syncToAWSFromUserDefaults()
 
                 await MainActor.run {
                     syncMessage = "✅ AWS sync completed successfully!"

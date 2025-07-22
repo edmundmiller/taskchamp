@@ -211,36 +211,37 @@ struct AWSSettingsView: View {
         // Set temporary configuration
         saveConfiguration()
 
-        // Test sync
-        DispatchQueue.global(qos: .userInitiated).async {
+        // Test sync using async/await
+        Task {
             do {
-                try TaskchampionService.shared.syncToAWSFromUserDefaults()
+                try await TaskchampionService.shared.syncToAWSFromUserDefaults()
 
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.testSyncMessage = "✅ AWS sync test successful!"
                     self.showTestSyncAlert = true
                     self.isTestingSyncInProgress = false
                 }
             } catch {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.testSyncMessage = "❌ AWS sync test failed: \(error.localizedDescription)"
                     self.showTestSyncAlert = true
                     self.isTestingSyncInProgress = false
                 }
             }
-        }
 
-        // Restore original configuration after test
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            tempDefaults.awsRegion = oldRegion
-            tempDefaults.awsBucket = oldBucket
-            tempDefaults.awsEncryptionSecret = oldEncryptionSecret
-            tempDefaults.awsAvoidSnapshots = oldAvoidSnapshots
-            tempDefaults.awsAuthMethod = oldAuthMethod
-            tempDefaults.awsAccessKeyId = oldAccessKeyId
-            tempDefaults.awsSecretAccessKey = oldSecretAccessKey
-            tempDefaults.awsProfileName = oldProfileName
-            tempDefaults.isAWSConfigured = oldIsConfigured
+            // Restore original configuration after test
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+            await MainActor.run {
+                tempDefaults.awsRegion = oldRegion
+                tempDefaults.awsBucket = oldBucket
+                tempDefaults.awsEncryptionSecret = oldEncryptionSecret
+                tempDefaults.awsAvoidSnapshots = oldAvoidSnapshots
+                tempDefaults.awsAuthMethod = oldAuthMethod
+                tempDefaults.awsAccessKeyId = oldAccessKeyId
+                tempDefaults.awsSecretAccessKey = oldSecretAccessKey
+                tempDefaults.awsProfileName = oldProfileName
+                tempDefaults.isAWSConfigured = oldIsConfigured
+            }
         }
     }
 }

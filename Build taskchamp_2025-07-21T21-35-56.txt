@@ -1,0 +1,23 @@
+
+Showing Recent Errors Only
+
+Build target taskchampShared of project taskchamp with configuration Debug
+error: There is no XCFramework found at '/Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore/SoulverCore.xcframework'. (in target 'taskchampShared' from project 'taskchamp')
+
+
+There is no XCFramework found at '/Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore/SoulverCore.xcframework'.
+
+
+Build target taskchamp of project taskchamp with configuration Debug
+error: There is no XCFramework found at '/Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore/SoulverCore.xcframework'. (in target 'taskchamp' from project 'taskchamp')
+error: There is no XCFramework found at '/Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore/SoulverCore.xcframework'. (in target 'taskchamp' from project 'taskchamp')
+note: Run script build phase 'Prebuild' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'taskchamp' from project 'taskchamp')
+
+
+There is no XCFramework found at '/Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore/SoulverCore.xcframework'.
+
+There is no XCFramework found at '/Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore/SoulverCore.xcframework'.
+
+
+
+Build failed    7/21/25, 9:35 PM    1.9 seconds

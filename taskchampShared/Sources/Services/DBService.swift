@@ -374,9 +374,9 @@ public class DBService {
 
     // MARK: - AWS Sync Methods
 
-    public func syncToAWSFromUserDefaults() throws {
-        // Use the pragmatic TaskChampion service implementation
-        try TaskchampionService.shared.syncToAWSFromUserDefaults()
+    public func syncToAWSFromUserDefaults() async throws {
+        // Use the TaskChampion S3 sync implementation
+        try await TaskchampionService.shared.syncToAWSFromUserDefaults()
     }
 
     public func needsSync() throws -> Bool {

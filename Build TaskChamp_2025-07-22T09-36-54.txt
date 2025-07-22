@@ -1,0 +1,492 @@
+
+Showing Recent Errors Only
+
+Build target taskchampShared with configuration Debug
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ taskchampShared (in target 'taskchampShared' from project 'TaskChamp')
+
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -emit-module -experimental-skip-non-inlinable-function-bodies-without-types /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/AWSConfig.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCTask.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/FileService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/NLPService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/NotificationService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/TaskchampionService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Utilities/SFSymbols.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Utilities/TCError.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Utilities/TasksHelper.swift -target arm64-apple-ios16.0 -Xllvm -aarch64-use-tbi -enable-objc-interop -stack-check -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk -I /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Products/Debug-iphoneos -I /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Products/Debug-iphoneos/PackageFrameworks -F /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Products/Debug-iphoneos -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/Developer/Library/Frameworks -no-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/emiller/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -profile-generate -profile-coverage-mapping -swift-version 5 -enforce-exclusivity\=checked -Onone -D SWIFT_PACKAGE -D DEBUG -D Xcode -serialize-debugging-options -const-gather-protocols-file /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -validate-clang-modules-once -clang-build-session-file /Users/emiller/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/emiller/src/personal/taskchamp/.swiftpm/xcode -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift -enable-anonymous-context-mangled-names -file-compilation-dir /Users/emiller/src/personal/taskchamp/.swiftpm/xcode -Xcc -ivfsstatcache -Xcc /Users/emiller/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphoneos18.5-22F76-7fa4eea80a99bbfdc046826b63ec4baf.sdkstatcache -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/swift-overrides.hmap -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Products/Debug-iphoneos/include -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/DerivedSources-normal/arm64 -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/DerivedSources/arm64 -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -module-name taskchampShared -package-name taskchamp -frontend-parseable-output -disable-clang-spi -target-sdk-version 18.5 -target-sdk-name iphoneos18.5 -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/lib/swift/host/plugins -emit-module-doc-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared.swiftdoc -emit-module-source-info-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared.swiftsourceinfo -emit-objc-header-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared-Swift.h -serialize-diagnostics-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared-master-emit-module.dia -emit-dependencies-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared-master-emit-module.d -o /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared.swiftmodule -emit-abi-descriptor-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-fiwamqnfuojntpgguzbxqnkmjhfn/Build/Intermediates.noindex/TaskChamp.build/Debug-iphoneos/taskchampShared.build/Objects-normal/arm64/taskchampShared.abi.json
+
+EmitSwiftModule normal arm64 (in target 'taskchampShared' from project 'TaskChamp')
+    cd /Users/emiller/src/personal/taskchamp/.swiftpm/xcode
+    
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:2: error: 'Model()' is only available in iOS 17 or newer
+@Model
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC2id5ModelfMr0_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'id' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'id' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:2: error: 'Model()' is only available in iOS 17 or newer
+@Model
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC15fullDescription5ModelfMr2_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'fullDescription' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'fullDescription' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC7project5ModelfMr3_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'project' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'project' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC6status5ModelfMr4_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'status' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'status' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC8priority5ModelfMr5_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'priority' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'priority' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC3due5ModelfMr6_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'due' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'due' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC10didSetPrio5ModelfMr7_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetPrio' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetPrio' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC13didSetProject5ModelfMr8_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetProject' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetProject' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC9didSetDue5ModelfMr9_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetDue' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetDue' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC12didSetStatus5ModelfMr10_.swift:1:2: error: '_PersistedProperty()' is only available in iOS 17 or newer
+@_PersistedProperty
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetStatus' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on property 'didSetStatus' here
+@Model
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:42:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient private let _$observationRegistrar = Observation.ObservationRegistrar()
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC2id18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC2id5ModelfMr0_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'id' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC2id5ModelfMr0_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'id' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC15fullDescription18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC15fullDescription5ModelfMr2_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'fullDescription' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC15fullDescription5ModelfMr2_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'fullDescription' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC7project18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC7project5ModelfMr3_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'project' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC7project5ModelfMr3_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'project' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC6status18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC6status5ModelfMr4_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'status' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC6status5ModelfMr4_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'status' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC8priority18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC8priority5ModelfMr5_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'priority' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC8priority5ModelfMr5_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'priority' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC3due18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC3due5ModelfMr6_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'due' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC3due5ModelfMr6_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'due' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC10didSetPrio18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC10didSetPrio5ModelfMr7_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetPrio' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC10didSetPrio5ModelfMr7_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetPrio' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC13didSetProject18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC13didSetProject5ModelfMr8_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetProject' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC13didSetProject5ModelfMr8_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetProject' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC9didSetDue18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC9didSetDue5ModelfMr9_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetDue' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC9didSetDue5ModelfMr9_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetDue' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilterC12didSetStatus18_PersistedPropertyfMp_.swift:1:2: error: 'Transient()' is only available in iOS 17 or newer
+@Transient
+ ^
+@__swiftmacro_15taskchampShared8TCFilterC12didSetStatus5ModelfMr10_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetStatus' here
+@_PersistedProperty
+^
+@__swiftmacro_15taskchampShared8TCFilterC12didSetStatus5ModelfMr10_.swift:1:1: note: in expansion of macro '_PersistedProperty' on property 'didSetStatus' here
+@_PersistedProperty
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:2:42: error: 'BackingData' is only available in iOS 17 or newer
+private var _$backingData: any SwiftData.BackingData<TCFilter> = TCFilter.createBackingData()
+                                         ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:2:75: error: 'createBackingData()' is only available in iOS 17 or newer
+private var _$backingData: any SwiftData.BackingData<TCFilter> = TCFilter.createBackingData()
+                                                                          ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:4:49: error: 'BackingData' is only available in iOS 17 or newer
+public var persistentBackingData: any SwiftData.BackingData<TCFilter> {
+                                                ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:4:12: note: add @available attribute to enclosing property
+public var persistentBackingData: any SwiftData.BackingData<TCFilter> {
+           ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:13:46: error: 'Schema' is only available in iOS 17 or newer
+public static var schemaMetadata: [SwiftData.Schema.PropertyMetadata] {
+                                             ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:13:19: note: add @available attribute to enclosing static property
+public static var schemaMetadata: [SwiftData.Schema.PropertyMetadata] {
+                  ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:28:49: error: 'BackingData' is only available in iOS 17 or newer
+required public init(backingData: any SwiftData.BackingData<TCFilter>) {
+                                                ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:28:17: note: add @available attribute to enclosing initializer
+required public init(backingData: any SwiftData.BackingData<TCFilter>) {
+                ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:42:61: error: 'ObservationRegistrar' is only available in iOS 17.0 or newer
+@Transient private let _$observationRegistrar = Observation.ObservationRegistrar()
+                                                            ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:2: error: 'Model()' is only available in iOS 17 or newer
+@Model
+ ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:5:14: note: add @available attribute to enclosing class
+public class TCFilter: Codable {
+             ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMe_.swift:1:1: error: protocol 'Hashable' requires 'hash(into:)' to be available in iOS 16.0 and newer
+extension TCFilter: SwiftData.PersistentModel {
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+SwiftData.PersistentModel.hash:2:13: note: 'hash(into:)' declared here
+public func hash(into hasher: inout Hasher)}
+            ^
+Swift.Hashable.hash:2:6: note: protocol requirement here
+func hash(into hasher: inout Hasher)}
+     ^
+@__swiftmacro_15taskchampShared8TCFilter5ModelfMe_.swift:1:1: error: protocol 'Equatable' requires '==' to be available in iOS 16.0 and newer
+extension TCFilter: SwiftData.PersistentModel {
+^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:1: note: in expansion of macro 'Model' on class 'TCFilter' here
+@Model
+^~~~~~
+SwiftData.PersistentModel.==:2:20: note: '==' declared here
+public static func == (lhs: Self, rhs: Self) -> Bool}
+                   ^
+Swift.Equatable.==:2:13: note: protocol requirement here
+static func == (lhs: Self, rhs: Self) -> Bool}
+            ^
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:2: 'Model()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC2id5ModelfMr0_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:2: 'Model()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC15fullDescription5ModelfMr2_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC7project5ModelfMr3_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC6status5ModelfMr4_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC8priority5ModelfMr5_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC3due5ModelfMr6_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC10didSetPrio5ModelfMr7_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC13didSetProject5ModelfMr8_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC9didSetDue5ModelfMr9_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC12didSetStatus5ModelfMr10_.swift:1:2: '_PersistedProperty()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:42:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC2id18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC15fullDescription18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC7project18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC6status18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC8priority18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC3due18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC10didSetPrio18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC13didSetProject18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC9didSetDue18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilterC12didSetStatus18_PersistedPropertyfMp_.swift:1:2: 'Transient()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:2:42: 'BackingData' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:2:75: 'createBackingData()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:4:49: 'BackingData' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:13:46: 'Schema' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:28:49: 'BackingData' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMm_.swift:42:61: 'ObservationRegistrar' is only available in iOS 17.0 or newer
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift:4:2: 'Model()' is only available in iOS 17 or newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMe_.swift:1:1: Protocol 'Hashable' requires 'hash(into:)' to be available in iOS 16.0 and newer
+
+/var/folders/v4/yf1dl41n76j4fllz38zpzz_r0000gp/T/swift-generated-sources/@__swiftmacro_15taskchampShared8TCFilter5ModelfMe_.swift:1:1: Protocol 'Equatable' requires '==' to be available in iOS 16.0 and newer
+
+
+
+Build failed    7/22/25, 9:37 AM    7.6 seconds

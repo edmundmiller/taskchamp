@@ -1,0 +1,27 @@
+
+Showing Recent Errors Only
+
+Build target taskchamp of project taskchamp with configuration Debug
+note: Run script build phase 'Prebuild' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'taskchamp' from project 'taskchamp')
+
+
+ProcessProductPackaging /Users/emiller/src/personal/taskchamp/Derived/Entitlements/taskchamp.entitlements /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphoneos/taskchamp.build/taskchamp.app.xcent (in target 'taskchamp' from project 'taskchamp')
+    cd /Users/emiller/src/personal/taskchamp
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "2N5MJ6WNLS.com.edmundmiller.taskchamp";
+    "com.apple.developer.team-identifier" = 2N5MJ6WNLS;
+    "get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility /Users/emiller/src/personal/taskchamp/Derived/Entitlements/taskchamp.entitlements -entitlements -format xml -o /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphoneos/taskchamp.build/taskchamp.app.xcent
+
+error: Entitlements file "taskchamp.entitlements" was modified during the build, which is not supported. You can disable this error by setting 'CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION' to 'YES', however this may cause the built product's code signature or provisioning profile to contain incorrect entitlements. (in target 'taskchamp' from project 'taskchamp')
+
+Entitlements file "taskchamp.entitlements" was modified during the build, which is not supported. You can disable this error by setting 'CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION' to 'YES', however this may cause the built product's code signature or provisioning profile to contain incorrect entitlements.
+
+
+
+Build failed    7/21/25, 11:17 PM    3.1 seconds

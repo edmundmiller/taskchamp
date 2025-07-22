@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - USE the migration status below to understand what services to modify vs avoid
 - FOCUS on SwiftUI + Combine patterns found in existing views
 - FOLLOW the established service layer architecture (see Key Services section)
+- Stop telling me you've completed something when you've "laid the ground work" or "When you're ready to fully enable...". Write the code or state the problem you're facing
 
 ## Development Setup
 

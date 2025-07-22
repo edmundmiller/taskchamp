@@ -1,0 +1,75 @@
+
+Showing Recent Issues
+
+Build target taskchampShared of project taskchamp with configuration Debug
+
+SwiftCompile normal arm64 Compiling\ DBService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift (in target 'taskchampShared' from project 'taskchamp')
+
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/AWSConfig.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCFilter.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Models/TCTask.swift -primary-file /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/FileService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/NLPService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/NotificationService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/TaskchampionService.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Utilities/SFSymbols.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Utilities/TCError.swift /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Utilities/TasksHelper.swift -emit-dependencies-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/DBService.d -emit-const-values-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/DBService.swiftconstvalues -emit-reference-dependencies-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/DBService.swiftdeps -serialize-diagnostics-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/DBService.dia -target arm64-apple-ios17.0-simulator -Xllvm -aarch64-use-tbi -enable-objc-interop -cxx-interoperability-mode\=default -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -I /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Products/Debug-iphonesimulator -I /Users/emiller/src/personal/taskchamp -F /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Products/Debug-iphonesimulator -F /Users/emiller/src/personal/taskchamp/Tuist/.build/artifacts/soulvercore/SoulverCore -no-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/emiller/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -swift-version 5 -enforce-exclusivity\=checked -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/taskchampShared_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/emiller/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/emiller/src/personal/taskchamp -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift -enable-anonymous-context-mangled-names -file-compilation-dir /Users/emiller/src/personal/taskchamp -Xcc -ivfsstatcache -Xcc /Users/emiller/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/taskchampShared-generated-files.hmap -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/taskchampShared-own-target-headers.hmap -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/taskchampShared-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchamp-2988f7a37e15f38eee6ecab6b9b1a4d2-VFS-iphonesimulator/all-product-headers.yaml -Xcc -iquote -Xcc /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/taskchampShared-project-headers.hmap -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/DerivedSources-normal/arm64 -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/DerivedSources/arm64 -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/DerivedSources -Xcc -DDEBUG\=1 -module-name taskchampShared -frontend-parseable-output -disable-clang-spi -target-sdk-version 18.5 -target-sdk-name iphonesimulator18.5 -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/lib/swift/host/plugins -o /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/DBService.o -index-unit-output-path /taskchamp.build/Debug-iphonesimulator/taskchampShared.build/Objects-normal/arm64/DBService.o -index-store-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Index.noindex/DataStore -index-system-modules
+
+SwiftCompile normal arm64 /Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift (in target 'taskchampShared' from project 'taskchamp')
+    cd /Users/emiller/src/personal/taskchamp
+    
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:324:61: error: incorrect argument label in call (have 'filters:', expected 'filter:')
+        return try await TaskchampionService.shared.getTasks(filters: filters)
+                                                            ^~~~~~~~
+                                                             filter
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:324:71: error: cannot convert value of type '[String]' to expected argument type 'TCFilter'
+        return try await TaskchampionService.shared.getTasks(filters: filters)
+                                                                      ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:328:61: error: incorrect argument label in call (have 'filters:', expected 'filter:')
+        return try await TaskchampionService.shared.getTasks(filters: filters)
+                                                            ^~~~~~~~
+                                                             filter
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:328:71: error: cannot convert value of type '[String]' to expected argument type 'TCFilter'
+        return try await TaskchampionService.shared.getTasks(filters: filters)
+                                                                      ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:332:20: warning: no 'async' operations occur within 'await' expression
+        return try await TaskchampionService.shared.getTask(uuid: uuid)
+                   ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:336:13: warning: no 'async' operations occur within 'await' expression
+        try await TaskchampionService.shared.updateTask(task)
+            ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:341:13: warning: no 'async' operations occur within 'await' expression
+        try await TaskchampionService.shared.createTask(task: task)
+            ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:347:28: warning: no 'async' operations occur within 'await' expression
+            let task = try await TaskchampionService.shared.getTask(uuid: uuid)
+                           ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:350:17: warning: no 'async' operations occur within 'await' expression
+            try await TaskchampionService.shared.updateTask(updatedTask)
+                ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:357:28: warning: no 'async' operations occur within 'await' expression
+            let task = try await TaskchampionService.shared.getTask(uuid: uuid)
+                           ^
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:360:17: warning: no 'async' operations occur within 'await' expression
+            try await TaskchampionService.shared.updateTask(updatedTask)
+                ^
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:324:61: Incorrect argument label in call (have 'filters:', expected 'filter:')
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:324:71: Cannot convert value of type '[String]' to expected argument type 'TCFilter'
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:328:61: Incorrect argument label in call (have 'filters:', expected 'filter:')
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:328:71: Cannot convert value of type '[String]' to expected argument type 'TCFilter'
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:332:20: No 'async' operations occur within 'await' expression
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:336:13: No 'async' operations occur within 'await' expression
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:341:13: No 'async' operations occur within 'await' expression
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:347:28: No 'async' operations occur within 'await' expression
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:350:17: No 'async' operations occur within 'await' expression
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:357:28: No 'async' operations occur within 'await' expression
+
+/Users/emiller/src/personal/taskchamp/taskchampShared/Sources/Services/DBService.swift:360:17: No 'async' operations occur within 'await' expression
+
+
+
+Build failed    7/21/25, 7:15 PM    3.3 seconds

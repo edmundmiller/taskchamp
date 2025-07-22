@@ -1,0 +1,236 @@
+
+Showing Recent Issues
+
+Build target Taskchampion of project Taskchampion with configuration Debug
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ Taskchampion (in target 'Taskchampion' from project 'Taskchampion')
+
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -emit-module -experimental-skip-non-inlinable-function-bodies-without-types /Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift /Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift /Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/taskchampion-swift.swift -target arm64-apple-ios12.0-simulator -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -I /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Products/Debug-iphonesimulator -F /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -no-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/emiller/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -suppress-warnings -swift-version 5 -enforce-exclusivity\=checked -Onone -D SWIFT_PACKAGE -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/emiller/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/emiller/src/personal/taskchamp/taskchampion-swift -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift -enable-anonymous-context-mangled-names -file-compilation-dir /Users/emiller/src/personal/taskchamp/taskchampion-swift -Xcc -ivfsstatcache -Xcc /Users/emiller/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/swift-overrides.hmap -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/DerivedSources-normal/arm64 -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/DerivedSources/arm64 -Xcc -I/Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/DerivedSources -Xcc -DDEBUG\=1 -Xcc -DSWIFT_PACKAGE\=1 -module-name Taskchampion -frontend-parseable-output -disable-clang-spi -target-sdk-version 18.5 -target-sdk-name iphonesimulator18.5 -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -external-plugin-path /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/lib/swift/host/plugins\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/lib/swift/host/plugins -emit-module-doc-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion.swiftdoc -emit-module-source-info-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion.swiftsourceinfo -emit-objc-header-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion-Swift.h -serialize-diagnostics-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion-master-emit-module.dia -emit-dependencies-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion-master-emit-module.d -o /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion.swiftmodule -emit-abi-descriptor-path /Users/emiller/Library/Developer/Xcode/DerivedData/taskchamp-aooqdrnrgfyemzejhplmmdsptztz/Build/Intermediates.noindex/Taskchampion.build/Debug-iphonesimulator/Taskchampion.build/Objects-normal/arm64/Taskchampion.abi.json
+
+EmitSwiftModule normal arm64 (in target 'Taskchampion' from project 'Taskchampion')
+    cd /Users/emiller/src/personal/taskchamp/taskchampion-swift
+    
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:12:11: error: cannot find type 'RustStr' in scope
+extension RustStr {
+          ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:23:11: error: cannot find type 'RustStr' in scope
+extension RustStr: Identifiable {
+          ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:28:11: error: cannot find type 'RustStr' in scope
+extension RustStr: Equatable {
+          ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:81:46: error: cannot find type 'RustStr' in scope
+    func toRustStr<T> (_ withUnsafeRustStr: (RustStr) -> T) -> T;
+                                             ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:87:53: error: cannot find type 'RustStr' in scope
+    public func toRustStr<T> (_ withUnsafeRustStr: (RustStr) -> T) -> T {
+                                                    ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:99:11: error: cannot find type 'RustStr' in scope
+extension RustStr: ToRustStr {
+          ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:105:90: error: cannot find type 'RustStr' in scope
+func optionalRustStrToRustStr<S: ToRustStr, T>(_ str: Optional<S>, _ withUnsafeRustStr: (RustStr) -> T) -> T {
+                                                                                         ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:198:27: error: cannot find type '__private__FfiSlice' in scope
+    func toFfiSlice () -> __private__FfiSlice {
+                          ^~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:908:29: error: cannot find type 'RustStr' in scope
+    public func as_str() -> RustStr {
+                            ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:912:27: error: cannot find type 'RustStr' in scope
+    public func trim() -> RustStr {
+                          ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1025:11: error: cannot find type '__private__OptionU8' in scope
+extension __private__OptionU8 {
+          ^~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1043:27: error: cannot find type '__private__OptionU8' in scope
+    func intoFfiRepr() -> __private__OptionU8 {
+                          ^~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1048:11: error: cannot find type '__private__OptionI8' in scope
+extension __private__OptionI8 {
+          ^~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1066:27: error: cannot find type '__private__OptionI8' in scope
+    func intoFfiRepr() -> __private__OptionI8 {
+                          ^~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1071:11: error: cannot find type '__private__OptionU16' in scope
+extension __private__OptionU16 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1089:27: error: cannot find type '__private__OptionU16' in scope
+    func intoFfiRepr() -> __private__OptionU16 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1094:11: error: cannot find type '__private__OptionI16' in scope
+extension __private__OptionI16 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1112:27: error: cannot find type '__private__OptionI16' in scope
+    func intoFfiRepr() -> __private__OptionI16 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1117:11: error: cannot find type '__private__OptionU32' in scope
+extension __private__OptionU32 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1135:27: error: cannot find type '__private__OptionU32' in scope
+    func intoFfiRepr() -> __private__OptionU32 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1140:11: error: cannot find type '__private__OptionI32' in scope
+extension __private__OptionI32 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1158:27: error: cannot find type '__private__OptionI32' in scope
+    func intoFfiRepr() -> __private__OptionI32 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1163:11: error: cannot find type '__private__OptionU64' in scope
+extension __private__OptionU64 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1181:27: error: cannot find type '__private__OptionU64' in scope
+    func intoFfiRepr() -> __private__OptionU64 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1186:11: error: cannot find type '__private__OptionI64' in scope
+extension __private__OptionI64 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1204:27: error: cannot find type '__private__OptionI64' in scope
+    func intoFfiRepr() -> __private__OptionI64 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1209:11: error: cannot find type '__private__OptionUsize' in scope
+extension __private__OptionUsize {
+          ^~~~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1227:27: error: cannot find type '__private__OptionUsize' in scope
+    func intoFfiRepr() -> __private__OptionUsize {
+                          ^~~~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1232:11: error: cannot find type '__private__OptionIsize' in scope
+extension __private__OptionIsize {
+          ^~~~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1250:27: error: cannot find type '__private__OptionIsize' in scope
+    func intoFfiRepr() -> __private__OptionIsize {
+                          ^~~~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1255:11: error: cannot find type '__private__OptionF32' in scope
+extension __private__OptionF32 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1273:27: error: cannot find type '__private__OptionF32' in scope
+    func intoFfiRepr() -> __private__OptionF32 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1278:11: error: cannot find type '__private__OptionF64' in scope
+extension __private__OptionF64 {
+          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1296:27: error: cannot find type '__private__OptionF64' in scope
+    func intoFfiRepr() -> __private__OptionF64 {
+                          ^~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1301:11: error: cannot find type '__private__OptionBool' in scope
+extension __private__OptionBool {
+          ^~~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1319:27: error: cannot find type '__private__OptionBool' in scope
+    func intoFfiRepr() -> __private__OptionBool {
+                          ^~~~~~~~~~~~~~~~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:10:39: error: 'PassthroughSubject' is only available in iOS 13.0 or newer
+    private let syncProgressSubject = PassthroughSubject<SyncProgress, Never>()
+                                      ^
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:7:13: note: add @available attribute to enclosing class
+final class TaskchampionService {
+            ^
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:11:32: error: 'AnyPublisher' is only available in iOS 13.0 or newer
+    var syncProgressPublisher: AnyPublisher<SyncProgress, Never> {
+                               ^
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:11:9: note: add @available attribute to enclosing property
+    var syncProgressPublisher: AnyPublisher<SyncProgress, Never> {
+        ^
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:7:13: note: add @available attribute to enclosing class
+final class TaskchampionService {
+            ^
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:29:33: error: cannot find type 'RustStr' in scope
+    public static func == (lhs: RustStr, rhs: RustStr) -> Bool {
+                                ^~~~~~~
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:29:47: error: cannot find type 'RustStr' in scope
+    public static func == (lhs: RustStr, rhs: RustStr) -> Bool {
+                                              ^~~~~~~
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:12:11: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:23:11: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:28:11: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:81:46: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:87:53: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:99:11: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:105:90: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:198:27: Cannot find type '__private__FfiSlice' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:908:29: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:912:27: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1025:11: Cannot find type '__private__OptionU8' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1043:27: Cannot find type '__private__OptionU8' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1048:11: Cannot find type '__private__OptionI8' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1066:27: Cannot find type '__private__OptionI8' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1071:11: Cannot find type '__private__OptionU16' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1089:27: Cannot find type '__private__OptionU16' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1094:11: Cannot find type '__private__OptionI16' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1112:27: Cannot find type '__private__OptionI16' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1117:11: Cannot find type '__private__OptionU32' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1135:27: Cannot find type '__private__OptionU32' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1140:11: Cannot find type '__private__OptionI32' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1158:27: Cannot find type '__private__OptionI32' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1163:11: Cannot find type '__private__OptionU64' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1181:27: Cannot find type '__private__OptionU64' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1186:11: Cannot find type '__private__OptionI64' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1204:27: Cannot find type '__private__OptionI64' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1209:11: Cannot find type '__private__OptionUsize' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1227:27: Cannot find type '__private__OptionUsize' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1232:11: Cannot find type '__private__OptionIsize' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1250:27: Cannot find type '__private__OptionIsize' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1255:11: Cannot find type '__private__OptionF32' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1273:27: Cannot find type '__private__OptionF32' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1278:11: Cannot find type '__private__OptionF64' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1296:27: Cannot find type '__private__OptionF64' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1301:11: Cannot find type '__private__OptionBool' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:1319:27: Cannot find type '__private__OptionBool' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:10:39: 'PassthroughSubject' is only available in iOS 13.0 or newer
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/TaskchampionService.swift:11:32: 'AnyPublisher' is only available in iOS 13.0 or newer
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:29:33: Cannot find type 'RustStr' in scope
+
+/Users/emiller/src/personal/taskchamp/taskchampion-swift/Sources/Taskchampion/SwiftBridgeCore.swift:29:47: Cannot find type 'RustStr' in scope
+
+
+Build target SQLite of project SQLite.swift with configuration Debug
+
+SwiftCompile normal arm64 Compiling\ Value.swift,\ Cipher.swift,\ FTS4.swift /Users/emiller/src/personal/taskchamp/Tuist/.build/checkouts/SQLite.swift/Sources/SQLite/Core/Value.swift /Users/emiller/src/personal/taskchamp/Tuist/.build/checkouts/SQLite.swift/Sources/SQLite/Extensions/Cipher.swift /Users/emiller/src/personal/taskchamp/Tuist/.build/checkouts/SQLite.swift/Sources/SQLite/Extensions/FTS4.swift (in target 'SQLite' from project 'SQLite.swift')
+
+Command SwiftCompile failed with a nonzero exit code
+
+Command SwiftCompile failed with a nonzero exit code
+
+
+
+Build failed    7/21/25, 5:18 PM    2.9 seconds
