@@ -6,6 +6,7 @@ public class TaskchampionService {
     public static let shared = TaskchampionService()
     private var replica: Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
+    
 
     public func setDbUrl(_ dbUrl: String) {
         do {
@@ -33,7 +34,7 @@ public class TaskchampionService {
 
         for i in 0 ..< tasks.len() {
             if let taskData = tasks.get(index: UInt(i)) {
-                logger.debug("Processing task: \(taskData.get_uuid().toString())")
+                logger.debug("Processing task: \(taskData.get_uuid().as_str().toString())")
                 if let tcTask = convertTaskDataToTCTask(taskData) {
                     taskObjects.append(tcTask)
                 }
@@ -68,11 +69,10 @@ public class TaskchampionService {
         }
 
         do {
-            var operations = new_operations()
 
             for uuid in uuids {
                 let taskData = try replica.get_task_by_uuid(uuid)
-                let currentStatus = taskData.get_property("status")?.toString() ?? "pending"
+                let currentStatus = taskData.get_property("status")?.as_str().toString() ?? "pending"
 
                 let newStatus: String
                 switch currentStatus {
@@ -85,12 +85,11 @@ public class TaskchampionService {
                 }
 
                 let statusOps = taskData.set_property("status", newStatus)
-                operations.append_vec(statusOps)
+                try replica.commit_operations(statusOps)
 
                 logger.debug("Toggling task \(uuid) from \(currentStatus) to \(newStatus)")
             }
 
-            try replica.commit_operations(operations)
             logger.info("Successfully toggled status for \(uuids.count) tasks")
 
         } catch {
@@ -105,11 +104,10 @@ public class TaskchampionService {
         }
 
         do {
-            var operations = new_operations()
 
             for uuid in uuids {
                 let taskData = try replica.get_task_by_uuid(uuid)
-                let currentStatus = taskData.get_property("status")?.toString() ?? "pending"
+                let currentStatus = taskData.get_property("status")?.as_str().toString() ?? "pending"
 
                 // Only update if currently pending
                 guard currentStatus == "pending" else {
@@ -118,12 +116,11 @@ public class TaskchampionService {
                 }
 
                 let statusOps = taskData.set_property("status", status.rawValue)
-                operations.append_vec(statusOps)
+                try replica.commit_operations(statusOps)
 
                 logger.debug("Updating pending task \(uuid) to \(status.rawValue)")
             }
 
-            try replica.commit_operations(operations)
             logger.info("Successfully updated \(uuids.count) pending tasks to \(status.rawValue)")
 
         } catch {
@@ -139,42 +136,41 @@ public class TaskchampionService {
 
         do {
             let taskData = try replica.get_task_by_uuid(task.uuid)
-            var operations = new_operations()
 
             // Update description
             let descOps = taskData.set_property("description", task.description)
-            operations.append_vec(descOps)
+            try replica.commit_operations(descOps)
 
             // Update status
             let statusOps = taskData.set_property("status", task.status.rawValue)
-            operations.append_vec(statusOps)
+            try replica.commit_operations(statusOps)
 
             // Update project (remove if nil)
             if let project = task.project {
                 let projOps = taskData.set_property("project", project)
-                operations.append_vec(projOps)
+                try replica.commit_operations(projOps)
             } else {
                 let projOps = taskData.remove_property("project")
-                operations.append_vec(projOps)
+                try replica.commit_operations(projOps)
             }
 
             // Update priority (remove if nil or none)
             if let priority = task.priority, priority != .none {
                 let prioOps = taskData.set_property("priority", priority.rawValue)
-                operations.append_vec(prioOps)
+                try replica.commit_operations(prioOps)
             } else {
                 let prioOps = taskData.remove_property("priority")
-                operations.append_vec(prioOps)
+                try replica.commit_operations(prioOps)
             }
 
             // Update due date (remove if nil)
             if let due = task.due {
                 let timestamp = String(Int(due.timeIntervalSince1970))
                 let dueOps = taskData.set_property("due", timestamp)
-                operations.append_vec(dueOps)
+                try replica.commit_operations(dueOps)
             } else {
                 let dueOps = taskData.remove_property("due")
-                operations.append_vec(dueOps)
+                try replica.commit_operations(dueOps)
             }
 
             // Update Obsidian note annotation
@@ -182,7 +178,7 @@ public class TaskchampionService {
                 // Remove old annotation if exists
                 if let oldKey = task.noteAnnotationKey {
                     let removeOps = taskData.remove_property(oldKey)
-                    operations.append_vec(removeOps)
+                    try replica.commit_operations(removeOps)
                 }
 
                 // Add new annotation
@@ -190,15 +186,14 @@ public class TaskchampionService {
                 let annotationKey = "annotation_\(timestamp)"
                 let annotationValue = "task-note: \(obsidianNote)"
                 let noteOps = taskData.set_property(annotationKey, annotationValue)
-                operations.append_vec(noteOps)
+                try replica.commit_operations(noteOps)
             } else if let oldKey = task.noteAnnotationKey {
                 // Remove existing annotation
                 let removeOps = taskData.remove_property(oldKey)
-                operations.append_vec(removeOps)
+                try replica.commit_operations(removeOps)
             }
 
             // Commit all operations
-            try replica.commit_operations(operations)
             logger.info("Successfully updated task: \(task.uuid)")
 
         } catch {
@@ -214,34 +209,33 @@ public class TaskchampionService {
 
         do {
             // Create task with provided UUID or generate new one
-            let uuidString = task.uuid.isEmpty ? Taskchampion.uuid_v4().to_string().toString() : task.uuid
+            let uuidString = task.uuid.isEmpty ? Taskchampion.uuid_v4().to_string().as_str().toString() : task.uuid
             let taskData = try replica.create_task(uuidString)
 
-            var operations = new_operations()
 
             // Set required description
             let descOps = taskData.set_property("description", task.description)
-            operations.append_vec(descOps)
+            try replica.commit_operations(descOps)
 
             // Set status
             let statusOps = taskData.set_property("status", task.status.rawValue)
-            operations.append_vec(statusOps)
+            try replica.commit_operations(statusOps)
 
             // Set optional fields
             if let project = task.project {
                 let projOps = taskData.set_property("project", project)
-                operations.append_vec(projOps)
+                try replica.commit_operations(projOps)
             }
 
             if let priority = task.priority, priority != .none {
                 let prioOps = taskData.set_property("priority", priority.rawValue)
-                operations.append_vec(prioOps)
+                try replica.commit_operations(prioOps)
             }
 
             if let due = task.due {
                 let timestamp = String(Int(due.timeIntervalSince1970))
                 let dueOps = taskData.set_property("due", timestamp)
-                operations.append_vec(dueOps)
+                try replica.commit_operations(dueOps)
             }
 
             // Set Obsidian note annotation if provided
@@ -250,11 +244,10 @@ public class TaskchampionService {
                 let annotationKey = "annotation_\(timestamp)"
                 let annotationValue = "task-note: \(obsidianNote)"
                 let noteOps = taskData.set_property(annotationKey, annotationValue)
-                operations.append_vec(noteOps)
+                try replica.commit_operations(noteOps)
             }
 
             // Commit all operations
-            try replica.commit_operations(operations)
             logger.info("Successfully created task: \(uuidString)")
 
         } catch {
@@ -408,23 +401,23 @@ public class TaskchampionService {
     // MARK: - Helper Methods
 
     private func convertTaskDataToTCTask(_ taskData: TaskDataRef) -> TCTask? {
-        let uuid = taskData.get_uuid().toString()
+        let uuid = taskData.get_uuid().as_str().toString()
 
         // Get required fields
-        guard let description = taskData.get_property("description")?.toString() else {
+        guard let description = taskData.get_property("description")?.as_str().toString() else {
             logger.warning("Task \(uuid) missing description")
             return nil
         }
 
         // Get status (default to pending if not set)
-        let statusString = taskData.get_property("status")?.toString() ?? "pending"
+        let statusString = taskData.get_property("status")?.as_str().toString() ?? "pending"
         let status = TCTask.Status(rawValue: statusString) ?? .pending
 
         // Get optional fields
-        let project = taskData.get_property("project")?.toString()
+        let project = taskData.get_property("project")?.as_str().toString()
 
         let priority: TCTask.Priority?
-        if let priorityString = taskData.get_property("priority")?.toString() {
+        if let priorityString = taskData.get_property("priority")?.as_str().toString() {
             priority = TCTask.Priority(rawValue: priorityString) ?? .none
         } else {
             priority = nil
@@ -432,7 +425,7 @@ public class TaskchampionService {
 
         // Parse due date (TaskWarrior stores as timestamp)
         let due: Date?
-        if let dueString = taskData.get_property("due")?.toString(),
+        if let dueString = taskData.get_property("due")?.as_str().toString(),
            let timeInterval = TimeInterval(dueString)
         {
             due = Date(timeIntervalSince1970: timeInterval)
@@ -447,9 +440,9 @@ public class TaskchampionService {
 
         for i in 0 ..< allProperties.len() {
             if let property = allProperties.get(index: UInt(i)) {
-                let propertyName = property.toString()
+                let propertyName = property.as_str().toString()
                 if propertyName.starts(with: "annotation_"),
-                   let value = taskData.get_property(propertyName)?.toString(),
+                   let value = taskData.get_property(propertyName)?.as_str().toString(),
                    value.starts(with: "task-note:")
                 {
                     noteAnnotationKey = propertyName
