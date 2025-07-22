@@ -151,7 +151,7 @@ public struct CreateTaskView: View {
                         )
 
                         do {
-                            try DBServiceDEPRECATED.shared.createTask(task)
+                            try DBService.shared.createTask(task: task)
                             NotificationService.shared.requestAuthorization()
                             NotificationService.shared.createReminderForTask(task: task)
                             dismiss()

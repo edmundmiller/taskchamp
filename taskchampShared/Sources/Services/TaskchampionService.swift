@@ -2,11 +2,11 @@ import Foundation
 import os.log
 import Taskchampion
 
+// swiftlint:disable type_body_length file_length
 public class TaskchampionService {
     public static let shared = TaskchampionService()
     private var replica: Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
-    
 
     public func setDbUrl(_ dbUrl: String) {
         do {
@@ -211,7 +211,6 @@ public class TaskchampionService {
             // Create task with provided UUID or generate new one
             let uuidString = task.uuid.isEmpty ? Taskchampion.uuid_v4().to_string().as_str().toString() : task.uuid
             let taskData = try replica.create_task(uuidString)
-
 
             // Set required description
             let descOps = taskData.set_property("description", task.description)

@@ -316,48 +316,47 @@ public class DBService {
     }
 
     public func getTasks(
-        sortType _: TasksHelper.TCSortType = .defaultSort,
+        sortType: TasksHelper.TCSortType = .defaultSort,
         filter: TCFilter = TCFilter.defaultFilter
-    ) async throws -> [TCTask] {
-        // Convert old filter format to new format
-        let filters = filter.convertToSqlFilters()
-        return try await TaskchampionService.shared.getTasks(filters: filters)
+    ) throws -> [TCTask] {
+        return try TaskchampionService.shared.getTasks(sortType: sortType, filter: filter)
     }
 
-    public func getTasks(filters: [String]) async throws -> [TCTask] {
-        return try await TaskchampionService.shared.getTasks(filters: filters)
+    public func getTasks(filters _: [String]) throws -> [TCTask] {
+        let filter = TCFilter()
+        return try TaskchampionService.shared.getTasks(filter: filter)
     }
 
-    public func getTask(uuid: String) async throws -> TCTask {
-        return try await TaskchampionService.shared.getTask(uuid: uuid)
+    public func getTask(uuid: String) throws -> TCTask {
+        return try TaskchampionService.shared.getTask(uuid: uuid)
     }
 
-    public func updateTask(_ task: TCTask) async throws {
-        try await TaskchampionService.shared.updateTask(task)
+    public func updateTask(_ task: TCTask) throws {
+        try TaskchampionService.shared.updateTask(task)
         WidgetCenter.shared.reloadAllTimelines()
     }
 
-    public func createTask(task: TCTask) async throws {
-        try await TaskchampionService.shared.createTask(task: task)
+    public func createTask(task: TCTask) throws {
+        try TaskchampionService.shared.createTask(task: task)
     }
 
-    public func togglePendingTasksStatus(uuids: Set<String>) async throws {
+    public func togglePendingTasksStatus(uuids: Set<String>) throws {
         // Convert to individual task operations using TaskchampionService
         for uuid in uuids {
-            let task = try await TaskchampionService.shared.getTask(uuid: uuid)
+            let task = try TaskchampionService.shared.getTask(uuid: uuid)
             var updatedTask = task
             updatedTask.status = task.status == .pending ? .completed : .pending
-            try await TaskchampionService.shared.updateTask(updatedTask)
+            try TaskchampionService.shared.updateTask(updatedTask)
         }
     }
 
-    public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) async throws {
+    public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) throws {
         // Convert to individual task operations using TaskchampionService
         for uuid in uuids {
-            let task = try await TaskchampionService.shared.getTask(uuid: uuid)
+            let task = try TaskchampionService.shared.getTask(uuid: uuid)
             var updatedTask = task
             updatedTask.status = newStatus
-            try await TaskchampionService.shared.updateTask(updatedTask)
+            try TaskchampionService.shared.updateTask(updatedTask)
         }
     }
 
