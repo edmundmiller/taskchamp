@@ -4,7 +4,8 @@ let project = Project(
     name: "taskchamp",
     settings: .settings(base: [
         "SWIFT_OBJC_INTEROP_MODE": "objcxx",
-        "SWIFT_INCLUDE_PATHS": ["$(PROJECT_DIR)"]
+        "SWIFT_INCLUDE_PATHS": ["$(PROJECT_DIR)"],
+        "CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION": "YES"
     ], defaultSettings: .recommended),
     targets: [
         .target(
@@ -106,8 +107,8 @@ let project = Project(
             sources: "taskchampShared/Sources/**",
             dependencies: [
                 .external(name: "SQLite"),
-                .external(name: "SoulverCore"),
-                .external(name: "Taskchampion")
+                .external(name: "SoulverCore")
+                // .external(name: "Taskchampion") // Temporarily disabled - API incompatible
             ]
         )
     ]

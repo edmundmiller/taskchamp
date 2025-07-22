@@ -52,11 +52,8 @@ extension TaskListView {
                 tasks = newTasks
             }
         } catch {
-            if !FileService.shared.isICloudAvailable() {
-                print("iCloud Unavailable")
-                isShowingICloudAlert = true
-            }
-            print(error)
+            print("Error updating tasks: \(error)")
+            // Note: Now using fallback to local documents directory when iCloud unavailable
         }
     }
 

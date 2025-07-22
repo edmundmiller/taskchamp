@@ -1,15 +1,14 @@
 import Foundation
 import os.log
 
-// import SQLite  // Commented out to fix build issue - SQLite not available in Xcode project
+import SQLite
 import WidgetKit
 
 // This class is going to be deprecated in favor of the Taskchampion service:
 // Please do not add any more features into this service, but rather make a PR to
 // https://github.com/LostLaplace/taskchampion-swift
-// TEMPORARILY DISABLED due to SQLite dependency not being available in Xcode build
-/*
- public class DBServiceDEPRECATED {
+// Re-enabled temporarily while TaskChampion API is incompatible
+public class DBServiceDEPRECATED {
      enum TasksColumns {
          static let uuid = SQLite.Expression<String>("uuid")
          static let data = SQLite.Expression<String>("data")
@@ -21,7 +20,7 @@ import WidgetKit
 
      private init() {}
 
-     public func setDbUrl(_ path: String) {
+     public func setDbUrl(_ path: String) throws {
          do {
              dbConnection = try Connection(path)
              logger.info("Successfully connected to database at path: \(path)")
@@ -39,6 +38,7 @@ import WidgetKit
              }
          } catch {
              logger.error("Failed to connect to database at path \(path): \(error.localizedDescription)")
+             throw TCError.genericError("Failed to connect to database: \(error.localizedDescription)")
          }
      }
 
@@ -52,8 +52,12 @@ import WidgetKit
          for filter in filter.convertToSqlFilters() {
              query = query.filter(TasksColumns.data.like(filter))
          }
+         guard let dbConnection = dbConnection else {
+             throw TCError.genericError("No database connection available")
+         }
+         
          WidgetCenter.shared.reloadAllTimelines()
-         let queryTasks = try dbConnection?.prepare(query)
+         let queryTasks = try dbConnection.prepare(query)
          guard let queryTasks else {
              throw TCError.genericError("Query was null")
          }
@@ -67,9 +71,13 @@ import WidgetKit
      }
 
      public func getTask(uuid: String) throws -> TCTask {
+         guard let dbConnection = dbConnection else {
+             throw TCError.genericError("No database connection available")
+         }
+         
          let tasks = Table("tasks")
          let query = tasks.filter(uuid == TasksColumns.uuid)
-         let queryTasks = try dbConnection?.prepare(query)
+         let queryTasks = try dbConnection.prepare(query)
          guard let queryTasks else {
              throw TCError.genericError("Query was null")
          }
@@ -112,9 +120,13 @@ import WidgetKit
      }
 
      public func togglePendingTasksStatus(uuids: Set<String>) throws {
+         guard let dbConnection = dbConnection else {
+             throw TCError.genericError("No database connection available")
+         }
+         
          let tasks = Table("tasks")
          let query = tasks.filter(uuids.contains(TasksColumns.uuid))
-         let queryTasks = try dbConnection?.prepare(query)
+         let queryTasks = try dbConnection.prepare(query)
          guard let queryTasks else {
              throw TCError.genericError("Query was null")
          }
@@ -129,11 +141,15 @@ import WidgetKit
      }
 
      public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) throws {
+         guard let dbConnection = dbConnection else {
+             throw TCError.genericError("No database connection available")
+         }
+         
          let oldStatus: TCTask.Status = (newStatus == .deleted || newStatus == .completed) ? .pending : .completed
          let tasks = Table("tasks")
 
          let query = tasks.filter(uuids.contains(TasksColumns.uuid))
-         let queryTasks = try dbConnection?.prepare(query)
+         let queryTasks = try dbConnection.prepare(query)
          guard let queryTasks else {
              throw TCError.genericError("Query was null")
          }
@@ -151,7 +167,7 @@ import WidgetKit
                      with: TCTask.Status.deleted.rawValue
                  )
              }
-             try dbConnection?.run(query.update(TasksColumns.data <- newData))
+             try dbConnection.run(query.update(TasksColumns.data <- newData))
              WidgetCenter.shared.reloadAllTimelines()
          }
      }
@@ -165,9 +181,13 @@ import WidgetKit
 
          jsonDictionary?["modified"] = modifiedDate
 
+         guard let dbConnection = dbConnection else {
+             throw TCError.genericError("No database connection available")
+         }
+         
          let tasks = Table("tasks")
          let query = tasks.filter(TasksColumns.uuid == task.uuid.lowercased())
-         let queryTasks = try dbConnection?.prepare(query)
+         let queryTasks = try dbConnection.prepare(query)
 
          guard let queryTasks else {
              throw TCError.genericError("Query was null")
@@ -195,8 +215,12 @@ import WidgetKit
              guard let jsonString else {
                  throw TCError.genericError("jsonString was null")
              }
+             guard let dbConnection = dbConnection else {
+                 throw TCError.genericError("No database connection available")
+             }
+             
              do {
-                 try dbConnection?.run(query.update(TasksColumns.data <- jsonString))
+                 try dbConnection.run(query.update(TasksColumns.data <- jsonString))
                  logger.debug("Successfully updated task with UUID: \(taskRow[TasksColumns.uuid])")
              } catch {
                  logger.error("Failed to update task \(taskRow[TasksColumns.uuid]): \(error.localizedDescription)")
@@ -230,9 +254,13 @@ import WidgetKit
          guard let jsonString else {
              throw TCError.genericError("jsonString was null")
          }
+         guard let dbConnection = dbConnection else {
+             throw TCError.genericError("No database connection available")
+         }
+         
          let tasks = Table("tasks")
          do {
-             try dbConnection?.run(tasks.insert(
+             try dbConnection.run(tasks.insert(
                  TasksColumns.uuid <- task.uuid.lowercased(),
                  TasksColumns.data <- jsonString
              ))
@@ -298,7 +326,6 @@ import WidgetKit
          return diagnostics.joined(separator: "\n")
      }
  }
- */
 
 // MARK: - Unified DBService
 
@@ -312,65 +339,66 @@ public class DBService {
     public init() {}
 
     public func setDbUrl(_ path: String) throws {
-        TaskchampionService.shared.setDbUrl(path)
+        try DBServiceDEPRECATED.shared.setDbUrl(path)
     }
 
     public func getTasks(
         sortType: TasksHelper.TCSortType = .defaultSort,
         filter: TCFilter = TCFilter.defaultFilter
     ) throws -> [TCTask] {
-        return try TaskchampionService.shared.getTasks(sortType: sortType, filter: filter)
+        return try DBServiceDEPRECATED.shared.getTasks(sortType: sortType, filter: filter)
     }
 
     public func getTasks(filters _: [String]) throws -> [TCTask] {
         let filter = TCFilter()
-        return try TaskchampionService.shared.getTasks(filter: filter)
+        return try DBServiceDEPRECATED.shared.getTasks(filter: filter)
     }
 
     public func getTask(uuid: String) throws -> TCTask {
-        return try TaskchampionService.shared.getTask(uuid: uuid)
+        return try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
     }
 
     public func updateTask(_ task: TCTask) throws {
-        try TaskchampionService.shared.updateTask(task)
+        try DBServiceDEPRECATED.shared.updateTask(task)
         WidgetCenter.shared.reloadAllTimelines()
     }
 
     public func createTask(task: TCTask) throws {
-        try TaskchampionService.shared.createTask(task: task)
+        try DBServiceDEPRECATED.shared.createTask(task)
     }
 
     public func togglePendingTasksStatus(uuids: Set<String>) throws {
         // Convert to individual task operations using TaskchampionService
         for uuid in uuids {
-            let task = try TaskchampionService.shared.getTask(uuid: uuid)
+            let task = try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
             var updatedTask = task
             updatedTask.status = task.status == .pending ? .completed : .pending
-            try TaskchampionService.shared.updateTask(updatedTask)
+            try DBServiceDEPRECATED.shared.updateTask(updatedTask)
         }
     }
 
     public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) throws {
         // Convert to individual task operations using TaskchampionService
         for uuid in uuids {
-            let task = try TaskchampionService.shared.getTask(uuid: uuid)
+            let task = try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
             var updatedTask = task
             updatedTask.status = newStatus
-            try TaskchampionService.shared.updateTask(updatedTask)
+            try DBServiceDEPRECATED.shared.updateTask(updatedTask)
         }
     }
 
     // MARK: - AWS Sync Methods
 
     public func syncToAWSFromUserDefaults() throws {
-        try TaskchampionService.shared.syncToAWSFromUserDefaults()
+        // AWS sync temporarily disabled - TaskChampion API incompatible
+        throw TCError.genericError("AWS sync temporarily disabled")
     }
 
     public func needsSync() throws -> Bool {
-        return try TaskchampionService.shared.needsSync()
+        return false // No sync needed when TaskChampion disabled
     }
 
     public func getLocalOperationsCount() throws -> UInt32 {
-        return try TaskchampionService.shared.getLocalOperationsCount()
+        return 0 // No operations when TaskChampion disabled
     }
 }

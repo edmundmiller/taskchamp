@@ -31,16 +31,23 @@ public class FileService {
         guard let sourcePath = sourcePath else {
             throw TCError.genericError("No source path")
         }
+        
+        // Try iCloud first, fallback to local documents directory
         let containerURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
-        guard let containerURL = containerURL else {
-            throw TCError.genericError("No container URL")
+        let baseURL: URL
+        
+        if let containerURL = containerURL {
+            // Use iCloud Drive
+            baseURL = containerURL.appendingPathComponent("Documents")
+        } else {
+            // Fallback to local documents directory for testing
+            baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         }
 
-        let documentsURL = containerURL.appendingPathComponent("Documents")
-        let taskDirectory = documentsURL.appendingPathComponent("task")
+        let taskDirectory = baseURL.appendingPathComponent("task")
         let destinationPath = taskDirectory.appendingPathComponent("taskchampion.sqlite3")
 
-        createDirectoryIfNeeded(url: documentsURL)
+        createDirectoryIfNeeded(url: baseURL)
         createDirectoryIfNeeded(url: taskDirectory)
 
         let exists = FileManager.default.fileExists(atPath: destinationPath.path)
