@@ -16,7 +16,7 @@ struct CompleteTaskIntent: AppIntent {
 
     func perform() async throws -> some IntentResult {
         let destinationPath = try FileService.shared.getDestinationPath()
-        DBServiceDEPRECATED.shared.setDbUrl(destinationPath)
+        try DBServiceDEPRECATED.shared.setDbUrl(destinationPath)
 
         try? DBServiceDEPRECATED.shared.togglePendingTasksStatus(uuids: [taskId])
         NotificationService.shared.removeNotifications(for: [taskId])

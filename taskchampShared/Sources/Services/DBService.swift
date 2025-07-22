@@ -52,15 +52,12 @@ public class DBServiceDEPRECATED {
          for filter in filter.convertToSqlFilters() {
              query = query.filter(TasksColumns.data.like(filter))
          }
-         guard let dbConnection = dbConnection else {
+         guard let db = dbConnection else {
              throw TCError.genericError("No database connection available")
          }
          
          WidgetCenter.shared.reloadAllTimelines()
-         let queryTasks = try dbConnection.prepare(query)
-         guard let queryTasks else {
-             throw TCError.genericError("Query was null")
-         }
+         let queryTasks = try db.prepare(query)
          for task in queryTasks {
              if let taskObject = try parseTask(row: task) {
                  taskObjects.append(taskObject)
@@ -71,16 +68,13 @@ public class DBServiceDEPRECATED {
      }
 
      public func getTask(uuid: String) throws -> TCTask {
-         guard let dbConnection = dbConnection else {
+         guard let db = dbConnection else {
              throw TCError.genericError("No database connection available")
          }
          
          let tasks = Table("tasks")
          let query = tasks.filter(uuid == TasksColumns.uuid)
-         let queryTasks = try dbConnection.prepare(query)
-         guard let queryTasks else {
-             throw TCError.genericError("Query was null")
-         }
+         let queryTasks = try db.prepare(query)
          for task in queryTasks {
              let taskObject = try parseTask(row: task)
              if let taskObject {
@@ -120,16 +114,13 @@ public class DBServiceDEPRECATED {
      }
 
      public func togglePendingTasksStatus(uuids: Set<String>) throws {
-         guard let dbConnection = dbConnection else {
+         guard let db = dbConnection else {
              throw TCError.genericError("No database connection available")
          }
          
          let tasks = Table("tasks")
          let query = tasks.filter(uuids.contains(TasksColumns.uuid))
-         let queryTasks = try dbConnection.prepare(query)
-         guard let queryTasks else {
-             throw TCError.genericError("Query was null")
-         }
+         let queryTasks = try db.prepare(query)
          for task in queryTasks {
              if let taskObject = try parseTask(row: task) {
                  let newStatus: TCTask.Status = taskObject.status == .pending ? .completed : .pending
@@ -141,7 +132,7 @@ public class DBServiceDEPRECATED {
      }
 
      public func updatePendingTasks(_ uuids: Set<String>, withStatus newStatus: TCTask.Status) throws {
-         guard let dbConnection = dbConnection else {
+         guard let db = dbConnection else {
              throw TCError.genericError("No database connection available")
          }
          
@@ -149,10 +140,7 @@ public class DBServiceDEPRECATED {
          let tasks = Table("tasks")
 
          let query = tasks.filter(uuids.contains(TasksColumns.uuid))
-         let queryTasks = try dbConnection.prepare(query)
-         guard let queryTasks else {
-             throw TCError.genericError("Query was null")
-         }
+         let queryTasks = try db.prepare(query)
          for task in queryTasks {
              var newData = task[TasksColumns.data].replacingOccurrences(
                  of: oldStatus.rawValue,
@@ -167,7 +155,7 @@ public class DBServiceDEPRECATED {
                      with: TCTask.Status.deleted.rawValue
                  )
              }
-             try dbConnection.run(query.update(TasksColumns.data <- newData))
+             try db.run(query.update(TasksColumns.data <- newData))
              WidgetCenter.shared.reloadAllTimelines()
          }
      }
@@ -181,17 +169,14 @@ public class DBServiceDEPRECATED {
 
          jsonDictionary?["modified"] = modifiedDate
 
-         guard let dbConnection = dbConnection else {
+         guard let db = dbConnection else {
              throw TCError.genericError("No database connection available")
          }
          
          let tasks = Table("tasks")
          let query = tasks.filter(TasksColumns.uuid == task.uuid.lowercased())
-         let queryTasks = try dbConnection.prepare(query)
+         let queryTasks = try db.prepare(query)
 
-         guard let queryTasks else {
-             throw TCError.genericError("Query was null")
-         }
 
          for taskRow in queryTasks {
              let oldData = taskRow[TasksColumns.data].data(using: .utf8)
@@ -215,12 +200,12 @@ public class DBServiceDEPRECATED {
              guard let jsonString else {
                  throw TCError.genericError("jsonString was null")
              }
-             guard let dbConnection = dbConnection else {
+             guard let db = dbConnection else {
                  throw TCError.genericError("No database connection available")
              }
              
              do {
-                 try dbConnection.run(query.update(TasksColumns.data <- jsonString))
+                 try db.run(query.update(TasksColumns.data <- jsonString))
                  logger.debug("Successfully updated task with UUID: \(taskRow[TasksColumns.uuid])")
              } catch {
                  logger.error("Failed to update task \(taskRow[TasksColumns.uuid]): \(error.localizedDescription)")
@@ -254,13 +239,13 @@ public class DBServiceDEPRECATED {
          guard let jsonString else {
              throw TCError.genericError("jsonString was null")
          }
-         guard let dbConnection = dbConnection else {
+         guard let db = dbConnection else {
              throw TCError.genericError("No database connection available")
          }
          
          let tasks = Table("tasks")
          do {
-             try dbConnection.run(tasks.insert(
+             try db.run(tasks.insert(
                  TasksColumns.uuid <- task.uuid.lowercased(),
                  TasksColumns.data <- jsonString
              ))
@@ -390,15 +375,24 @@ public class DBService {
     // MARK: - AWS Sync Methods
 
     public func syncToAWSFromUserDefaults() throws {
-        // AWS sync temporarily disabled - TaskChampion API incompatible
-        throw TCError.genericError("AWS sync temporarily disabled")
+        // AWS sync requires TaskChampion integration - currently disabled during migration
+        // For now, show user a helpful message about using desktop sync
+        let bucket = UserDefaults.standard.awsBucket
+        if !bucket.isEmpty {
+            throw TCError.genericError("AWS sync is configured but temporarily unavailable during TaskChampion migration. Use desktop Taskwarrior 'task sync' to sync with S3 bucket '\(bucket)' for now.")
+        } else {
+            throw TCError.genericError("AWS sync not configured. Configure AWS settings first.")
+        }
     }
 
     public func needsSync() throws -> Bool {
-        return false // No sync needed when TaskChampion disabled
+        // Return true if AWS is configured, indicating sync would be beneficial
+        return UserDefaults.standard.isAWSConfigured
     }
 
     public func getLocalOperationsCount() throws -> UInt32 {
-        return 0 // No operations when TaskChampion disabled
+        // Count local tasks as a proxy for sync operations needed
+        let tasks = try DBServiceDEPRECATED.shared.getTasks()
+        return UInt32(tasks.count)
     }
 }

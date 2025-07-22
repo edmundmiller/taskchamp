@@ -1,7 +1,9 @@
 import Foundation
+import os.log
 
 public class FileService {
     public static let shared = FileService()
+    private let logger = Logger(subsystem: "com.mav.taskchamp", category: "FileService")
 
     private init() {}
 
@@ -32,17 +34,12 @@ public class FileService {
             throw TCError.genericError("No source path")
         }
         
-        // Try iCloud first, fallback to local documents directory
-        let containerURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
-        let baseURL: URL
+        // Always use local documents directory since iCloud container requires paid developer account
+        let baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        logger.info("Using local documents directory: \(baseURL.path)")
         
-        if let containerURL = containerURL {
-            // Use iCloud Drive
-            baseURL = containerURL.appendingPathComponent("Documents")
-        } else {
-            // Fallback to local documents directory for testing
-            baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        }
+        // TODO: For full iCloud Drive sync, need to enable iCloud entitlements with paid Apple Developer account
+        // Then use: FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.mav.taskchamp")
 
         let taskDirectory = baseURL.appendingPathComponent("task")
         let destinationPath = taskDirectory.appendingPathComponent("taskchampion.sqlite3")

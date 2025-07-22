@@ -16,7 +16,7 @@ struct CreateTaskIntent: AppIntent {
 
     func perform() async throws -> some IntentResult {
         let destinationPath = try FileService.shared.getDestinationPath()
-        DBServiceDEPRECATED.shared.setDbUrl(destinationPath)
+        try DBServiceDEPRECATED.shared.setDbUrl(destinationPath)
 
         let task = NLPService.shared.createTask(from: taskInput)
         try DBServiceDEPRECATED.shared.createTask(task)
