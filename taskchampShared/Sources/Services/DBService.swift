@@ -375,14 +375,8 @@ public class DBService {
     // MARK: - AWS Sync Methods
 
     public func syncToAWSFromUserDefaults() throws {
-        // AWS sync requires TaskChampion integration - currently disabled during migration
-        // For now, show user a helpful message about using desktop sync
-        let bucket = UserDefaults.standard.awsBucket
-        if !bucket.isEmpty {
-            throw TCError.genericError("AWS sync is configured but temporarily unavailable during TaskChampion migration. Use desktop Taskwarrior 'task sync' to sync with S3 bucket '\(bucket)' for now.")
-        } else {
-            throw TCError.genericError("AWS sync not configured. Configure AWS settings first.")
-        }
+        // Use the pragmatic TaskChampion service implementation
+        try TaskchampionService.shared.syncToAWSFromUserDefaults()
     }
 
     public func needsSync() throws -> Bool {

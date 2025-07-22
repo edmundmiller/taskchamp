@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "TaskChamp",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v14)
     ],
     products: [
@@ -16,15 +16,15 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.14.1"),
         .package(url: "https://github.com/SoulverTeam/SoulverCore.git", from: "2.0.0"),
-        .package(path: "taskchampion-swift"),
+        // .package(path: "task-champion-swift/taskchampion-swift/taskchampion-swift"), // Re-disabled due to RustXcframework import issues
     ],
     targets: [
         .target(
             name: "taskchampShared",
             dependencies: [
                 .product(name: "SQLite", package: "SQLite.swift"),
-                .product(name: "SoulverCore", package: "SoulverCore"),
-                .product(name: "Taskchampion", package: "taskchampion-swift")
+                .product(name: "SoulverCore", package: "SoulverCore")
+                // .product(name: "Taskchampion", package: "taskchampion-swift") // Re-disabled
             ],
             path: "taskchampShared/Sources"
         ),

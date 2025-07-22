@@ -108,7 +108,7 @@ let project = Project(
             dependencies: [
                 .external(name: "SQLite"),
                 .external(name: "SoulverCore")
-                // .external(name: "Taskchampion") // Temporarily disabled - API incompatible
+                // .external(name: "Taskchampion") // Re-disabled due to RustXcframework import issues
             ]
         )
     ]
