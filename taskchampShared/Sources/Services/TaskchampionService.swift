@@ -1,83 +1,24 @@
 import Foundation
 import os.log
-
-// MARK: - TaskChampion Types (Temporary inline definition)
-
-// TaskData for task information
-public struct TaskData {
-    public let uuid: String
-    public let description: String
-    public let status: String
-    
-    public init(uuid: String, description: String, status: String = "pending") {
-        self.uuid = uuid
-        self.description = description
-        self.status = status
-    }
-}
-
-// TaskChampion Replica wrapper (minimal implementation)
-public class Replica {
-    var ptr: UnsafeMutableRawPointer
-    private static var tasksStore: [String: TaskData] = [:]
-    
-    public init(ptr: UnsafeMutableRawPointer) {
-        self.ptr = ptr
-    }
-    
-    deinit {
-        ptr.deallocate()
-    }
-    
-    public func createTask(uuid: String, description: String) throws {
-        // Store task in memory for now
-        let taskData = TaskData(uuid: uuid, description: description, status: "pending")
-        Self.tasksStore[uuid] = taskData
-    }
-    
-    public func getAllTasks() throws -> [TaskData] {
-        return Array(Self.tasksStore.values)
-    }
-    
-    public func updateTask(uuid: String, description: String?, status: String?) throws {
-        guard var existingTask = Self.tasksStore[uuid] else { 
-            throw TCError.genericError("Task not found: \(uuid)")
-        }
-        
-        if let newDescription = description {
-            existingTask = TaskData(uuid: existingTask.uuid, description: newDescription, status: existingTask.status)
-        }
-        
-        if let newStatus = status {
-            existingTask = TaskData(uuid: existingTask.uuid, description: existingTask.description, status: newStatus)
-        }
-        
-        Self.tasksStore[uuid] = existingTask
-    }
-    
-    public func getTask(uuid: String) throws -> TaskData? {
-        return Self.tasksStore[uuid]
-    }
-}
-
-// Constructor function
-public func new_replica_in_memory() -> Replica {
-    let ptr = UnsafeMutableRawPointer.allocate(byteCount: 8, alignment: 8)
-    return Replica(ptr: ptr)
-}
+import Taskchampion
 
 // swiftlint:disable type_body_length file_length
 public class TaskchampionService {
     public static let shared = TaskchampionService()
-    private var replica: Replica?
+    private var replica: Taskchampion.Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
 
     public func setDbUrl(_ dbUrl: String) {
         logger.info("Initializing TaskChampion replica with database: \(dbUrl)")
         
-        // Create TaskChampion replica using the real implementation
-        self.replica = new_replica_in_memory()
-        logger.info("TaskChampion replica initialized successfully")
+        do {
+            // Create TaskChampion replica using the real implementation
+            self.replica = try Taskchampion.new_replica_in_memory()
+            logger.info("TaskChampion replica initialized successfully")
+        } catch {
+            logger.error("Failed to initialize TaskChampion replica: \(error)")
+            self.replica = nil
+        }
     }
 
     public func getTasks(
@@ -90,31 +31,41 @@ public class TaskchampionService {
         
         logger.info("Fetching tasks from TaskChampion replica")
         
-        // Get tasks from TaskChampion
-        let taskDataList = try replica.getAllTasks()
-        
-        // Convert TaskChampion TaskData to TCTask
-        let tasks = taskDataList.compactMap { taskData -> TCTask? in
-            return convertTaskDataToTCTask(taskData)
+        do {
+            // Get all tasks from TaskChampion using real API
+            let taskChampionTasks = try replica.get_all_tasks()
+            
+            // Convert TaskChampion Task objects to TCTask
+            var tasks: [TCTask] = []
+            for i in 0..<taskChampionTasks.len() {
+                if let task = taskChampionTasks.get(index: UInt(i)) {
+                    if let tcTask = convertTaskChampionToTCTask(task) {
+                        tasks.append(tcTask)
+                    }
+                }
+            }
+            
+            // Apply filtering
+            var filteredTasks = tasks
+            if filter.didSetStatus && filter.status != .deleted {
+                filteredTasks = filteredTasks.filter { $0.status == filter.status }
+            }
+            if filter.didSetProject && !filter.project.isEmpty {
+                filteredTasks = filteredTasks.filter { $0.project == filter.project }
+            }
+            if filter.didSetPrio && filter.priority != .none {
+                filteredTasks = filteredTasks.filter { $0.priority == filter.priority }
+            }
+            
+            // Apply sorting
+            TasksHelper.sortTasksWithSortType(&filteredTasks, sortType: sortType)
+            
+            logger.info("Fetched \(filteredTasks.count) tasks from TaskChampion")
+            return filteredTasks
+        } catch {
+            logger.error("Failed to fetch tasks from TaskChampion: \(error)")
+            throw TCError.genericError("Failed to fetch tasks: \(error.localizedDescription)")
         }
-        
-        // Apply filtering
-        var filteredTasks = tasks
-        if filter.didSetStatus && filter.status != .deleted {
-            filteredTasks = filteredTasks.filter { $0.status == filter.status }
-        }
-        if filter.didSetProject && !filter.project.isEmpty {
-            filteredTasks = filteredTasks.filter { $0.project == filter.project }
-        }
-        if filter.didSetPrio && filter.priority != .none {
-            filteredTasks = filteredTasks.filter { $0.priority == filter.priority }
-        }
-        
-        // Apply sorting
-        TasksHelper.sortTasksWithSortType(&filteredTasks, sortType: sortType)
-        
-        logger.info("Fetched \(filteredTasks.count) tasks from TaskChampion")
-        return filteredTasks
     }
 
     public func getTask(uuid: String) throws -> TCTask {
@@ -124,17 +75,20 @@ public class TaskchampionService {
         
         logger.info("Getting task from TaskChampion replica: \(uuid)")
         
-        // Get task from TaskChampion
-        guard let taskData = try replica.getTask(uuid: uuid) else {
+        do {
+            // Get task from TaskChampion using real API
+            let taskChampionTask = try replica.get_task_by_uuid(uuid)
+            
+            // Convert TaskChampion Task to TCTask
+            guard let tcTask = convertTaskChampionToTCTask(taskChampionTask) else {
+                throw TCError.genericError("Failed to convert task data for: \(uuid)")
+            }
+            
+            return tcTask
+        } catch {
+            logger.error("Failed to get task \(uuid): \(error)")
             throw TCError.genericError("Task not found: \(uuid)")
         }
-        
-        // Convert TaskChampion TaskData to TCTask
-        guard let task = convertTaskDataToTCTask(taskData) else {
-            throw TCError.genericError("Failed to convert task data for: \(uuid)")
-        }
-        
-        return task
     }
 
     public func togglePendingTasksStatus(uuids: Set<String>) throws {
@@ -144,21 +98,32 @@ public class TaskchampionService {
         
         logger.info("Toggling status for \(uuids.count) tasks")
         
-        // Toggle each task between pending and completed
-        for uuid in uuids {
-            do {
-                if let taskData = try replica.getTask(uuid: uuid) {
-                    let newStatus = taskData.status == "pending" ? "completed" : "pending"
-                    try replica.updateTask(uuid: uuid, description: nil, status: newStatus)
+        do {
+            // Toggle each task between pending and completed
+            for uuid in uuids {
+                do {
+                    let task = try replica.get_task_by_uuid(uuid)
+                    
+                    // Get current status
+                    let currentStatus = task.get_property("status")?.toString() ?? "pending"
+                    let newStatus = currentStatus == "pending" ? "completed" : "pending"
+                    
+                    // Set new status using TaskChampion operations
+                    let ops = task.set_property("status", newStatus)
+                    try replica.commit_operations(ops)
+                    
                     logger.debug("Toggled task \(uuid) to \(newStatus)")
+                } catch {
+                    logger.error("Failed to toggle task \(uuid): \(error)")
+                    throw error
                 }
-            } catch {
-                logger.error("Failed to toggle task \(uuid): \(error)")
-                throw error
             }
+            
+            logger.info("Successfully toggled \(uuids.count) tasks")
+        } catch {
+            logger.error("Failed to toggle tasks: \(error)")
+            throw TCError.genericError("Failed to toggle tasks: \(error.localizedDescription)")
         }
-        
-        logger.info("Successfully toggled \(uuids.count) tasks")
     }
 
     public func updatePendingTasks(_ uuids: Set<String>, withStatus status: TCTask.Status) throws {
@@ -178,18 +143,28 @@ public class TaskchampionService {
             statusString = "deleted"
         }
         
-        // Update each task with the new status
-        for uuid in uuids {
-            do {
-                try replica.updateTask(uuid: uuid, description: nil, status: statusString)
-                logger.debug("Updated task \(uuid) to \(statusString)")
-            } catch {
-                logger.error("Failed to update task \(uuid): \(error)")
-                throw error
+        do {
+            // Update each task with the new status using real TaskChampion API
+            for uuid in uuids {
+                do {
+                    let task = try replica.get_task_by_uuid(uuid)
+                    
+                    // Set status using TaskChampion operations
+                    let ops = task.set_property("status", statusString)
+                    try replica.commit_operations(ops)
+                    
+                    logger.debug("Updated task \(uuid) to \(statusString)")
+                } catch {
+                    logger.error("Failed to update task \(uuid): \(error)")
+                    throw error
+                }
             }
+            
+            logger.info("Successfully updated \(uuids.count) tasks to \(statusString)")
+        } catch {
+            logger.error("Failed to update tasks: \(error)")
+            throw TCError.genericError("Failed to update tasks: \(error.localizedDescription)")
         }
-        
-        logger.info("Successfully updated \(uuids.count) tasks to \(statusString)")
     }
 
     public func updateTask(_ task: TCTask) throws {
@@ -199,20 +174,18 @@ public class TaskchampionService {
         
         logger.info("Updating task in TaskChampion: \(task.uuid)")
         
-        let statusString: String
-        switch task.status {
-        case .pending:
-            statusString = "pending"
-        case .completed:
-            statusString = "completed"
-        case .deleted:
-            statusString = "deleted"
+        do {
+            // Get the existing task from TaskChampion
+            let taskChampionTask = try replica.get_task_by_uuid(task.uuid)
+            
+            // Convert TCTask properties to TaskChampion format and update
+            try updateTaskChampionWithTCTask(taskChampionTask, from: task, replica: replica)
+            
+            logger.info("Successfully updated task: \(task.uuid)")
+        } catch {
+            logger.error("Failed to update task \(task.uuid): \(error)")
+            throw TCError.genericError("Failed to update task: \(error.localizedDescription)")
         }
-        
-        // Update task using TaskChampion
-        try replica.updateTask(uuid: task.uuid, description: task.description, status: statusString)
-        
-        logger.info("Successfully updated task: \(task.uuid)")
     }
 
     public func createTask(task: TCTask) throws {
@@ -222,34 +195,69 @@ public class TaskchampionService {
         
         logger.info("Creating task in TaskChampion: \(task.description)")
         
-        // Create task using TaskChampion
-        try replica.createTask(uuid: task.uuid, description: task.description)
-        
-        logger.info("Successfully created task: \(task.uuid)")
+        do {
+            // Create task using real TaskChampion API
+            let taskChampionTask = try replica.create_task(task.uuid)
+            
+            // Set all properties from TCTask to TaskChampion task
+            try updateTaskChampionWithTCTask(taskChampionTask, from: task, replica: replica)
+            
+            logger.info("Successfully created task: \(task.uuid)")
+        } catch {
+            logger.error("Failed to create task \(task.uuid): \(error)")
+            throw TCError.genericError("Failed to create task: \(error.localizedDescription)")
+        }
     }
 
-    // MARK: - AWS Sync Methods (Pragmatic Implementation)
+    // MARK: - AWS Sync Methods (Real TaskChampion Implementation)
 
     public func syncToAWS(config: AWSConfig) async throws {
-        logger.info("Performing pragmatic AWS S3 sync")
+        logger.info("Performing real TaskChampion S3 sync with PBKDF2+ChaCha20 encryption")
         
         guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        // Use pragmatic sync implementation that works today
-        try await pragmaticAWSSync(
-            region: config.region,
-            bucket: config.bucket,
-            accessKeyId: config.accessKeyId,
-            secretAccessKey: config.secretAccessKey,
-            encryptionSecret: config.encryptionSecret
-        )
+        do {
+            // Use real TaskChampion encrypted sync with access key authentication
+            try replica.sync_to_aws_with_access_key(
+                region: config.region,
+                bucket: config.bucket,
+                accessKeyId: config.accessKeyId,
+                secretAccessKey: config.secretAccessKey,
+                encryptionSecret: config.encryptionSecret,
+                avoidSnapshots: config.avoidSnapshots
+            )
+            
+            logger.info("Real TaskChampion S3 sync completed successfully")
+        } catch {
+            logger.error("Real TaskChampion S3 sync failed: \(error)")
+            throw TCError.genericError("TaskChampion S3 sync failed: \(error.localizedDescription)")
+        }
     }
 
     public func syncToAWS(profileConfig: AWSProfileConfig) throws {
-        logger.warning("AWS profile sync not yet implemented in pragmatic solution")
-        throw TCError.genericError("Use access key authentication for now")
+        logger.info("Performing real TaskChampion S3 sync with profile authentication")
+        
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        do {
+            // Use real TaskChampion encrypted sync with profile authentication
+            try replica.sync_to_aws_with_profile(
+                region: profileConfig.region,
+                bucket: profileConfig.bucket,
+                profileName: profileConfig.profileName,
+                encryptionSecret: profileConfig.encryptionSecret,
+                avoidSnapshots: profileConfig.avoidSnapshots
+            )
+            
+            logger.info("Real TaskChampion S3 sync with profile completed successfully")
+        } catch {
+            logger.error("Real TaskChampion S3 sync with profile failed: \(error)")
+            throw TCError.genericError("TaskChampion S3 sync with profile failed: \(error.localizedDescription)")
+        }
     }
 
     public func syncToAWSWithDefaultCredentials(
@@ -258,338 +266,100 @@ public class TaskchampionService {
         encryptionSecret: String,
         avoidSnapshots: Bool = false
     ) throws {
-        logger.warning("AWS default credentials sync not yet implemented in pragmatic solution")
-        throw TCError.genericError("Use access key authentication for now")
+        logger.info("Performing real TaskChampion S3 sync with default credentials")
+        
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        do {
+            // Use real TaskChampion encrypted sync with default credentials
+            try replica.sync_to_aws_with_default_creds(
+                region: region,
+                bucket: bucket,
+                encryptionSecret: encryptionSecret,
+                avoidSnapshots: avoidSnapshots
+            )
+            
+            logger.info("Real TaskChampion S3 sync with default credentials completed successfully")
+        } catch {
+            logger.error("Real TaskChampion S3 sync with default credentials failed: \(error)")
+            throw TCError.genericError("TaskChampion S3 sync with default credentials failed: \(error.localizedDescription)")
+        }
     }
 
     public func syncToAWSFromUserDefaults() async throws {
-        logger.info("Starting TaskChampion S3 sync from UserDefaults")
+        logger.info("Starting real TaskChampion S3 sync from UserDefaults")
         
         guard UserDefaults.standard.isAWSConfigured else {
             throw TCError.genericError("AWS settings not configured")
         }
         
-        guard let config = UserDefaults.standard.getAWSConfig() else {
-            throw TCError.genericError("Failed to load AWS configuration")
-        }
-        
-        try await syncToAWS(config: config)
-    }
-    
-    // MARK: - Pragmatic Sync Implementation
-    
-    private func pragmaticAWSSync(
-        region: String,
-        bucket: String,
-        accessKeyId: String,
-        secretAccessKey: String,
-        encryptionSecret: String
-    ) async throws {
-        logger.info("Performing pragmatic S3 sync - exporting local tasks")
-        
-        // Step 1: Export current mobile tasks to a format that desktop can understand
-        let mobileTaskCount = try exportMobileTasksForDesktop()
-        
-        // Step 2: Try to import desktop tasks
-        var importMessage = ""
-        var importedTaskCount = 0
-        
-        do {
-            importedTaskCount = try await importDesktopTasksToMobile()
-            if importedTaskCount > 0 {
-                importMessage = "📥 Successfully imported \(importedTaskCount) tasks from desktop S3 sync"
-                logger.info("Successfully imported \(importedTaskCount) tasks from TaskChampion S3 sync")
+        // Route to appropriate authentication method
+        switch UserDefaults.standard.awsAuthMethod {
+        case .accessKey:
+            guard let config = UserDefaults.standard.getAWSConfig() else {
+                throw TCError.genericError("Failed to load AWS access key configuration")
             }
-        } catch {
-            // Log the error but don't fail the whole sync
-            logger.info("TaskChampion S3 import not available: \(error)")
-            if mobileTaskCount == 0 {
-                // Re-throw if we have no tasks at all
-                throw error
-            }
-        }
-        
-        // Step 3: Prepare sync metadata
-        let dbPath = getLocalDatabasePath() ?? "unknown"
-        let timestamp = ISO8601DateFormatter().string(from: Date())
-        
-        let message = """
-        📱 Mobile sync preparation completed!
-        
-        ✅ Exported \(mobileTaskCount) tasks from mobile database
-        📍 Database: \(dbPath)
-        🕐 Timestamp: \(timestamp)
-        \(importMessage.isEmpty ? "" : "\n" + importMessage)
-        
-        Next steps:
-        \(importedTaskCount > 0 ? "✅ Desktop sync completed! Pull to refresh or restart app to see \(importedTaskCount) imported tasks." : mobileTaskCount == 0 ? "✅ Ready for sync! Run 'task sync' on desktop to merge tasks." : "1. Run 'task sync' on desktop to merge with mobile tasks\n2. Mobile tasks are now available for desktop sync\n3. Changes will propagate to S3 bucket: \(bucket)")
-        
-        The mobile app is ready for bidirectional sync!
-        """
-        
-        logger.info("Pragmatic sync completed: \(message)")
-        
-        // Real work was done - this is a successful sync preparation
-    }
-    
-    // MARK: - Mobile Task Export
-    
-    private func exportMobileTasksForDesktop() throws -> Int {
-        logger.info("Exporting mobile tasks for desktop integration")
-        
-        // Get all tasks from TaskChampion replica
-        let tasks = try getTasks()
-        
-        // Filter out deleted tasks for cleaner sync
-        let activeTasks = tasks.filter { $0.status != .deleted }
-        
-        logger.info("Found \(activeTasks.count) active tasks to export (filtered from \(tasks.count) total)")
-        
-        // Log task summary for debugging
-        let pendingCount = activeTasks.filter { $0.status == .pending }.count
-        let completedCount = activeTasks.filter { $0.status == .completed }.count
-        
-        logger.info("Task breakdown: \(pendingCount) pending, \(completedCount) completed")
-        
-        // Convert tasks to Taskwarrior JSON format
-        let taskwarriorTasks = activeTasks.map { task -> [String: Any] in
-            var taskDict: [String: Any] = [
-                "uuid": task.uuid,
-                "description": task.description,
-                "status": task.status.rawValue,
-                "entry": ISO8601DateFormatter().string(from: Date())
-            ]
+            try await syncToAWS(config: config)
             
-            if let project = task.project {
-                taskDict["project"] = project
+        case .profile:
+            guard let config = UserDefaults.standard.getAWSProfileConfig() else {
+                throw TCError.genericError("Failed to load AWS profile configuration")
             }
+            try syncToAWS(profileConfig: config)
             
-            if let priority = task.priority {
-                taskDict["priority"] = priority.rawValue
-            }
-            
-            if let due = task.due {
-                taskDict["due"] = ISO8601DateFormatter().string(from: due)
-            }
-            
-            if task.status == .completed {
-                taskDict["end"] = ISO8601DateFormatter().string(from: Date())
-            }
-            
-            return taskDict
-        }
-        
-        // For now, just log what we would export
-        logger.info("Prepared \(taskwarriorTasks.count) tasks in Taskwarrior format for export")
-        
-        // In a full implementation, this would:
-        // 1. Write to a staging file
-        // 2. Use `task import` to merge with desktop tasks
-        // 3. Run `task sync` to upload to S3
-        
-        return activeTasks.count
-    }
-    
-    // MARK: - Desktop Task Import (Placeholder)
-    
-    private func importDesktopTasksToMobile() async throws -> Int {
-        logger.info("Simulating desktop task import for demonstration")
-        
-        // Create realistic sample tasks that would come from desktop
-        let desktopTasks = createRealisticDesktopTasks()
-        
-        // Import them into the mobile database
-        var importedCount = 0
-        for task in desktopTasks {
-            do {
-                // Check if task already exists
-                if let _ = try? await getTask(uuid: task.uuid) {
-                    logger.debug("Task \(task.uuid) already exists, skipping")
-                    continue
-                }
-                
-                try await createTask(task: task)
-                importedCount += 1
-                logger.debug("Imported task: \(task.description)")
-            } catch {
-                logger.error("Failed to import task \(task.uuid): \(error)")
-            }
-        }
-        
-        logger.info("Successfully imported \(importedCount) tasks from desktop simulation")
-        return importedCount
-    }
-    
-    private func convertTaskwarriorTask(_ taskDict: [String: Any]) -> TCTask? {
-        // Required fields
-        guard let uuid = taskDict["uuid"] as? String,
-              let description = taskDict["description"] as? String else {
-            return nil
-        }
-        
-        // Parse status
-        let statusString = taskDict["status"] as? String ?? "pending"
-        let status: TCTask.Status
-        switch statusString {
-        case "completed":
-            status = .completed
-        case "deleted":
-            status = .deleted
-        default:
-            status = .pending
-        }
-        
-        // Parse priority
-        var priority: TCTask.Priority?
-        if let priorityString = taskDict["priority"] as? String {
-            switch priorityString {
-            case "H":
-                priority = .high
-            case "M":
-                priority = .medium
-            case "L":
-                priority = .low
-            default:
-                priority = TCTask.Priority.none
-            }
-        }
-        
-        // Parse due date
-        var dueDate: Date?
-        if let dueDateString = taskDict["due"] as? String {
-            // Taskwarrior uses ISO 8601 format: 20230101T120000Z
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withYear, .withMonth, .withDay, .withTime, .withColonSeparatorInTime]
-            dueDate = formatter.date(from: dueDateString)
-            
-            if dueDate == nil {
-                // Try without colons
-                formatter.formatOptions = [.withYear, .withMonth, .withDay, .withTime]
-                dueDate = formatter.date(from: dueDateString)
-            }
-        }
-        
-        // Parse project
-        let project = taskDict["project"] as? String
-        
-        // Create the task
-        return TCTask(
-            uuid: uuid,
-            project: project,
-            description: description,
-            status: status,
-            priority: priority,
-            due: dueDate
-        )
-    }
-    
-    private func createRealisticDesktopTasks() -> [TCTask] {
-        // Create realistic tasks that would come from a real desktop Taskwarrior setup
-        // This simulates importing a subset of the user's 2940 desktop tasks
-        let tasks = [
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "taskchamp",
-                description: "Fix database connection reliability issues",
-                status: .pending,
-                priority: .high,
-                due: Calendar.current.date(byAdding: .day, value: 1, to: Date())
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "taskchamp", 
-                description: "Implement S3 sync for mobile-desktop task synchronization",
-                status: .pending,
-                priority: .high,
-                due: Calendar.current.date(byAdding: .day, value: 2, to: Date())
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "personal",
-                description: "Review monthly budget and expenses",
-                status: .pending,
-                priority: .medium,
-                due: Calendar.current.date(byAdding: .day, value: 3, to: Date())
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "work",
-                description: "Prepare quarterly presentation slides",
-                status: .pending,
-                priority: .medium,
-                due: Calendar.current.date(byAdding: .day, value: 7, to: Date())
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "learning",
-                description: "Complete Swift concurrency course chapter 3",
-                status: .pending,
-                priority: .low,
-                due: nil
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "home",
-                description: "Schedule annual HVAC maintenance",
-                status: .pending,
-                priority: .low,
-                due: Calendar.current.date(byAdding: .day, value: 14, to: Date())
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                description: "Call dentist to schedule cleaning",
-                status: .pending,
-                priority: .medium,
-                due: Calendar.current.date(byAdding: .day, value: 5, to: Date())
-            ),
-            TCTask(
-                uuid: UUID().uuidString,
-                project: "taskchamp",
-                description: "Test iOS app on various device sizes",
-                status: .completed,
-                priority: .medium,
-                due: nil
+        case .defaultCredentials:
+            try syncToAWSWithDefaultCredentials(
+                region: UserDefaults.standard.awsRegion,
+                bucket: UserDefaults.standard.awsBucket,
+                encryptionSecret: UserDefaults.standard.awsEncryptionSecret,
+                avoidSnapshots: UserDefaults.standard.awsAvoidSnapshots
             )
-        ]
-        
-        return tasks
-    }
-    
-    private func createSampleTasksFromDesktop() -> [TCTask] {
-        // Legacy method - kept for backward compatibility
-        return createRealisticDesktopTasks()
-    }
-    
-    private func getLocalDatabasePath() -> String? {
-        do {
-            return try FileService.shared.copyDatabaseIfNeededAndGetDestinationPath()
-        } catch {
-            return nil
         }
     }
-
+    
     // MARK: - Sync Status Methods
 
     public func getLocalOperationsCount() throws -> UInt32 {
-        logger.warning("TaskChampion API temporarily unavailable")
-        return 0 // Return 0 to indicate no operations pending
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        do {
+            // Use real TaskChampion API to get local operations count
+            return try replica.num_local_operations()
+        } catch {
+            logger.error("Failed to get local operations count: \(error)")
+            throw TCError.genericError("Failed to get sync status: \(error.localizedDescription)")
+        }
     }
 
     public func needsSync() throws -> Bool {
-        // For the pragmatic sync implementation, we simulate desktop sync availability
-        // In a real implementation, this would check S3 for newer tasks or pending operations
-        logger.info("Checking if sync needed for pragmatic implementation")
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
         
-        // Simulate that desktop sync is available when the user has configured AWS
+        logger.info("Checking if sync needed using real TaskChampion API")
+        
+        // Check if AWS is configured - no point syncing if not set up
         guard UserDefaults.standard.isAWSConfigured else {
             logger.debug("AWS not configured, no sync needed")
             return false
         }
         
-        // Simulate that desktop has tasks available for sync
-        // In real implementation, this would check S3 bucket for task updates
-        logger.info("AWS configured, simulating desktop tasks available for sync")
-        return true
+        do {
+            // Use real TaskChampion API to check if we have local operations that need syncing
+            let localOpsCount = try replica.num_local_operations()
+            let needsSync = localOpsCount > 0
+            
+            logger.debug("Local operations count: \(localOpsCount), needs sync: \(needsSync)")
+            return needsSync
+        } catch {
+            logger.error("Failed to check sync status: \(error)")
+            // Default to false if we can't determine sync status
+            return false
+        }
     }
     
     // MARK: - Async API for DBService compatibility
@@ -622,10 +392,17 @@ public class TaskchampionService {
     
     // MARK: - Task Conversion Helpers
     
-    private func convertTaskDataToTCTask(_ taskData: TaskData) -> TCTask? {
-        // Convert TaskChampion TaskData to TCTask
+    private func convertTaskChampionToTCTask(_ taskChampionTask: Taskchampion.Task) -> TCTask? {
+        // Extract UUID
+        let uuid = taskChampionTask.get_uuid().toString()
+        
+        // Extract basic properties
+        let description = taskChampionTask.get_property("description")?.toString() ?? ""
+        
+        // Extract status
+        let statusString = taskChampionTask.get_property("status")?.toString() ?? "pending"
         let status: TCTask.Status
-        switch taskData.status.lowercased() {
+        switch statusString.lowercased() {
         case "completed":
             status = .completed
         case "deleted":
@@ -634,31 +411,123 @@ public class TaskchampionService {
             status = .pending
         }
         
+        // Extract project
+        let project = taskChampionTask.get_property("project")?.toString()
+        let projectValue = (project?.isEmpty ?? true) ? nil : project
+        
+        // Extract priority
+        let priorityString = taskChampionTask.get_property("priority")?.toString()
+        let priority: TCTask.Priority?
+        switch priorityString {
+        case "H":
+            priority = .high
+        case "M":
+            priority = .medium
+        case "L":
+            priority = .low
+        case "None", "", nil:
+            priority = .none
+        default:
+            priority = .none
+        }
+        
+        // Extract due date
+        var due: Date?
+        if let dueDateString = taskChampionTask.get_property("due")?.toString(),
+           let timestamp = TimeInterval(dueDateString) {
+            due = Date(timeIntervalSince1970: timestamp)
+        }
+        
+        // Extract Obsidian note from annotations
+        var obsidianNote: String?
+        var noteAnnotationKey: String?
+        
+        let allProperties = taskChampionTask.get_all_properties()
+        for i in 0..<allProperties.len() {
+            if let prop = allProperties.get(index: UInt(i)) {
+                let propString = prop.as_str().toString()
+                if propString.starts(with: "annotation_") && propString.contains("task-note:") {
+                    let parts = propString.components(separatedBy: "task-note: ")
+                    if parts.count > 1 {
+                        obsidianNote = parts[1]
+                        noteAnnotationKey = propString.components(separatedBy: ":").first
+                        break
+                    }
+                }
+            }
+        }
+        
         return TCTask(
-            uuid: taskData.uuid,
-            project: nil, // TODO: Extract project from TaskChampion task properties
-            description: taskData.description,
+            uuid: uuid,
+            project: projectValue,
+            description: description,
             status: status,
-            priority: nil, // TODO: Extract priority from TaskChampion task properties
-            due: nil // TODO: Extract due date from TaskChampion task properties
+            priority: priority,
+            due: due,
+            obsidianNote: obsidianNote,
+            noteAnnotationKey: noteAnnotationKey
         )
     }
     
-    private func convertTCTaskToTaskData(_ task: TCTask) -> TaskData {
-        let status: String
-        switch task.status {
+    private func updateTaskChampionWithTCTask(
+        _ taskChampionTask: Taskchampion.Task,
+        from tcTask: TCTask,
+        replica: Taskchampion.Replica
+    ) throws {
+        // Set description
+        let descOps = taskChampionTask.set_property("description", tcTask.description)
+        try replica.commit_operations(descOps)
+        
+        // Set status
+        let statusString: String
+        switch tcTask.status {
         case .pending:
-            status = "pending"
+            statusString = "pending"
         case .completed:
-            status = "completed"
+            statusString = "completed"
         case .deleted:
-            status = "deleted"
+            statusString = "deleted"
+        }
+        let statusOps = taskChampionTask.set_property("status", statusString)
+        try replica.commit_operations(statusOps)
+        
+        // Set project
+        if let project = tcTask.project, !project.isEmpty {
+            let projectOps = taskChampionTask.set_property("project", project)
+            try replica.commit_operations(projectOps)
         }
         
-        return TaskData(
-            uuid: task.uuid,
-            description: task.description,
-            status: status
-        )
+        // Set priority
+        if let priority = tcTask.priority {
+            let priorityString: String
+            switch priority {
+            case .none:
+                priorityString = "None"
+            case .high:
+                priorityString = "H"
+            case .medium:
+                priorityString = "M"
+            case .low:
+                priorityString = "L"
+            }
+            let priorityOps = taskChampionTask.set_property("priority", priorityString)
+            try replica.commit_operations(priorityOps)
+        }
+        
+        // Set due date
+        if let due = tcTask.due {
+            let timestamp = String(Int(due.timeIntervalSince1970))
+            let dueOps = taskChampionTask.set_property("due", timestamp)
+            try replica.commit_operations(dueOps)
+        }
+        
+        // Set Obsidian note as annotation
+        if let obsidianNote = tcTask.obsidianNote, !obsidianNote.isEmpty {
+            let timestamp = String(Int(Date().timeIntervalSince1970))
+            let annotationKey = "annotation_\(timestamp)"
+            let annotationValue = "task-note: \(obsidianNote)"
+            let noteOps = taskChampionTask.set_property(annotationKey, annotationValue)
+            try replica.commit_operations(noteOps)
+        }
     }
 }
