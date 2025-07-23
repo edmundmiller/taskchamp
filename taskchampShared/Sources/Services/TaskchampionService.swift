@@ -5,14 +5,14 @@ import Taskchampion
 // swiftlint:disable type_body_length file_length
 public class TaskchampionService {
     public static let shared = TaskchampionService()
-    private var replica: Taskchampion.Replica?
+    private var replica: Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
 
     public func setDbUrl(_ dbUrl: String) {
         logger.info("🚀 Initializing TaskChampion replica with database: \(dbUrl)")
         
         // Create TaskChampion replica using real file-based storage for persistence
-        self.replica = Taskchampion.new_replica_on_disk(dbUrl)
+        self.replica = new_replica_on_disk(dbUrl)
         logger.info("✅ TaskChampion replica initialized successfully")
         
         // Immediately test the replica by checking task count
@@ -308,11 +308,11 @@ public class TaskchampionService {
         do {
             // Use real TaskChampion encrypted sync with access key authentication
             let success = replica.sync_to_aws_with_access_key(
-                access_key_id: config.accessKeyId,
-                secret_access_key: config.secretAccessKey,
-                region: config.region,
-                bucket: config.bucket,
-                encryption_secret: config.encryptionSecret
+                config.accessKeyId,
+                config.secretAccessKey,
+                config.region,
+                config.bucket,
+                config.encryptionSecret
             )
             
             if !success {
@@ -336,10 +336,10 @@ public class TaskchampionService {
         do {
             // Use real TaskChampion encrypted sync with profile authentication
             let success = replica.sync_to_aws_with_profile(
-                profile: profileConfig.profileName,
-                region: profileConfig.region,
-                bucket: profileConfig.bucket,
-                encryption_secret: profileConfig.encryptionSecret
+                profileConfig.profileName,
+                profileConfig.region,
+                profileConfig.bucket,
+                profileConfig.encryptionSecret
             )
             
             if !success {
@@ -368,9 +368,9 @@ public class TaskchampionService {
         do {
             // Use real TaskChampion encrypted sync with default credentials
             let success = replica.sync_to_aws_with_default_creds(
-                region: region,
-                bucket: bucket,
-                encryption_secret: encryptionSecret
+                region,
+                bucket,
+                encryptionSecret
             )
             
             if !success {
@@ -455,29 +455,119 @@ public class TaskchampionService {
     }
     
     public func getTask(uuid: String) async throws -> TCTask {
-        // Convert async to sync for now
-        return try await Task.detached {
-            try self.getTask(uuid: uuid)
-        }.value
+        // Call the sync version directly using the same name resolution trick
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        // Get task from TaskChampion using real API
+        guard let taskData = try replica.getTask(uuid: uuid) else {
+            throw TCError.genericError("Task not found: \(uuid)")
+        }
+        
+        // Convert TaskChampion TaskData to TCTask
+        guard let tcTask = convertTaskDataToTCTask(taskData) else {
+            throw TCError.genericError("Failed to convert task data for: \(uuid)")
+        }
+        
+        return tcTask
     }
     
+    
     public func updateTask(_ task: TCTask) async throws {
-        // Convert async to sync for now
-        try await Task.detached {
-            try self.updateTask(task)
-        }.value
+        // Call the sync version with proper implementation
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        let statusString: String
+        switch task.status {
+        case .pending:
+            statusString = "pending"
+        case .completed:
+            statusString = "completed"
+        case .deleted:
+            statusString = "deleted"
+        }
+        
+        let priorityString: String?
+        if let priority = task.priority {
+            switch priority {
+            case .high:
+                priorityString = "high"
+            case .medium:
+                priorityString = "medium"
+            case .low:
+                priorityString = "low"
+            case .none:
+                priorityString = nil
+            }
+        } else {
+            priorityString = nil
+        }
+        
+        let dueString: String?
+        if let due = task.due {
+            dueString = String(Int(due.timeIntervalSince1970))
+        } else {
+            dueString = nil
+        }
+        
+        // Update task using TaskChampion with all properties
+        try replica.updateTask(
+            uuid: task.uuid,
+            description: task.description,
+            status: statusString,
+            project: task.project,
+            priority: priorityString,
+            due: dueString,
+            obsidianNote: task.obsidianNote
+        )
     }
     
     public func createTask(task: TCTask) async throws {
-        // Convert async to sync for now
-        try await Task.detached {
-            try self.createTask(task: task)
-        }.value
+        // Call the sync version with proper implementation
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        let priorityString: String?
+        if let priority = task.priority {
+            switch priority {
+            case .high:
+                priorityString = "high"
+            case .medium:
+                priorityString = "medium"
+            case .low:
+                priorityString = "low"
+            case .none:
+                priorityString = nil
+            }
+        } else {
+            priorityString = nil
+        }
+        
+        let dueString: String?
+        if let due = task.due {
+            dueString = String(Int(due.timeIntervalSince1970))
+        } else {
+            dueString = nil
+        }
+        
+        // Create task using real TaskChampion API with all properties
+        try replica.createTask(
+            uuid: task.uuid,
+            description: task.description,
+            project: task.project,
+            priority: priorityString,
+            due: dueString,
+            obsidianNote: task.obsidianNote
+        )
     }
     
     // MARK: - Task Conversion Helpers
     
-    private func convertTaskDataToTCTask(_ taskData: Taskchampion.TaskData) -> TCTask? {
+    private func convertTaskDataToTCTask(_ taskData: TaskData) -> TCTask? {
         // Convert TaskChampion TaskData to TCTask with full property support
         let status: TCTask.Status
         switch taskData.status.lowercased() {
@@ -500,10 +590,10 @@ public class TaskchampionService {
             case "low":
                 priority = .low
             default:
-                priority = .none
+                priority = TCTask.Priority.none
             }
         } else {
-            priority = .none
+            priority = TCTask.Priority.none
         }
         
         // Convert due date string to Date

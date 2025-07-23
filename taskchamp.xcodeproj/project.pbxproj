@@ -12,6 +12,7 @@
 		0D48E78B2FB0F451F771DC32 /* CreateTaskIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161FF9E832194BB0B558CC24 /* CreateTaskIntent.swift */; };
 		14ACEE0A9B0F28C9A1187D5B /* EditTaskView-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157EE8AB505E7DF05367EB15 /* EditTaskView-Ext.swift */; };
 		18B6D4BD789CBFDE01676F9A /* taskchampShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */; };
+		1B6274DFBD13BF9D9C660E92 /* libtc_swiftbridge.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F91B1F8EF64A988D398E403 /* libtc_swiftbridge.tbd */; };
 		2140F51B1E6D728533160D12 /* taskchampShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */; };
 		22D8B00B25814B4C5B2EF957 /* MonthCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3F24891263AD20ECE2D6F4 /* MonthCalendarView.swift */; };
 		2CEA485DCFBAB7276DEB15AC /* CompleteTaskIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A30E1DA957DE7E2960314B /* CompleteTaskIntent.swift */; };
@@ -58,6 +59,7 @@
 		DAEF8EE6D4005B175ADAF903 /* SoulverCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D2A69DFC5467432351E35 /* SoulverCore.xcframework */; };
 		DD9CF3D589D1E796EEF8AC8E /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E90825EEC2316EC9D5320 /* SFSymbols.swift */; };
 		ED2AA154EAFA1042FD8F7B1F /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC04D476285BD8BE00992C /* ObsidianSettingsView.swift */; };
+		F3759E048161955A62412B35 /* libtc_swiftbridge.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F91B1F8EF64A988D398E403 /* libtc_swiftbridge.tbd */; };
 		FFB73DB74529B9CB8055CCE5 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97D4F878A15A5DFAE06C3E /* TaskListView.swift */; };
 /* End PBXBuildFile section */
 
@@ -159,6 +161,7 @@
 		4A3F24891263AD20ECE2D6F4 /* MonthCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCalendarView.swift; sourceTree = "<group>"; };
 		4B52A034FA6F082E631C6767 /* WeekCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCalendarView.swift; sourceTree = "<group>"; };
 		4D96F7F6B263826B6AE7DABA /* TaskCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellView.swift; sourceTree = "<group>"; };
+		4F91B1F8EF64A988D398E403 /* libtc_swiftbridge.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libtc_swiftbridge.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libtc_swiftbridge.tbd; sourceTree = DEVELOPER_DIR; };
 		525989908F05105F35E21EC3 /* TaskchampionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskchampionService.swift; sourceTree = "<group>"; };
 		532DBBF03345769BFF7FC547 /* taskchamp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = taskchamp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E90825EEC2316EC9D5320 /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3759E048161955A62412B35 /* libtc_swiftbridge.tbd in Frameworks */,
 				9B2A005FA27BC499422383B7 /* Taskchampion.framework in Frameworks */,
 				2140F51B1E6D728533160D12 /* taskchampShared.framework in Frameworks */,
 				AE57B725C24825DDD3026692 /* SoulverCore.xcframework in Frameworks */,
@@ -227,6 +231,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B6274DFBD13BF9D9C660E92 /* libtc_swiftbridge.tbd in Frameworks */,
 				C69ED11A70D21EEBD2B0F580 /* Taskchampion.framework in Frameworks */,
 				18B6D4BD789CBFDE01676F9A /* taskchampShared.framework in Frameworks */,
 				75A91804DE56B63BF403C809 /* SoulverCore.xcframework in Frameworks */,
@@ -427,6 +432,7 @@
 			children = (
 				5FB7695A009F8F23A65CBBCD /* Project */,
 				6BD097689E29D72D514FD60B /* Products */,
+				F6BE77F55B558E3BCF0F9155 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -543,6 +549,14 @@
 				9FF0F66D4D5C4D151B7DAEEC /* taskchampWidget.entitlements */,
 			);
 			path = Entitlements;
+			sourceTree = "<group>";
+		};
+		F6BE77F55B558E3BCF0F9155 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F91B1F8EF64A988D398E403 /* libtc_swiftbridge.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
