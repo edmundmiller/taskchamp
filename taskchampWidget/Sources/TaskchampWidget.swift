@@ -28,8 +28,8 @@ struct Provider: TimelineProvider {
     func getTasks() -> [TCTask] {
         do {
             let destinationPath = try FileService.shared.getDestinationPath()
-            try DBServiceDEPRECATED.shared.setDbUrl(destinationPath)
-            let tasks = try DBServiceDEPRECATED.shared.getTasks()
+            try DBService.shared.setDbUrl(destinationPath)
+            let tasks = try DBService.shared.getTasks()
             return tasks
         } catch {
             logger.error("Error getting tasks: \(error.localizedDescription)")

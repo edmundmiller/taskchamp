@@ -106,7 +106,8 @@ let project = Project(
             infoPlist: .default,
             sources: "taskchampShared/Sources/**",
             dependencies: [
-                .external(name: "SoulverCore")
+                .external(name: "SoulverCore"),
+                .external(name: "Taskchampion")
             ]
         )
     ]
