@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0547FA1077BF1C5C23FB1D62 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CA4F85B41903A46E452D8FB /* Preview Assets.xcassets */; };
-		063C0CB418F0E87E48D5865F /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 681C4DB4B2DFC9C9A4DEBCBE /* SQLite.framework */; };
 		06CEAE1848F349299C820C6C /* TuistAssets+Taskchamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A61EFBA56BBE8E5583B25D /* TuistAssets+Taskchamp.swift */; };
 		0D48E78B2FB0F451F771DC32 /* CreateTaskIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161FF9E832194BB0B558CC24 /* CreateTaskIntent.swift */; };
 		14ACEE0A9B0F28C9A1187D5B /* EditTaskView-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157EE8AB505E7DF05367EB15 /* EditTaskView-Ext.swift */; };
 		18B6D4BD789CBFDE01676F9A /* taskchampShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */; };
-		1C560D3E0A8B791B67F5089E /* SQLite.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 681C4DB4B2DFC9C9A4DEBCBE /* SQLite.framework */; };
 		2140F51B1E6D728533160D12 /* taskchampShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */; };
 		22D8B00B25814B4C5B2EF957 /* MonthCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3F24891263AD20ECE2D6F4 /* MonthCalendarView.swift */; };
 		2CEA485DCFBAB7276DEB15AC /* CompleteTaskIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A30E1DA957DE7E2960314B /* CompleteTaskIntent.swift */; };
@@ -23,7 +21,6 @@
 		4625BB894A4B9F914176D0BC /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055D31B94CF71924BE538895 /* FileService.swift */; };
 		47827CDEC102BB70F9D83769 /* TuistBundle+Taskchamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC349F818F4DCEAE96315985 /* TuistBundle+Taskchamp.swift */; };
 		4BE18068575FFF0BCFCBEE39 /* View-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D21FF66A6D09FE0EE5425BC /* View-Ext.swift */; };
-		4E610D3E5C16AF7F7EB22842 /* Taskchampion.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 9FA99EFE39019B816C6567DB /* Taskchampion.framework */; };
 		590DC1568AF09C10B90267A7 /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D43E4FBC743FE8D182C0BC /* DBService.swift */; };
 		5A00B33E82F6347472209B9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1D4C651708CF870439014 /* ContentView.swift */; };
 		63A0D9F0A3D0BEC62ACEF213 /* FormDateToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48DF6DBB9A23D93A1E829D5 /* FormDateToggleButton.swift */; };
@@ -41,7 +38,6 @@
 		980D9BC952E0A4F9F7F4DD06 /* TaskchampApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B425BE7D575A5027101773E /* TaskchampApp.swift */; };
 		9986CC26A9B66D6F8CD4F1C1 /* SoulverCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D2A69DFC5467432351E35 /* SoulverCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A51802058C1E0346F365546 /* TaskchampionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525989908F05105F35E21EC3 /* TaskchampionService.swift */; };
-		9B2A005FA27BC499422383B7 /* Taskchampion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA99EFE39019B816C6567DB /* Taskchampion.framework */; };
 		9BCC96A389B8721C4B15790D /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A30EA579EB61C6114DD620D /* CalendarView.swift */; };
 		9CB8B2F81779626CB02082A8 /* AWSConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ED3746FA2E82652EACD263 /* AWSConfig.swift */; };
 		9E890EF568212D83CA1FA2F4 /* AWSConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F371A7F042992481BCA482FA /* AWSConfigTests.swift */; };
@@ -50,7 +46,6 @@
 		B0A4A9022B6E40EF75D29467 /* DayCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B454F58FA0F48B14A1EC147D /* DayCalendarView.swift */; };
 		C03DA0A3FA955CC9D2D13634 /* TaskchampTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B7DFC5BA9EF0A5EAA1FDAD /* TaskchampTests.swift */; };
 		C5BFD5CB6BB0026E863AB2BE /* AWSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B014222CB4979A17C357805F /* AWSSettingsView.swift */; };
-		C69ED11A70D21EEBD2B0F580 /* Taskchampion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA99EFE39019B816C6567DB /* Taskchampion.framework */; };
 		CF36B5BE559F99AF4402954A /* TaskListView-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA687784FFCAA9B83D82E1F /* TaskListView-Ext.swift */; };
 		D2F2398141DBC7E6DE9C3F82 /* TasksHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B83FCC2BE7C3132107B6 /* TasksHelper.swift */; };
 		D561AB4BC8F99A3F141EA2CC /* TaskchampWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617061AD51C8AB7D2BE7E63C /* TaskchampWidget.swift */; };
@@ -58,7 +53,6 @@
 		D9CE7E4876CB19536DDFB9B9 /* taskchampion.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A374F9825494A77CAA717A59 /* taskchampion.sqlite3 */; };
 		DAEF8EE6D4005B175ADAF903 /* SoulverCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D2A69DFC5467432351E35 /* SoulverCore.xcframework */; };
 		DD9CF3D589D1E796EEF8AC8E /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E90825EEC2316EC9D5320 /* SFSymbols.swift */; };
-		E5E240805FE4B09FEECBE89D /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 681C4DB4B2DFC9C9A4DEBCBE /* SQLite.framework */; };
 		ED2AA154EAFA1042FD8F7B1F /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC04D476285BD8BE00992C /* ObsidianSettingsView.swift */; };
 		FFB73DB74529B9CB8055CCE5 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97D4F878A15A5DFAE06C3E /* TaskListView.swift */; };
 /* End PBXBuildFile section */
@@ -97,17 +91,6 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5EC4F1A68FE59F291E753D3E /* Dependencies */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstSubfolderSpec = 16;
-			files = (
-				1C560D3E0A8B791B67F5089E /* SQLite.framework in Dependencies */,
-				4E610D3E5C16AF7F7EB22842 /* Taskchampion.framework in Dependencies */,
-			);
-			name = Dependencies;
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 		99AFBABDBFD879B3DF3D8C4C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -168,7 +151,6 @@
 		617061AD51C8AB7D2BE7E63C /* TaskchampWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskchampWidget.swift; sourceTree = "<group>"; };
 		619CA7FD65A00AA1BA2AB645 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		62B94960ADDEC08999B5C680 /* AddFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFilterView.swift; sourceTree = "<group>"; };
-		681C4DB4B2DFC9C9A4DEBCBE /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B1C98FF39F6EEDECE3DA61B /* taskchampWidget-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "taskchampWidget-Info.plist"; sourceTree = "<group>"; };
 		6CA4F85B41903A46E452D8FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6D21FF66A6D09FE0EE5425BC /* View-Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View-Ext.swift"; sourceTree = "<group>"; };
@@ -180,7 +162,6 @@
 		8D5A1919F8B672B2FC667411 /* taskchampTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "taskchampTests-Info.plist"; sourceTree = "<group>"; };
 		8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = taskchampShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E61018C4EBA687DF3BF7CC4 /* TaskchampWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskchampWidgetBundle.swift; sourceTree = "<group>"; };
-		9FA99EFE39019B816C6567DB /* Taskchampion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Taskchampion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF0F66D4D5C4D151B7DAEEC /* taskchampWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = taskchampWidget.entitlements; sourceTree = "<group>"; };
 		A2C1D4C651708CF870439014 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A374F9825494A77CAA717A59 /* taskchampion.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = taskchampion.sqlite3; sourceTree = "<group>"; };
@@ -205,8 +186,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				063C0CB418F0E87E48D5865F /* SQLite.framework in Frameworks */,
-				9B2A005FA27BC499422383B7 /* Taskchampion.framework in Frameworks */,
 				2140F51B1E6D728533160D12 /* taskchampShared.framework in Frameworks */,
 				AE57B725C24825DDD3026692 /* SoulverCore.xcframework in Frameworks */,
 			);
@@ -231,8 +210,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5E240805FE4B09FEECBE89D /* SQLite.framework in Frameworks */,
-				C69ED11A70D21EEBD2B0F580 /* Taskchampion.framework in Frameworks */,
 				18B6D4BD789CBFDE01676F9A /* taskchampShared.framework in Frameworks */,
 				75A91804DE56B63BF403C809 /* SoulverCore.xcframework in Frameworks */,
 			);
@@ -367,9 +344,7 @@
 		6BD097689E29D72D514FD60B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				681C4DB4B2DFC9C9A4DEBCBE /* SQLite.framework */,
 				532DBBF03345769BFF7FC547 /* taskchamp.app */,
-				9FA99EFE39019B816C6567DB /* Taskchampion.framework */,
 				8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */,
 				057E33A0B39BF9D67E5827DF /* taskchampTests.xctest */,
 				F21F712EED5F62F18391F945 /* taskchampWidget.appex */,
@@ -604,7 +579,6 @@
 				83A7722CA8511ECB7AA01C64 /* Resources */,
 				6580524F0EB445FD1E153669 /* Frameworks */,
 				99AFBABDBFD879B3DF3D8C4C /* Embed Frameworks */,
-				5EC4F1A68FE59F291E753D3E /* Dependencies */,
 			);
 			buildRules = (
 			);
@@ -833,10 +807,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -846,11 +816,6 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampShared;
 				PRODUCT_NAME = taskchampShared;
 				SDKROOT = iphoneos;
@@ -873,10 +838,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -884,11 +845,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampTests;
 				PRODUCT_NAME = taskchampTests;
 				SDKROOT = iphoneos;
@@ -917,10 +873,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -930,11 +882,6 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampShared;
 				PRODUCT_NAME = taskchampShared;
 				SDKROOT = iphoneos;
@@ -956,10 +903,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -967,11 +910,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampTests;
 				PRODUCT_NAME = taskchampTests;
 				SDKROOT = iphoneos;
@@ -1053,10 +991,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampWidget-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1064,11 +998,6 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampWidget;
 				PRODUCT_NAME = taskchampWidget;
 				SDKROOT = iphoneos;
@@ -1094,21 +1023,12 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchamp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp;
 				PRODUCT_NAME = taskchamp;
 				SDKROOT = iphoneos;
@@ -1132,10 +1052,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampWidget-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1143,11 +1059,6 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampWidget;
 				PRODUCT_NAME = taskchampWidget;
 				SDKROOT = iphoneos;
@@ -1174,21 +1085,12 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchamp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp;
 				PRODUCT_NAME = taskchamp;
 				SDKROOT = iphoneos;
