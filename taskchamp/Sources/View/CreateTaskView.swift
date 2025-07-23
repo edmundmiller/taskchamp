@@ -130,12 +130,18 @@ public struct CreateTaskView: View {
             }.toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
+                        print("🔘 DEBUG: CreateTaskView 'Done' button pressed")
+                        print("🔘 DEBUG: Description: '\(description)'")
+                        
                         if description.isEmpty {
+                            print("❌ DEBUG: Description is empty, showing alert")
                             isShowingAlert = true
                             alertTitle = "Missing field"
                             alertMessage = "Please enter a task name"
                             return
                         }
+                        
+                        print("✅ DEBUG: Description validation passed, proceeding with task creation")
 
                         let date: Date? = didSetDate ? due : nil
                         let time: Date? = didSetTime ? time : nil
@@ -151,6 +157,13 @@ public struct CreateTaskView: View {
                         )
 
                         do {
+                            // Ensure database is initialized before creating task
+                            print("📝 DEBUG: CreateTaskView preparing to create task")
+                            let dbPath = try FileService.shared.copyDatabaseIfNeededAndGetDestinationPath()
+                            print("📝 DEBUG: Database path: \(dbPath)")
+                            try DBService.shared.setDbUrl(dbPath)
+                            print("📝 DEBUG: Database URL set, now creating task")
+                            
                             try DBService.shared.createTask(task: task)
                             NotificationService.shared.requestAuthorization()
                             NotificationService.shared.createReminderForTask(task: task)
@@ -159,7 +172,7 @@ public struct CreateTaskView: View {
                             isShowingAlert = true
                             alertTitle = "There was an error"
                             alertMessage = "Task failed to create. Please try again."
-                            print(error)
+                            print("❌ DEBUG: CreateTaskView error: \(error)")
                         }
                     }
                     .bold()

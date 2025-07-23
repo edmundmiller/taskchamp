@@ -9,11 +9,19 @@ public class TaskchampionService {
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
 
     public func setDbUrl(_ dbUrl: String) {
-        logger.info("Initializing TaskChampion replica with database: \(dbUrl)")
+        logger.info("🚀 Initializing TaskChampion replica with database: \(dbUrl)")
         
-        // Create TaskChampion replica using the real implementation
-        self.replica = Taskchampion.new_replica_in_memory()
-        logger.info("TaskChampion replica initialized successfully")
+        // Create TaskChampion replica using real file-based storage for persistence
+        self.replica = Taskchampion.new_replica_on_disk(dbUrl)
+        logger.info("✅ TaskChampion replica initialized successfully")
+        
+        // Immediately test the replica by checking task count
+        do {
+            let testTasks = try self.replica?.getAllTasks() ?? []
+            logger.info("🔍 Initial task count in replica: \(testTasks.count)")
+        } catch {
+            logger.error("❌ Failed to get initial task count: \(error)")
+        }
     }
 
     public func getTasks(
@@ -21,39 +29,60 @@ public class TaskchampionService {
         filter: TCFilter = TCFilter.defaultFilter
     ) throws -> [TCTask] {
         guard let replica = self.replica else {
+            logger.error("❌ TaskChampion replica not initialized")
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        logger.info("Fetching tasks from TaskChampion replica")
+        logger.info("🔍 Fetching tasks from TaskChampion replica...")
         
         do {
             // Get all tasks from TaskChampion using real API
+            logger.debug("📡 Calling replica.getAllTasks()...")
             let taskDataList = try replica.getAllTasks()
+            logger.info("📋 Raw TaskChampion returned \(taskDataList.count) tasks")
+            
+            // Log each task for debugging
+            for (index, taskData) in taskDataList.enumerated() {
+                logger.debug("📝 Task[\(index)]: uuid=\(taskData.uuid), desc='\(taskData.description)', status=\(taskData.status), project=\(taskData.project ?? "nil"), priority=\(taskData.priority ?? "nil")")
+            }
             
             // Convert TaskChampion TaskData to TCTask
             let tasks = taskDataList.compactMap { taskData -> TCTask? in
-                return convertTaskDataToTCTask(taskData)
+                let convertedTask = convertTaskDataToTCTask(taskData)
+                if convertedTask == nil {
+                    logger.error("❌ Failed to convert TaskData to TCTask for uuid: \(taskData.uuid)")
+                }
+                return convertedTask
             }
+            logger.info("🔄 Converted \(tasks.count)/\(taskDataList.count) tasks successfully")
             
             // Apply filtering
             var filteredTasks = tasks
+            let originalCount = filteredTasks.count
+            
             if filter.didSetStatus && filter.status != .deleted {
                 filteredTasks = filteredTasks.filter { $0.status == filter.status }
+                logger.debug("🔍 Status filter (\(filter.status.rawValue)): \(originalCount) -> \(filteredTasks.count) tasks")
             }
             if filter.didSetProject && !filter.project.isEmpty {
+                let beforeProject = filteredTasks.count
                 filteredTasks = filteredTasks.filter { $0.project == filter.project }
+                logger.debug("🔍 Project filter ('\(filter.project)'): \(beforeProject) -> \(filteredTasks.count) tasks")
             }
             if filter.didSetPrio && filter.priority != .none {
+                let beforePrio = filteredTasks.count
                 filteredTasks = filteredTasks.filter { $0.priority == filter.priority }
+                logger.debug("🔍 Priority filter (\(filter.priority.rawValue)): \(beforePrio) -> \(filteredTasks.count) tasks")
             }
             
             // Apply sorting
             TasksHelper.sortTasksWithSortType(&filteredTasks, sortType: sortType)
+            logger.debug("🔄 Applied sorting: \(sortType.rawValue)")
             
-            logger.info("Fetched \(filteredTasks.count) tasks from TaskChampion")
+            logger.info("✅ Final result: \(filteredTasks.count) tasks after filtering and sorting")
             return filteredTasks
         } catch {
-            logger.error("Failed to fetch tasks from TaskChampion: \(error)")
+            logger.error("❌ Failed to fetch tasks from TaskChampion: \(error)")
             throw TCError.genericError("Failed to fetch tasks: \(error.localizedDescription)")
         }
     }
@@ -209,10 +238,11 @@ public class TaskchampionService {
 
     public func createTask(task: TCTask) throws {
         guard let replica = self.replica else {
+            logger.error("❌ TaskChampion replica not initialized for createTask")
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        logger.info("Creating task in TaskChampion: \(task.description)")
+        logger.info("➕ Creating task in TaskChampion: '\(task.description)' (uuid: \(task.uuid))")
         
         do {
             let priorityString: String?
@@ -238,6 +268,8 @@ public class TaskchampionService {
                 dueString = nil
             }
             
+            logger.debug("📝 Task properties: project=\(task.project ?? "nil"), priority=\(priorityString ?? "nil"), due=\(dueString ?? "nil"), obsidianNote=\(task.obsidianNote ?? "nil")")
+            
             // Create task using real TaskChampion API with all properties
             try replica.createTask(
                 uuid: task.uuid,
@@ -248,9 +280,18 @@ public class TaskchampionService {
                 obsidianNote: task.obsidianNote
             )
             
-            logger.info("Successfully created task: \(task.uuid)")
+            logger.info("✅ Successfully created task: \(task.uuid)")
+            
+            // Verify the task was actually created by trying to retrieve it
+            logger.debug("🔍 Verifying task creation by retrieving it...")
+            do {
+                let retrievedTask = try getTask(uuid: task.uuid)
+                logger.info("✅ Verification successful: Retrieved task '\(retrievedTask.description)'")
+            } catch {
+                logger.error("❌ Verification failed: Could not retrieve created task: \(error)")
+            }
         } catch {
-            logger.error("Failed to create task \(task.uuid): \(error)")
+            logger.error("❌ Failed to create task \(task.uuid): \(error)")
             throw TCError.genericError("Failed to create task: \(error.localizedDescription)")
         }
     }
@@ -266,14 +307,17 @@ public class TaskchampionService {
         
         do {
             // Use real TaskChampion encrypted sync with access key authentication
-            try replica.sync_to_aws_with_access_key(
+            let success = replica.sync_to_aws_with_access_key(
+                access_key_id: config.accessKeyId,
+                secret_access_key: config.secretAccessKey,
                 region: config.region,
                 bucket: config.bucket,
-                accessKeyId: config.accessKeyId,
-                secretAccessKey: config.secretAccessKey,
-                encryptionSecret: config.encryptionSecret,
-                avoidSnapshots: config.avoidSnapshots
+                encryption_secret: config.encryptionSecret
             )
+            
+            if !success {
+                throw TCError.genericError("TaskChampion S3 sync failed")
+            }
             
             logger.info("Real TaskChampion S3 sync completed successfully")
         } catch {
@@ -291,13 +335,16 @@ public class TaskchampionService {
         
         do {
             // Use real TaskChampion encrypted sync with profile authentication
-            try replica.sync_to_aws_with_profile(
+            let success = replica.sync_to_aws_with_profile(
+                profile: profileConfig.profileName,
                 region: profileConfig.region,
                 bucket: profileConfig.bucket,
-                profileName: profileConfig.profileName,
-                encryptionSecret: profileConfig.encryptionSecret,
-                avoidSnapshots: profileConfig.avoidSnapshots
+                encryption_secret: profileConfig.encryptionSecret
             )
+            
+            if !success {
+                throw TCError.genericError("TaskChampion S3 sync with profile failed")
+            }
             
             logger.info("Real TaskChampion S3 sync with profile completed successfully")
         } catch {
@@ -320,12 +367,15 @@ public class TaskchampionService {
         
         do {
             // Use real TaskChampion encrypted sync with default credentials
-            try replica.sync_to_aws_with_default_creds(
+            let success = replica.sync_to_aws_with_default_creds(
                 region: region,
                 bucket: bucket,
-                encryptionSecret: encryptionSecret,
-                avoidSnapshots: avoidSnapshots
+                encryption_secret: encryptionSecret
             )
+            
+            if !success {
+                throw TCError.genericError("TaskChampion S3 sync with default credentials failed")
+            }
             
             logger.info("Real TaskChampion S3 sync with default credentials completed successfully")
         } catch {
@@ -367,18 +417,13 @@ public class TaskchampionService {
     
     // MARK: - Sync Status Methods
 
-    public func getLocalOperationsCount() throws -> UInt32 {
+    public func getLocalOperationsCount() throws -> UInt64 {
         guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        do {
-            // Use real TaskChampion API to get local operations count
-            return try replica.num_local_operations()
-        } catch {
-            logger.error("Failed to get local operations count: \(error)")
-            throw TCError.genericError("Failed to get sync status: \(error.localizedDescription)")
-        }
+        // Use real TaskChampion API to get local operations count
+        return replica.num_local_operations()
     }
 
     public func needsSync() throws -> Bool {
@@ -394,18 +439,12 @@ public class TaskchampionService {
             return false
         }
         
-        do {
-            // Use real TaskChampion API to check if we have local operations that need syncing
-            let localOpsCount = try replica.num_local_operations()
-            let needsSync = localOpsCount > 0
-            
-            logger.debug("Local operations count: \(localOpsCount), needs sync: \(needsSync)")
-            return needsSync
-        } catch {
-            logger.error("Failed to check sync status: \(error)")
-            // Default to false if we can't determine sync status
-            return false
-        }
+        // Use real TaskChampion API to check if we have local operations that need syncing
+        let localOpsCount = replica.num_local_operations()
+        let needsSync = localOpsCount > 0
+        
+        logger.debug("Local operations count: \(localOpsCount), needs sync: \(needsSync)")
+        return needsSync
     }
     
     // MARK: - Async API for DBService compatibility

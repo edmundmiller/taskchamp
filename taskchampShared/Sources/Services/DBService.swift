@@ -39,7 +39,9 @@ public class DBService {
     }
 
     public func createTask(task: TCTask) throws {
+        print("🔄 DEBUG: DBService.createTask() called for task: '\(task.description)' (uuid: \(task.uuid))")
         try TaskchampionService.shared.createTask(task: task)
+        print("✅ DEBUG: DBService.createTask() completed successfully")
     }
 
     public func togglePendingTasksStatus(uuids: Set<String>) throws {
@@ -61,6 +63,6 @@ public class DBService {
     }
 
     public func getLocalOperationsCount() throws -> UInt32 {
-        return try TaskchampionService.shared.getLocalOperationsCount()
+        return UInt32(try TaskchampionService.shared.getLocalOperationsCount())
     }
 }
