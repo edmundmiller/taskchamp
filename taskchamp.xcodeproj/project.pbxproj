@@ -23,6 +23,7 @@
 		4625BB894A4B9F914176D0BC /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055D31B94CF71924BE538895 /* FileService.swift */; };
 		47827CDEC102BB70F9D83769 /* TuistBundle+Taskchamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC349F818F4DCEAE96315985 /* TuistBundle+Taskchamp.swift */; };
 		4BE18068575FFF0BCFCBEE39 /* View-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D21FF66A6D09FE0EE5425BC /* View-Ext.swift */; };
+		4E610D3E5C16AF7F7EB22842 /* Taskchampion.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 9FA99EFE39019B816C6567DB /* Taskchampion.framework */; };
 		590DC1568AF09C10B90267A7 /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D43E4FBC743FE8D182C0BC /* DBService.swift */; };
 		5A00B33E82F6347472209B9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C1D4C651708CF870439014 /* ContentView.swift */; };
 		63A0D9F0A3D0BEC62ACEF213 /* FormDateToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48DF6DBB9A23D93A1E829D5 /* FormDateToggleButton.swift */; };
@@ -40,6 +41,7 @@
 		980D9BC952E0A4F9F7F4DD06 /* TaskchampApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B425BE7D575A5027101773E /* TaskchampApp.swift */; };
 		9986CC26A9B66D6F8CD4F1C1 /* SoulverCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D2A69DFC5467432351E35 /* SoulverCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A51802058C1E0346F365546 /* TaskchampionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525989908F05105F35E21EC3 /* TaskchampionService.swift */; };
+		9B2A005FA27BC499422383B7 /* Taskchampion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA99EFE39019B816C6567DB /* Taskchampion.framework */; };
 		9BCC96A389B8721C4B15790D /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A30EA579EB61C6114DD620D /* CalendarView.swift */; };
 		9CB8B2F81779626CB02082A8 /* AWSConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ED3746FA2E82652EACD263 /* AWSConfig.swift */; };
 		9E890EF568212D83CA1FA2F4 /* AWSConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F371A7F042992481BCA482FA /* AWSConfigTests.swift */; };
@@ -48,6 +50,7 @@
 		B0A4A9022B6E40EF75D29467 /* DayCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B454F58FA0F48B14A1EC147D /* DayCalendarView.swift */; };
 		C03DA0A3FA955CC9D2D13634 /* TaskchampTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B7DFC5BA9EF0A5EAA1FDAD /* TaskchampTests.swift */; };
 		C5BFD5CB6BB0026E863AB2BE /* AWSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B014222CB4979A17C357805F /* AWSSettingsView.swift */; };
+		C69ED11A70D21EEBD2B0F580 /* Taskchampion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA99EFE39019B816C6567DB /* Taskchampion.framework */; };
 		CF36B5BE559F99AF4402954A /* TaskListView-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA687784FFCAA9B83D82E1F /* TaskListView-Ext.swift */; };
 		D2F2398141DBC7E6DE9C3F82 /* TasksHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B83FCC2BE7C3132107B6 /* TasksHelper.swift */; };
 		D561AB4BC8F99A3F141EA2CC /* TaskchampWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617061AD51C8AB7D2BE7E63C /* TaskchampWidget.swift */; };
@@ -101,6 +104,7 @@
 			dstSubfolderSpec = 16;
 			files = (
 				1C560D3E0A8B791B67F5089E /* SQLite.framework in Dependencies */,
+				4E610D3E5C16AF7F7EB22842 /* Taskchampion.framework in Dependencies */,
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
@@ -176,6 +180,7 @@
 		8D5A1919F8B672B2FC667411 /* taskchampTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "taskchampTests-Info.plist"; sourceTree = "<group>"; };
 		8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = taskchampShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E61018C4EBA687DF3BF7CC4 /* TaskchampWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskchampWidgetBundle.swift; sourceTree = "<group>"; };
+		9FA99EFE39019B816C6567DB /* Taskchampion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Taskchampion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF0F66D4D5C4D151B7DAEEC /* taskchampWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = taskchampWidget.entitlements; sourceTree = "<group>"; };
 		A2C1D4C651708CF870439014 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A374F9825494A77CAA717A59 /* taskchampion.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = taskchampion.sqlite3; sourceTree = "<group>"; };
@@ -201,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				063C0CB418F0E87E48D5865F /* SQLite.framework in Frameworks */,
+				9B2A005FA27BC499422383B7 /* Taskchampion.framework in Frameworks */,
 				2140F51B1E6D728533160D12 /* taskchampShared.framework in Frameworks */,
 				AE57B725C24825DDD3026692 /* SoulverCore.xcframework in Frameworks */,
 			);
@@ -226,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5E240805FE4B09FEECBE89D /* SQLite.framework in Frameworks */,
+				C69ED11A70D21EEBD2B0F580 /* Taskchampion.framework in Frameworks */,
 				18B6D4BD789CBFDE01676F9A /* taskchampShared.framework in Frameworks */,
 				75A91804DE56B63BF403C809 /* SoulverCore.xcframework in Frameworks */,
 			);
@@ -362,6 +369,7 @@
 			children = (
 				681C4DB4B2DFC9C9A4DEBCBE /* SQLite.framework */,
 				532DBBF03345769BFF7FC547 /* taskchamp.app */,
+				9FA99EFE39019B816C6567DB /* Taskchampion.framework */,
 				8EFDBDC32090AF50B68D6FA7 /* taskchampShared.framework */,
 				057E33A0B39BF9D67E5827DF /* taskchampTests.xctest */,
 				F21F712EED5F62F18391F945 /* taskchampWidget.appex */,
@@ -825,6 +833,10 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -834,6 +846,11 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampShared;
 				PRODUCT_NAME = taskchampShared;
 				SDKROOT = iphoneos;
@@ -856,6 +873,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -863,6 +884,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampTests;
 				PRODUCT_NAME = taskchampTests;
 				SDKROOT = iphoneos;
@@ -891,6 +917,10 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -900,6 +930,11 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampShared;
 				PRODUCT_NAME = taskchampShared;
 				SDKROOT = iphoneos;
@@ -921,6 +956,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -928,6 +967,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampTests;
 				PRODUCT_NAME = taskchampTests;
 				SDKROOT = iphoneos;
@@ -1009,6 +1053,10 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampWidget-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1016,6 +1064,11 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampWidget;
 				PRODUCT_NAME = taskchampWidget;
 				SDKROOT = iphoneos;
@@ -1041,12 +1094,21 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchamp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp;
 				PRODUCT_NAME = taskchamp;
 				SDKROOT = iphoneos;
@@ -1070,6 +1132,10 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampWidget-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1077,6 +1143,11 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampWidget;
 				PRODUCT_NAME = taskchampWidget;
 				SDKROOT = iphoneos;
@@ -1103,12 +1174,21 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
+				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchamp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp;
 				PRODUCT_NAME = taskchamp;
 				SDKROOT = iphoneos;

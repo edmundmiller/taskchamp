@@ -1,80 +1,83 @@
 import Foundation
 import os.log
-// TODO: Re-enable when TaskChampion integration is complete
-// import Taskchampion
+import Taskchampion
 
 // swiftlint:disable type_body_length file_length
 public class TaskchampionService {
     public static let shared = TaskchampionService()
-    // private var replica: Replica? // TODO: Re-enable when TaskChampion integration is complete
-    private var mockReplica: Bool = false
+    private var replica: Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
 
     public func setDbUrl(_ dbUrl: String) {
         logger.info("Initializing TaskChampion replica with database: \(dbUrl)")
         
         // Create TaskChampion replica using the real implementation
-        // For now use mock until integration is complete
-        self.mockReplica = true
-        logger.info("TaskChampion replica initialized successfully (mock)")
-        
-        // TODO: Implement real TaskChampion integration:
-        // self.replica = new_replica_in_memory()
-        // This would require completing the Swift bridge integration
+        self.replica = new_replica_in_memory()
+        logger.info("TaskChampion replica initialized successfully")
     }
 
     public func getTasks(
         sortType: TasksHelper.TCSortType = .defaultSort,
         filter: TCFilter = TCFilter.defaultFilter
     ) throws -> [TCTask] {
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        // TODO: Implement fetching from actual TaskChampion replica
-        // For now, use pragmatic approach with legacy database
-        logger.info("Using pragmatic approach: fetching from legacy database")
-        return try DBServiceDEPRECATED.shared.getTasks(sortType: sortType, filter: filter)
+        // TODO: Implement actual task fetching from TaskChampion
+        // For now, return empty array until we implement task fetching
+        logger.info("Fetching tasks from TaskChampion replica")
+        return []
     }
 
     public func getTask(uuid: String) throws -> TCTask {
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
         // TODO: Implement fetching single task from TaskChampion replica
-        logger.info("Using pragmatic approach: fetching task from legacy database")
-        return try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
+        logger.info("Getting task from TaskChampion replica")
+        throw TCError.genericError("Task fetching not yet implemented")
     }
 
     public func togglePendingTasksStatus(uuids: Set<String>) throws {
-        logger.info("Using pragmatic approach: toggling tasks in legacy database")
-        try DBServiceDEPRECATED.shared.togglePendingTasksStatus(uuids: uuids)
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        // TODO: Implement actual task toggling with TaskChampion
+        logger.info("Toggle task status not yet implemented")
+        throw TCError.genericError("Toggle task status not yet implemented")
     }
 
     public func updatePendingTasks(_ uuids: Set<String>, withStatus status: TCTask.Status) throws {
-        logger.info("Using pragmatic approach: updating tasks in legacy database")
-        try DBServiceDEPRECATED.shared.updatePendingTasks(uuids, withStatus: status)
+        guard let replica = self.replica else {
+            throw TCError.genericError("TaskChampion replica not initialized")
+        }
+        
+        // TODO: Implement actual task status updates with TaskChampion
+        logger.info("Update pending tasks not yet implemented")
+        throw TCError.genericError("Update pending tasks not yet implemented")
     }
 
     public func updateTask(_ task: TCTask) throws {
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        // Use pragmatic approach for now
-        logger.info("Using pragmatic approach: updating task in legacy database")
-        try DBServiceDEPRECATED.shared.updateTask(task)
+        // TODO: Implement actual task update with TaskChampion
+        logger.info("Update task not yet implemented")
+        throw TCError.genericError("Update task not yet implemented")
     }
 
     public func createTask(task: TCTask) throws {
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
-        // Use pragmatic approach for now
-        logger.info("Using pragmatic approach: creating task in legacy database")
-        try DBServiceDEPRECATED.shared.createTask(task)
+        // TODO: Implement actual task creation with TaskChampion
+        logger.info("Create task not yet implemented")
+        throw TCError.genericError("Create task not yet implemented")
     }
 
     // MARK: - AWS Sync Methods (Pragmatic Implementation)
@@ -82,7 +85,7 @@ public class TaskchampionService {
     public func syncToAWS(config: AWSConfig) async throws {
         logger.info("Performing pragmatic AWS S3 sync")
         
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         
@@ -450,7 +453,7 @@ public class TaskchampionService {
     
     public func getTask(uuid: String) async throws -> TCTask {
         // Convert async to sync for now
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         return try DBServiceDEPRECATED.shared.getTask(uuid: uuid)
@@ -458,7 +461,7 @@ public class TaskchampionService {
     
     public func updateTask(_ task: TCTask) async throws {
         // Convert async to sync for now
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         try DBServiceDEPRECATED.shared.updateTask(task)
@@ -466,7 +469,7 @@ public class TaskchampionService {
     
     public func createTask(task: TCTask) async throws {
         // Convert async to sync for now
-        guard mockReplica else {
+        guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
         try DBServiceDEPRECATED.shared.createTask(task)

@@ -107,8 +107,8 @@ let project = Project(
             sources: "taskchampShared/Sources/**",
             dependencies: [
                 .external(name: "SQLite"),
-                .external(name: "SoulverCore")
-                // .external(name: "Taskchampion") // Re-disabled due to RustXcframework import issues
+                .external(name: "SoulverCore"),
+                .external(name: "Taskchampion")
             ]
         )
     ]
