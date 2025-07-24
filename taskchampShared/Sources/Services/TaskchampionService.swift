@@ -11,16 +11,45 @@ public class TaskchampionService {
     public func setDbUrl(_ dbUrl: String) {
         logger.info("🚀 Initializing TaskChampion replica with database: \(dbUrl)")
         
-        // Create TaskChampion replica using real file-based storage for persistence
-        self.replica = new_replica_on_disk(dbUrl)
-        logger.info("✅ TaskChampion replica initialized successfully")
+        // Validate and prepare the database path
+        let databaseURL = URL(fileURLWithPath: dbUrl)
+        let parentDirectory = databaseURL.deletingLastPathComponent()
         
-        // Immediately test the replica by checking task count
+        // Ensure parent directory exists
         do {
-            let testTasks = try self.replica?.getAllTasks() ?? []
-            logger.info("🔍 Initial task count in replica: \(testTasks.count)")
+            if !FileManager.default.fileExists(atPath: parentDirectory.path) {
+                logger.info("📁 Creating parent directory: \(parentDirectory.path)")
+                try FileManager.default.createDirectory(at: parentDirectory, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            // Log database file status
+            if FileManager.default.fileExists(atPath: dbUrl) {
+                logger.info("📄 Using existing database file: \(dbUrl)")
+            } else {
+                logger.info("📄 TaskChampion will create new database file: \(dbUrl)")
+            }
+            
+            // Initialize TaskChampion replica with proper error handling
+            logger.debug("🔧 Calling new_replica_on_disk with path: \(dbUrl)")
+            self.replica = new_replica_on_disk(dbUrl)
+            logger.info("✅ TaskChampion replica initialized successfully")
+            
+            // Immediately test the replica by checking task count
+            do {
+                let testTasks = try self.replica?.getAllTasks() ?? []
+                logger.info("🔍 Initial task count in replica: \(testTasks.count)")
+            } catch {
+                logger.error("❌ Failed to get initial task count: \(error)")
+            }
+            
         } catch {
-            logger.error("❌ Failed to get initial task count: \(error)")
+            logger.error("❌ Failed to initialize TaskChampion replica: \(error)")
+            logger.error("📂 Database path: \(dbUrl)")
+            logger.error("📂 Parent directory: \(parentDirectory.path)")
+            
+            // Don't throw here - let the app continue but with no replica
+            // The individual method calls will handle the nil replica case
+            self.replica = nil
         }
     }
 

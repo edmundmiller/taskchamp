@@ -38,13 +38,26 @@ public class FileService {
         // Then use: FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.mav.taskchamp")
 
         let taskDirectory = baseURL.appendingPathComponent("task")
+        let databaseFile = taskDirectory.appendingPathComponent("taskchampion.db")
 
         createDirectoryIfNeeded(url: baseURL)
         createDirectoryIfNeeded(url: taskDirectory)
 
-        // TaskChampion expects a directory path, not a file path
-        // It will create its own database files within this directory
-        return taskDirectory.path
+        // Clean up legacy directory structure if it exists
+        // (Previous versions may have created taskchampion.db as a directory)
+        if FileManager.default.fileExists(atPath: databaseFile.path) {
+            var isDirectory: ObjCBool = false
+            FileManager.default.fileExists(atPath: databaseFile.path, isDirectory: &isDirectory)
+            if isDirectory.boolValue {
+                logger.info("Removing legacy directory structure at database path")
+                try? FileManager.default.removeItem(at: databaseFile)
+            }
+        }
+
+        // TaskChampion expects a file path to the SQLite database
+        // It will create the database file if it doesn't exist
+        logger.info("TaskChampion database file path: \(databaseFile.path)")
+        return databaseFile.path
     }
 
     func createDirectoryIfNeeded(url: URL) {
