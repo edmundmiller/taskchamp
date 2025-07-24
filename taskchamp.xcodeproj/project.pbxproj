@@ -55,7 +55,6 @@
 		D2F2398141DBC7E6DE9C3F82 /* TasksHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B83FCC2BE7C3132107B6 /* TasksHelper.swift */; };
 		D561AB4BC8F99A3F141EA2CC /* TaskchampWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617061AD51C8AB7D2BE7E63C /* TaskchampWidget.swift */; };
 		D96B6AA0CB8AA974B7200901 /* TCTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5B6D9D8DDDAA7F146E8A6 /* TCTask.swift */; };
-		D9CE7E4876CB19536DDFB9B9 /* taskchampion.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A374F9825494A77CAA717A59 /* taskchampion.sqlite3 */; };
 		DAEF8EE6D4005B175ADAF903 /* SoulverCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5D2A69DFC5467432351E35 /* SoulverCore.xcframework */; };
 		DD9CF3D589D1E796EEF8AC8E /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E90825EEC2316EC9D5320 /* SFSymbols.swift */; };
 		ED2AA154EAFA1042FD8F7B1F /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CC04D476285BD8BE00992C /* ObsidianSettingsView.swift */; };
@@ -183,7 +182,6 @@
 		9FA99EFE39019B816C6567DB /* Taskchampion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Taskchampion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF0F66D4D5C4D151B7DAEEC /* taskchampWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = taskchampWidget.entitlements; sourceTree = "<group>"; };
 		A2C1D4C651708CF870439014 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		A374F9825494A77CAA717A59 /* taskchampion.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = taskchampion.sqlite3; sourceTree = "<group>"; };
 		A5A61EFBA56BBE8E5583B25D /* TuistAssets+Taskchamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+Taskchamp.swift"; sourceTree = "<group>"; };
 		AE97D4F878A15A5DFAE06C3E /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		B014222CB4979A17C357805F /* AWSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSSettingsView.swift; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 			children = (
 				DF977BC9756C6962B6BDF4CC /* Preview Content */,
 				77238E0FB36CA862BA8DA753 /* Assets.xcassets */,
-				A374F9825494A77CAA717A59 /* taskchampion.sqlite3 */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -695,7 +692,6 @@
 			files = (
 				723E0F57E63C7735E98425A7 /* Assets.xcassets in Resources */,
 				0547FA1077BF1C5C23FB1D62 /* Preview Assets.xcassets in Resources */,
-				D9CE7E4876CB19536DDFB9B9 /* taskchampion.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1111,6 +1107,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Derived/Entitlements/taskchamp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2N5MJ6WNLS;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
