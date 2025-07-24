@@ -50,7 +50,28 @@ let project = Project(
             dependencies: [
                 .target(name: "taskchampShared")
                 // .target(name: "taskchampWidget") // Temporarily disabled due to build issues
-            ]
+            ],
+            settings: .settings(
+                base: [:],
+                configurations: [
+                    .debug(name: .debug, settings: [
+                        "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release",
+                        "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release",
+                        "OTHER_LDFLAGS": [
+                            "$(inherited)",
+                            "-ltc_swiftbridge"
+                        ]
+                    ]),
+                    .release(name: .release, settings: [
+                        "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release",
+                        "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release",
+                        "OTHER_LDFLAGS": [
+                            "$(inherited)",
+                            "-ltc_swiftbridge"
+                        ]
+                    ])
+                ]
+            )
         ),
         .target(
             name: "taskchampTests",
@@ -108,7 +129,28 @@ let project = Project(
             dependencies: [
                 .external(name: "SoulverCore"),
                 .external(name: "Taskchampion")
-            ]
+            ],
+            settings: .settings(
+                base: [:],
+                configurations: [
+                    .debug(name: .debug, settings: [
+                        "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release",
+                        "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release",
+                        "OTHER_LDFLAGS": [
+                            "$(inherited)",
+                            "-ltc_swiftbridge"
+                        ]
+                    ]),
+                    .release(name: .release, settings: [
+                        "LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release",
+                        "LIBRARY_SEARCH_PATHS[sdk=iphoneos*]": "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release",
+                        "OTHER_LDFLAGS": [
+                            "$(inherited)",
+                            "-ltc_swiftbridge"
+                        ]
+                    ])
+                ]
+            )
         )
     ]
 )
