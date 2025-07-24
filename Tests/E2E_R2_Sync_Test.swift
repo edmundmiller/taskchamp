@@ -412,8 +412,13 @@ class E2ER2SyncTest: XCTestCase {
     
     private func createTestDatabasePath(suffix: String = "") -> String {
         let tempDir = NSTemporaryDirectory()
-        let testDb = "taskchamp_test\(suffix)_\(UUID().uuidString).db"
-        return "\(tempDir)/\(testDb)"
+        let testDir = "taskchamp_test\(suffix)_\(UUID().uuidString)"
+        let fullPath = "\(tempDir)/\(testDir)"
+        
+        // Create the directory since TaskChampion expects a directory path
+        try? FileManager.default.createDirectory(atPath: fullPath, withIntermediateDirectories: true, attributes: nil)
+        
+        return fullPath
     }
     
     private func cleanupTestDatabase() {

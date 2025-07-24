@@ -19,21 +19,17 @@ public class FileService {
 
         let documentsURL = containerURL.appendingPathComponent("Documents")
         let taskDirectory = documentsURL.appendingPathComponent("task")
-        let destinationPath = taskDirectory.appendingPathComponent("taskchampion.sqlite3")
 
-        let exists = FileManager.default.fileExists(atPath: destinationPath.path)
+        let exists = FileManager.default.fileExists(atPath: taskDirectory.path)
         guard exists else {
-            throw TCError.genericError("File not found")
+            throw TCError.genericError("Task directory not found")
         }
-        return destinationPath.path
+        
+        // Return directory path for TaskChampion, not file path
+        return taskDirectory.path
     }
 
     public func copyDatabaseIfNeededAndGetDestinationPath() throws -> String {
-        let sourcePath = Bundle.main.path(forResource: "taskchampion", ofType: "sqlite3")
-        guard let sourcePath = sourcePath else {
-            throw TCError.genericError("No source path")
-        }
-        
         // Always use local documents directory since iCloud container requires paid developer account
         let baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         logger.info("Using local documents directory: \(baseURL.path)")
@@ -42,22 +38,13 @@ public class FileService {
         // Then use: FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.mav.taskchamp")
 
         let taskDirectory = baseURL.appendingPathComponent("task")
-        let destinationPath = taskDirectory.appendingPathComponent("taskchampion.sqlite3")
 
         createDirectoryIfNeeded(url: baseURL)
         createDirectoryIfNeeded(url: taskDirectory)
 
-        let exists = FileManager.default.fileExists(atPath: destinationPath.path)
-        guard !exists else {
-            return destinationPath.path
-        }
-        do {
-            try FileManager.default.copyItem(atPath: sourcePath, toPath: destinationPath.path)
-            return destinationPath.path
-        } catch {
-            print("error during file copy: \(error)")
-            throw error
-        }
+        // TaskChampion expects a directory path, not a file path
+        // It will create its own database files within this directory
+        return taskDirectory.path
     }
 
     func createDirectoryIfNeeded(url: URL) {
