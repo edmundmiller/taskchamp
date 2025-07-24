@@ -25,28 +25,6 @@ public struct AWSConfig: Codable {
     }
 }
 
-public struct AWSProfileConfig: Codable {
-    public let region: String
-    public let bucket: String
-    public let profileName: String
-    public let encryptionSecret: String
-    public let avoidSnapshots: Bool
-
-    public init(
-        region: String,
-        bucket: String,
-        profileName: String,
-        encryptionSecret: String,
-        avoidSnapshots: Bool = false
-    ) {
-        self.region = region
-        self.bucket = bucket
-        self.profileName = profileName
-        self.encryptionSecret = encryptionSecret
-        self.avoidSnapshots = avoidSnapshots
-    }
-}
-
 // MARK: - UserDefaults Extensions for AWS Config
 
 public extension UserDefaults {
@@ -64,18 +42,9 @@ public extension UserDefaults {
 
     enum AWSAuthMethod: String, CaseIterable {
         case accessKey
-        case profile
-        case defaultCredentials
 
         public var displayName: String {
-            switch self {
-            case .accessKey:
-                return "Access Key"
-            case .profile:
-                return "AWS Profile"
-            case .defaultCredentials:
-                return "Default Credentials"
-            }
+            return "Access Key"
         }
     }
 
@@ -137,7 +106,6 @@ public extension UserDefaults {
 
     func getAWSConfig() -> AWSConfig? {
         guard isAWSConfigured,
-              awsAuthMethod == .accessKey,
               !awsRegion.isEmpty,
               !awsBucket.isEmpty,
               !awsAccessKeyId.isEmpty,
@@ -157,42 +125,12 @@ public extension UserDefaults {
         )
     }
 
-    func getAWSProfileConfig() -> AWSProfileConfig? {
-        guard isAWSConfigured,
-              awsAuthMethod == .profile,
-              !awsRegion.isEmpty,
-              !awsBucket.isEmpty,
-              !awsProfileName.isEmpty,
-              !awsEncryptionSecret.isEmpty else
-        {
-            return nil
-        }
-
-        return AWSProfileConfig(
-            region: awsRegion,
-            bucket: awsBucket,
-            profileName: awsProfileName,
-            encryptionSecret: awsEncryptionSecret,
-            avoidSnapshots: awsAvoidSnapshots
-        )
-    }
-
     func validateAWSConfig() -> Bool {
-        guard !awsRegion.isEmpty,
-              !awsBucket.isEmpty,
-              !awsEncryptionSecret.isEmpty else
-        {
-            return false
-        }
-
-        switch awsAuthMethod {
-        case .accessKey:
-            return !awsAccessKeyId.isEmpty && !awsSecretAccessKey.isEmpty
-        case .profile:
-            return !awsProfileName.isEmpty
-        case .defaultCredentials:
-            return true
-        }
+        return !awsRegion.isEmpty &&
+               !awsBucket.isEmpty &&
+               !awsEncryptionSecret.isEmpty &&
+               !awsAccessKeyId.isEmpty &&
+               !awsSecretAccessKey.isEmpty
     }
 
     func clearAWSConfig() {

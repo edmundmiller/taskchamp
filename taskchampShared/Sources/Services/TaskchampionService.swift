@@ -355,63 +355,7 @@ public class TaskchampionService {
         }
     }
 
-    public func syncToAWS(profileConfig: AWSProfileConfig) throws {
-        logger.info("Performing real TaskChampion S3 sync with profile authentication")
-        
-        guard let replica = self.replica else {
-            throw TCError.genericError("TaskChampion replica not initialized")
-        }
-        
-        do {
-            // Use real TaskChampion encrypted sync with profile authentication
-            let success = replica.sync_to_aws_with_profile(
-                profileConfig.profileName,
-                profileConfig.region,
-                profileConfig.bucket,
-                profileConfig.encryptionSecret
-            )
-            
-            if !success {
-                throw TCError.genericError("TaskChampion S3 sync with profile failed")
-            }
-            
-            logger.info("Real TaskChampion S3 sync with profile completed successfully")
-        } catch {
-            logger.error("Real TaskChampion S3 sync with profile failed: \(error)")
-            throw TCError.genericError("TaskChampion S3 sync with profile failed: \(error.localizedDescription)")
-        }
-    }
 
-    public func syncToAWSWithDefaultCredentials(
-        region: String,
-        bucket: String,
-        encryptionSecret: String,
-        avoidSnapshots: Bool = false
-    ) throws {
-        logger.info("Performing real TaskChampion S3 sync with default credentials")
-        
-        guard let replica = self.replica else {
-            throw TCError.genericError("TaskChampion replica not initialized")
-        }
-        
-        do {
-            // Use real TaskChampion encrypted sync with default credentials
-            let success = replica.sync_to_aws_with_default_creds(
-                region,
-                bucket,
-                encryptionSecret
-            )
-            
-            if !success {
-                throw TCError.genericError("TaskChampion S3 sync with default credentials failed")
-            }
-            
-            logger.info("Real TaskChampion S3 sync with default credentials completed successfully")
-        } catch {
-            logger.error("Real TaskChampion S3 sync with default credentials failed: \(error)")
-            throw TCError.genericError("TaskChampion S3 sync with default credentials failed: \(error.localizedDescription)")
-        }
-    }
 
     public func syncToAWSFromUserDefaults() async throws {
         logger.info("Starting real TaskChampion S3 sync from UserDefaults")
@@ -420,28 +364,11 @@ public class TaskchampionService {
             throw TCError.genericError("AWS settings not configured")
         }
         
-        // Route to appropriate authentication method
-        switch UserDefaults.standard.awsAuthMethod {
-        case .accessKey:
-            guard let config = UserDefaults.standard.getAWSConfig() else {
-                throw TCError.genericError("Failed to load AWS access key configuration")
-            }
-            try await syncToAWS(config: config)
-            
-        case .profile:
-            guard let config = UserDefaults.standard.getAWSProfileConfig() else {
-                throw TCError.genericError("Failed to load AWS profile configuration")
-            }
-            try syncToAWS(profileConfig: config)
-            
-        case .defaultCredentials:
-            try syncToAWSWithDefaultCredentials(
-                region: UserDefaults.standard.awsRegion,
-                bucket: UserDefaults.standard.awsBucket,
-                encryptionSecret: UserDefaults.standard.awsEncryptionSecret,
-                avoidSnapshots: UserDefaults.standard.awsAvoidSnapshots
-            )
+        guard let config = UserDefaults.standard.getAWSConfig() else {
+            throw TCError.genericError("Failed to load AWS access key configuration")
         }
+        
+        try await syncToAWS(config: config)
     }
     
     // MARK: - Sync Status Methods

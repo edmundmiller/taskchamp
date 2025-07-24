@@ -4,18 +4,38 @@ import taskchampShared
 
 struct AWSSettingsView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var region = UserDefaults.standard.awsRegion
-    @State private var bucket = UserDefaults.standard.awsBucket
-    @State private var accessKeyId = UserDefaults.standard.awsAccessKeyId
-    @State private var secretAccessKey = UserDefaults.standard.awsSecretAccessKey
-    @State private var encryptionSecret = UserDefaults.standard.awsEncryptionSecret
-    @State private var profileName = UserDefaults.standard.awsProfileName
-    @State private var avoidSnapshots = UserDefaults.standard.awsAvoidSnapshots
-    @State private var authMethod = UserDefaults.standard.awsAuthMethod
+    @State private var region: String
+    @State private var bucket: String
+    @State private var accessKeyId: String
+    @State private var secretAccessKey: String
+    @State private var encryptionSecret: String
+    @State private var avoidSnapshots: Bool
     @State private var showAWSInfoPopover = false
     @State private var showTestSyncAlert = false
     @State private var testSyncMessage = ""
     @State private var isTestingSyncInProgress = false
+    
+    init() {
+        let defaults = UserDefaults.standard
+        
+        #if targetEnvironment(simulator)
+        // Pre-populate with test values when running in simulator
+        self._region = State(initialValue: defaults.awsRegion.isEmpty ? "us-east-1" : defaults.awsRegion)
+        self._bucket = State(initialValue: defaults.awsBucket.isEmpty ? "taskchamp-test-bucket" : defaults.awsBucket)
+        self._encryptionSecret = State(initialValue: defaults.awsEncryptionSecret.isEmpty ? "test-encryption-secret-simulator" : defaults.awsEncryptionSecret)
+        self._accessKeyId = State(initialValue: defaults.awsAccessKeyId)
+        self._secretAccessKey = State(initialValue: defaults.awsSecretAccessKey)
+        self._avoidSnapshots = State(initialValue: defaults.awsAvoidSnapshots)
+        #else
+        // Production - use saved values or empty
+        self._region = State(initialValue: defaults.awsRegion)
+        self._bucket = State(initialValue: defaults.awsBucket)
+        self._accessKeyId = State(initialValue: defaults.awsAccessKeyId)
+        self._secretAccessKey = State(initialValue: defaults.awsSecretAccessKey)
+        self._encryptionSecret = State(initialValue: defaults.awsEncryptionSecret)
+        self._avoidSnapshots = State(initialValue: defaults.awsAvoidSnapshots)
+        #endif
+    }
 
     var body: some View {
         NavigationStack {
@@ -40,16 +60,6 @@ struct AWSSettingsView: View {
                     }
                 }
 
-                // Authentication Method Section
-                Section("Authentication Method") {
-                    Picker("Auth Method", selection: $authMethod) {
-                        ForEach(UserDefaults.AWSAuthMethod.allCases, id: \.self) { method in
-                            Text(method.displayName).tag(method)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                }
-
                 // Basic Configuration Section
                 Section("Basic Configuration") {
                     TextField("AWS Region (e.g., us-west-2)", text: $region)
@@ -65,38 +75,15 @@ struct AWSSettingsView: View {
                         .disableAutocorrection(true)
                 }
 
-                // Authentication-specific Configuration
-                switch authMethod {
-                case .accessKey:
-                    Section("Access Key Configuration") {
-                        TextField("Access Key ID", text: $accessKeyId)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
+                // Access Key Configuration
+                Section("Access Key Configuration") {
+                    TextField("Access Key ID", text: $accessKeyId)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
 
-                        SecureField("Secret Access Key", text: $secretAccessKey)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                    }
-
-                case .profile:
-                    Section("AWS Profile Configuration") {
-                        TextField("Profile Name", text: $profileName)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-
-                        Text("Uses AWS credentials from ~/.aws/credentials")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-
-                case .defaultCredentials:
-                    Section("Default Credentials") {
-                        Text(
-                            "Uses default AWS credentials from environment variables, IAM roles, or other default sources"
-                        )
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    }
+                    SecureField("Secret Access Key", text: $secretAccessKey)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                 }
 
                 // Advanced Options Section
@@ -150,18 +137,11 @@ struct AWSSettingsView: View {
     }
 
     private var isConfigurationValid: Bool {
-        guard !region.isEmpty, !bucket.isEmpty, !encryptionSecret.isEmpty else {
-            return false
-        }
-
-        switch authMethod {
-        case .accessKey:
-            return !accessKeyId.isEmpty && !secretAccessKey.isEmpty
-        case .profile:
-            return !profileName.isEmpty
-        case .defaultCredentials:
-            return true
-        }
+        return !region.isEmpty && 
+               !bucket.isEmpty && 
+               !encryptionSecret.isEmpty && 
+               !accessKeyId.isEmpty && 
+               !secretAccessKey.isEmpty
     }
 
     private func saveConfiguration() {
@@ -171,25 +151,13 @@ struct AWSSettingsView: View {
         userDefaults.awsBucket = bucket
         userDefaults.awsEncryptionSecret = encryptionSecret
         userDefaults.awsAvoidSnapshots = avoidSnapshots
-        userDefaults.awsAuthMethod = authMethod
-
-        switch authMethod {
-        case .accessKey:
-            userDefaults.awsAccessKeyId = accessKeyId
-            userDefaults.awsSecretAccessKey = secretAccessKey
-            userDefaults.awsProfileName = "" // Clear profile name
-
-        case .profile:
-            userDefaults.awsProfileName = profileName
-            userDefaults.awsAccessKeyId = "" // Clear access keys
-            userDefaults.awsSecretAccessKey = ""
-
-        case .defaultCredentials:
-            userDefaults.awsAccessKeyId = "" // Clear both
-            userDefaults.awsSecretAccessKey = ""
-            userDefaults.awsProfileName = ""
-        }
-
+        userDefaults.awsAccessKeyId = accessKeyId
+        userDefaults.awsSecretAccessKey = secretAccessKey
+        userDefaults.awsAuthMethod = .accessKey // Always use access key method
+        
+        // Clear deprecated profile name
+        userDefaults.awsProfileName = ""
+        
         userDefaults.isAWSConfigured = true
     }
 
@@ -202,10 +170,8 @@ struct AWSSettingsView: View {
         let oldBucket = tempDefaults.awsBucket
         let oldEncryptionSecret = tempDefaults.awsEncryptionSecret
         let oldAvoidSnapshots = tempDefaults.awsAvoidSnapshots
-        let oldAuthMethod = tempDefaults.awsAuthMethod
         let oldAccessKeyId = tempDefaults.awsAccessKeyId
         let oldSecretAccessKey = tempDefaults.awsSecretAccessKey
-        let oldProfileName = tempDefaults.awsProfileName
         let oldIsConfigured = tempDefaults.isAWSConfigured
 
         // Set temporary configuration
@@ -236,10 +202,8 @@ struct AWSSettingsView: View {
                 tempDefaults.awsBucket = oldBucket
                 tempDefaults.awsEncryptionSecret = oldEncryptionSecret
                 tempDefaults.awsAvoidSnapshots = oldAvoidSnapshots
-                tempDefaults.awsAuthMethod = oldAuthMethod
                 tempDefaults.awsAccessKeyId = oldAccessKeyId
                 tempDefaults.awsSecretAccessKey = oldSecretAccessKey
-                tempDefaults.awsProfileName = oldProfileName
                 tempDefaults.isAWSConfigured = oldIsConfigured
             }
         }
@@ -265,15 +229,11 @@ struct AWSHelpView: View {
                     Text("2. An S3 bucket for storing tasks")
                     Text("3. AWS credentials configured")
 
-                    Text("Authentication Methods:")
+                    Text("Authentication:")
                         .font(.headline)
                         .padding(.top)
 
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("**Access Key**: Direct AWS access key and secret")
-                        Text("**AWS Profile**: Uses credentials from ~/.aws/credentials")
-                        Text("**Default Credentials**: Uses environment variables or IAM roles")
-                    }
+                    Text("Uses direct AWS access key and secret key authentication for secure access to your S3 bucket.")
 
                     Text("Equivalent Taskwarrior 3.3.0 Configuration:")
                         .font(.headline)
