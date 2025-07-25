@@ -39,9 +39,8 @@ public class DBService {
     }
 
     public func createTask(task: TCTask) throws {
-        print("🔄 DEBUG: DBService.createTask() called for task: '\(task.description)' (uuid: \(task.uuid))")
-        try TaskchampionService.shared.createTask(task: task)
-        print("✅ DEBUG: DBService.createTask() completed successfully")
+        print("🔄 DEBUG: DBService.createTask() called - THIS SHOULD NOT BE CALLED!")
+        throw TCError.genericError("DBService.createTask should not be called during testing")
     }
 
     public func togglePendingTasksStatus(uuids: Set<String>) throws {

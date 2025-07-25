@@ -1,8 +1,6 @@
 import Foundation
-import SwiftData
 
-@Model
-public class TCFilter: Codable {
+public class TCFilter: Codable, Equatable, Identifiable {
     public static var defaultFilter: TCFilter {
         let filter = TCFilter(
             fullDescription: "My tasks",
@@ -134,5 +132,18 @@ public class TCFilter: Codable {
         try container.encode(didSetProject, forKey: .didSetProject)
         try container.encode(didSetDue, forKey: .didSetDue)
         try container.encode(didSetStatus, forKey: .didSetStatus)
+    }
+
+    public static func == (lhs: TCFilter, rhs: TCFilter) -> Bool {
+        return lhs.id == rhs.id &&
+               lhs.fullDescription == rhs.fullDescription &&
+               lhs.project == rhs.project &&
+               lhs.status == rhs.status &&
+               lhs.priority == rhs.priority &&
+               lhs.due == rhs.due &&
+               lhs.didSetPrio == rhs.didSetPrio &&
+               lhs.didSetProject == rhs.didSetProject &&
+               lhs.didSetDue == rhs.didSetDue &&
+               lhs.didSetStatus == rhs.didSetStatus
     }
 }

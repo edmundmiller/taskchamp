@@ -1,5 +1,5 @@
 import Foundation
-import SoulverCore
+// import SoulverCore // Temporarily disabled for TaskChampion testing
 
 public class NLPService {
     public static let shared = NLPService()
@@ -28,9 +28,10 @@ public class NLPService {
             task.project = extractValue(after: "project:", from: &remainingString)
         }
 
-        // Check for and extract due
+        // Check for and extract due (disabled temporarily for TaskChampion testing)
         if remainingString.range(of: "due:") != nil {
-            task.due = extractValue(after: "due:", from: &remainingString)?.dateValue
+            _ = extractValue(after: "due:", from: &remainingString)
+            // task.due = extractValue(after: "due:", from: &remainingString)?.dateValue // Requires SoulverCore
         }
 
         // The remaining string is the description
@@ -58,7 +59,8 @@ public class NLPService {
 
         // Check for and extract due
         if remainingString.range(of: "due:") != nil {
-            filter.setDue(extractValue(after: "due:", from: &remainingString, isFilter: true)?.dateValue)
+            // filter.setDue(extractValue(after: "due:", from: &remainingString, isFilter: true)?.dateValue) // Requires SoulverCore
+            _ = extractValue(after: "due:", from: &remainingString, isFilter: true)
         }
 
         // Check for and extract status

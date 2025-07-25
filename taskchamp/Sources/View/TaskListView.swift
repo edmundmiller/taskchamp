@@ -1,4 +1,3 @@
-import SwiftData
 import SwiftUI
 import taskchampShared
 import UIKit

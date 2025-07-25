@@ -170,3 +170,6 @@ When Xcode builds fail, export build logs: Press ⌘+9 to open Reports navigator
   make clean
   make up
   ```
+
+## Miscellaneous Notes
+- If you take a screenshot make sure it's under 2000pxl before submitting it.

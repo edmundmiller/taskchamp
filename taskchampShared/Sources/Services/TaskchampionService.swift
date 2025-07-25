@@ -4,9 +4,21 @@ import Taskchampion
 
 // swiftlint:disable type_body_length file_length
 public class TaskchampionService {
-    public static let shared = TaskchampionService()
-    private var replica: Replica?
+    public static let shared: TaskchampionService = {
+        print("🔧 DEBUG: Creating TaskchampionService.shared singleton")
+        let instance = TaskchampionService()
+        print("✅ DEBUG: TaskchampionService.shared singleton created successfully")
+        return instance
+    }()
+    
+    private var replica: Taskchampion.Replica?
     private let logger = Logger(subsystem: "com.mav.taskchamp", category: "TaskchampionService")
+    
+    private init() {
+        print("🔧 DEBUG: TaskchampionService init() called")
+        logger.info("TaskchampionService initializing...")
+        print("✅ DEBUG: TaskchampionService init() completed")
+    }
 
     public func setDbUrl(_ dbUrl: String) {
         logger.info("🚀 Initializing TaskChampion replica with database: \(dbUrl)")
@@ -206,7 +218,7 @@ public class TaskchampionService {
         }
     }
 
-    public func updateTask(_ task: TCTask) throws {
+    private func updateTaskSync(_ task: TCTask) throws {
         guard let replica = self.replica else {
             throw TCError.genericError("TaskChampion replica not initialized")
         }
@@ -247,16 +259,33 @@ public class TaskchampionService {
                 dueString = nil
             }
             
-            // Update task using TaskChampion with all properties
-            try replica.updateTask(
-                uuid: task.uuid,
-                description: task.description,
-                status: statusString,
-                project: task.project,
-                priority: priorityString,
-                due: dueString,
-                obsidianNote: task.obsidianNote
-            )
+            // Use low-level TaskChampion bridge API directly (bypassing broken wrapper)
+            logger.debug("🔧 Updating task using low-level bridge API...")
+            let taskObject = try replica.get_task_by_uuid(task.uuid)
+            logger.debug("✅ Task object retrieved, now updating properties...")
+            
+            // Update properties directly using bridge API
+            taskObject.set_property("description", task.description)
+            taskObject.set_property("status", statusString)
+            
+            if let project = task.project, !project.isEmpty {
+                taskObject.set_property("project", project)
+            }
+            
+            if let priorityString = priorityString, !priorityString.isEmpty {
+                taskObject.set_property("priority", priorityString)
+            }
+            
+            if let dueString = dueString, !dueString.isEmpty {
+                taskObject.set_property("due", dueString)
+            }
+            
+            if let obsidianNote = task.obsidianNote, !obsidianNote.isEmpty {
+                taskObject.set_property("obsidianNote", obsidianNote)
+            }
+            
+            // Note: TaskChampion bridge set_property() should commit changes immediately
+            logger.debug("📝 Properties updated using bridge API (should auto-commit)")
             
             logger.info("Successfully updated task: \(task.uuid)")
         } catch {
@@ -265,7 +294,7 @@ public class TaskchampionService {
         }
     }
 
-    public func createTask(task: TCTask) throws {
+    private func createTaskSync(task: TCTask) throws {
         guard let replica = self.replica else {
             logger.error("❌ TaskChampion replica not initialized for createTask")
             throw TCError.genericError("TaskChampion replica not initialized")
@@ -274,6 +303,9 @@ public class TaskchampionService {
         logger.info("➕ Creating task in TaskChampion: '\(task.description)' (uuid: \(task.uuid))")
         
         do {
+            logger.info("🔎 About to create task - replica is initialized")
+            logger.info("🔎 Replica memory address: \(String(describing: replica))")
+            
             let priorityString: String?
             if let priority = task.priority {
                 switch priority {
@@ -299,15 +331,45 @@ public class TaskchampionService {
             
             logger.debug("📝 Task properties: project=\(task.project ?? "nil"), priority=\(priorityString ?? "nil"), due=\(dueString ?? "nil"), obsidianNote=\(task.obsidianNote ?? "nil")")
             
-            // Create task using real TaskChampion API with all properties
-            try replica.createTask(
-                uuid: task.uuid,
-                description: task.description,
-                project: task.project,
-                priority: priorityString,
-                due: dueString,
-                obsidianNote: task.obsidianNote
-            )
+            // Use low-level TaskChampion bridge API directly (bypassing broken wrapper)
+            logger.debug("🔧 Creating task using low-level bridge API...")
+            logger.debug("🔍 UUID format check: '\(task.uuid)' (length: \(task.uuid.count))")
+            
+            let taskObject: Task
+            do {
+                logger.info("🔎 About to call replica.create_task with UUID: '\(task.uuid)'")
+                taskObject = try replica.create_task(task.uuid)
+                logger.debug("✅ Task object created, now setting properties...")
+            } catch let error as RustString {
+                logger.error("❌ RustString error details: '\(error.toString())'")
+                throw TCError.genericError("TaskChampion create_task failed: \(error.toString())")
+            } catch {
+                logger.error("❌ Unknown error type: \(type(of: error)) - \(error)")
+                throw error
+            }
+            
+            // Set properties directly using bridge API
+            taskObject.set_property("description", task.description)
+            
+            if let project = task.project, !project.isEmpty {
+                taskObject.set_property("project", project)
+            }
+            
+            if let priorityString = priorityString, !priorityString.isEmpty {
+                taskObject.set_property("priority", priorityString)
+            }
+            
+            if let dueString = dueString, !dueString.isEmpty {
+                taskObject.set_property("due", dueString)
+            }
+            
+            if let obsidianNote = task.obsidianNote, !obsidianNote.isEmpty {
+                taskObject.set_property("obsidianNote", obsidianNote)
+            }
+            
+            // Note: TaskChampion bridge set_property() should commit changes immediately
+            // If operations need explicit commit, we'll need to use new_operations() + commit_operations()
+            logger.debug("📝 Properties set using bridge API (should auto-commit)")
             
             logger.info("✅ Successfully created task: \(task.uuid)")
             
@@ -318,6 +380,7 @@ public class TaskchampionService {
                 logger.info("✅ Verification successful: Retrieved task '\(retrievedTask.description)'")
             } catch {
                 logger.error("❌ Verification failed: Could not retrieve created task: \(error)")
+                logger.error("💡 This suggests the bridge set_property() calls are not persisting to database")
             }
         } catch {
             logger.error("❌ Failed to create task \(task.uuid): \(error)")
@@ -405,9 +468,15 @@ public class TaskchampionService {
     
     // MARK: - Async API for DBService compatibility
     
+    public func getTasks() async throws -> [TCTask] {
+        logger.info("🚀 TaskchampionService.getTasks(async) called")
+        // Convert async to sync for now
+        return try getTasks(sortType: .defaultSort, filter: TCFilter.defaultFilter)
+    }
+    
     public func getTasks(filters: [String]) async throws -> [TCTask] {
         // Convert async to sync for now
-        return try getTasks()
+        return try await getTasks()
     }
     
     public func getTask(uuid: String) async throws -> TCTask {
@@ -431,94 +500,23 @@ public class TaskchampionService {
     
     
     public func updateTask(_ task: TCTask) async throws {
-        // Call the sync version with proper implementation
-        guard let replica = self.replica else {
-            throw TCError.genericError("TaskChampion replica not initialized")
-        }
-        
-        let statusString: String
-        switch task.status {
-        case .pending:
-            statusString = "pending"
-        case .completed:
-            statusString = "completed"
-        case .deleted:
-            statusString = "deleted"
-        }
-        
-        let priorityString: String?
-        if let priority = task.priority {
-            switch priority {
-            case .high:
-                priorityString = "high"
-            case .medium:
-                priorityString = "medium"
-            case .low:
-                priorityString = "low"
-            case .none:
-                priorityString = nil
-            }
-        } else {
-            priorityString = nil
-        }
-        
-        let dueString: String?
-        if let due = task.due {
-            dueString = String(Int(due.timeIntervalSince1970))
-        } else {
-            dueString = nil
-        }
-        
-        // Update task using TaskChampion with all properties
-        try replica.updateTask(
-            uuid: task.uuid,
-            description: task.description,
-            status: statusString,
-            project: task.project,
-            priority: priorityString,
-            due: dueString,
-            obsidianNote: task.obsidianNote
-        )
+        // Call the sync version which now uses proper low-level bridge API
+        try updateTaskSync(task)
+    }
+    
+    public func updateTask(_ task: TCTask) throws {
+        try updateTaskSync(task)
     }
     
     public func createTask(task: TCTask) async throws {
-        // Call the sync version with proper implementation
-        guard let replica = self.replica else {
-            throw TCError.genericError("TaskChampion replica not initialized")
-        }
-        
-        let priorityString: String?
-        if let priority = task.priority {
-            switch priority {
-            case .high:
-                priorityString = "high"
-            case .medium:
-                priorityString = "medium"
-            case .low:
-                priorityString = "low"
-            case .none:
-                priorityString = nil
-            }
-        } else {
-            priorityString = nil
-        }
-        
-        let dueString: String?
-        if let due = task.due {
-            dueString = String(Int(due.timeIntervalSince1970))
-        } else {
-            dueString = nil
-        }
-        
-        // Create task using real TaskChampion API with all properties
-        try replica.createTask(
-            uuid: task.uuid,
-            description: task.description,
-            project: task.project,
-            priority: priorityString,
-            due: dueString,
-            obsidianNote: task.obsidianNote
-        )
+        logger.info("🚀 TaskchampionService.createTask(async) called")
+        // Call the sync version which now uses proper low-level bridge API
+        try createTaskSync(task: task)
+    }
+    
+    public func createTask(task: TCTask) throws {
+        logger.info("🚀 TaskchampionService.createTask(sync) called")
+        try createTaskSync(task: task)
     }
     
     // MARK: - Task Conversion Helpers

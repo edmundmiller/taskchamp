@@ -1,14 +1,12 @@
 import Foundation
-import SwiftData
 import SwiftUI
 import taskchampShared
 
 public struct AddFilterView: View {
-    @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     @Binding var selectedFilter: TCFilter
 
-    @Query var filters: [TCFilter]
+    @State var filters: [TCFilter] = []
 
     @State private var showNlpInfoPopover = false
     @State private var nlpInput = ""
@@ -48,7 +46,7 @@ public struct AddFilterView: View {
                                     isShowingAlert = true
                                     return
                                 }
-                                modelContext.insert(nlpFilter)
+                                saveFilter(nlpFilter)
                                 selectedFilter = nlpFilter
 
                                 do {
@@ -123,7 +121,7 @@ public struct AddFilterView: View {
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
                                     withAnimation {
-                                        modelContext.delete(filter)
+                                        deleteFilter(filter)
                                         if filter == selectedFilter {
                                             selectedFilter = TCFilter.defaultFilter
                                             do {
@@ -145,6 +143,42 @@ public struct AddFilterView: View {
             }
             .navigationTitle("Filter your tasks")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                loadFilters()
+            }
+        }
+    }
+    
+    private func loadFilters() {
+        guard let data = UserDefaults.standard.data(forKey: "savedFilters") else {
+            filters = []
+            return
+        }
+        
+        do {
+            filters = try JSONDecoder().decode([TCFilter].self, from: data)
+        } catch {
+            print("Failed to load filters: \(error)")
+            filters = []
+        }
+    }
+    
+    private func saveFilter(_ filter: TCFilter) {
+        filters.append(filter)
+        saveFiltersToUserDefaults()
+    }
+    
+    private func deleteFilter(_ filter: TCFilter) {
+        filters.removeAll { $0.id == filter.id }
+        saveFiltersToUserDefaults()
+    }
+    
+    private func saveFiltersToUserDefaults() {
+        do {
+            let data = try JSONEncoder().encode(filters)
+            UserDefaults.standard.set(data, forKey: "savedFilters")
+        } catch {
+            print("Failed to save filters: \(error)")
         }
     }
 }
