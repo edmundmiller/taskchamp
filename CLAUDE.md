@@ -173,3 +173,6 @@ When Xcode builds fail, export build logs: Press ⌘+9 to open Reports navigator
 
 ## Miscellaneous Notes
 - If you take a screenshot make sure it's under 2000pxl before submitting it.
+
+## Development Memories
+- Update the submodule and commit the change in the commit whenever you make changes to the submodule code in the next 

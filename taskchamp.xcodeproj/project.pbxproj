@@ -825,10 +825,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -840,15 +836,10 @@
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release";
 				MACH_O_TYPE = staticlib;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ltc_swiftbridge",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampShared;
 				PRODUCT_NAME = taskchampShared;
 				SDKROOT = iphoneos;
@@ -871,10 +862,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -882,11 +869,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampTests;
 				PRODUCT_NAME = taskchampTests;
 				SDKROOT = iphoneos;
@@ -915,10 +897,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -930,15 +908,10 @@
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release";
 				MACH_O_TYPE = staticlib;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ltc_swiftbridge",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampShared;
 				PRODUCT_NAME = taskchampShared;
 				SDKROOT = iphoneos;
@@ -960,10 +933,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -971,11 +940,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampTests;
 				PRODUCT_NAME = taskchampTests;
 				SDKROOT = iphoneos;
@@ -1057,10 +1021,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampWidget-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1070,15 +1030,10 @@
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ltc_swiftbridge",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampWidget;
 				PRODUCT_NAME = taskchampWidget;
 				SDKROOT = iphoneos;
@@ -1104,10 +1059,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchamp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1116,15 +1067,10 @@
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ltc_swiftbridge",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp;
 				PRODUCT_NAME = taskchamp;
 				SDKROOT = iphoneos;
@@ -1148,10 +1094,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchampWidget-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1161,15 +1103,10 @@
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ltc_swiftbridge",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp.taskchampWidget;
 				PRODUCT_NAME = taskchampWidget;
 				SDKROOT = iphoneos;
@@ -1196,10 +1133,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/Tuist/.build/artifacts/soulvercore/SoulverCore",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Dependencies/taskchampion-swift/Sources",
-				);
 				INFOPLIST_FILE = "Derived/InfoPlists/taskchamp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1208,15 +1141,10 @@
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios/release";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Dependencies/taskchampion-swift/tc-swiftbridge/target/aarch64-apple-ios-sim/release";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ltc_swiftbridge",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/Dependencies/taskchampion-swift/Sources/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edmundmiller.taskchamp;
 				PRODUCT_NAME = taskchamp;
 				SDKROOT = iphoneos;
