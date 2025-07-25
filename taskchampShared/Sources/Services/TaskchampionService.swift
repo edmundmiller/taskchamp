@@ -78,13 +78,13 @@ public class TaskchampionService {
         
         do {
             // Get all tasks from TaskChampion using real API
-            logger.debug("📡 Calling replica.getAllTasks()...")
-            let taskDataList = try replica.getAllTasks()
+            logger.debug("📡 Calling replica.get_all_tasks()...")
+            let taskDataList = replica.get_all_tasks()
             logger.info("📋 Raw TaskChampion returned \(taskDataList.count) tasks")
             
             // Log each task for debugging
             for (index, taskData) in taskDataList.enumerated() {
-                logger.debug("📝 Task[\(index)]: uuid=\(taskData.uuid), desc='\(taskData.description)', status=\(taskData.status), project=\(taskData.project ?? "nil"), priority=\(taskData.priority ?? "nil")")
+                logger.debug("📝 Task[\(index)]: uuid=\(taskData.task_data_get_uuid()), desc='\(taskData.task_data_get_description())', status=\(taskData.task_data_get_status()), project=\(taskData.task_data_get_project() ?? "nil"), priority=\(taskData.task_data_get_priority() ?? "nil")")
             }
             
             // Convert TaskChampion TaskData to TCTask
@@ -137,7 +137,7 @@ public class TaskchampionService {
         
         do {
             // Get task from TaskChampion using real API
-            guard let taskData = try replica.getTask(uuid: uuid) else {
+            guard let taskData = replica.get_task(uuid) else {
                 throw TCError.genericError("Task not found: \(uuid)")
             }
             
@@ -164,9 +164,24 @@ public class TaskchampionService {
             // Toggle each task between pending and completed
             for uuid in uuids {
                 do {
-                    if let taskData = try replica.getTask(uuid: uuid) {
-                        let newStatus = taskData.status == "pending" ? "completed" : "pending"
-                        try replica.updateTask(uuid: uuid, description: nil, status: newStatus, project: nil, priority: nil, due: nil, obsidianNote: nil)
+                    if let taskData = replica.get_task(uuid) {
+                        let currentStatus = taskData.task_data_get_status()
+                        let newStatus = currentStatus == "pending" ? "completed" : "pending"
+                        
+                        // Create new TaskData with updated status
+                        let updatedTaskData = new_task_data(uuid, taskData.task_data_get_description())
+                        updatedTaskData.task_data_set_status(newStatus)
+                        if let project = taskData.task_data_get_project() {
+                            updatedTaskData.task_data_set_project(project)
+                        }
+                        if let priority = taskData.task_data_get_priority() {
+                            updatedTaskData.task_data_set_priority(priority)
+                        }
+                        if let due = taskData.task_data_get_due() {
+                            updatedTaskData.task_data_set_due(due)
+                        }
+                        
+                        try replica.update_task(uuid, updatedTaskData)
                         logger.debug("Toggled task \(uuid) to \(newStatus)")
                     }
                 } catch {
@@ -203,8 +218,23 @@ public class TaskchampionService {
             // Update each task with the new status using real TaskChampion API
             for uuid in uuids {
                 do {
-                    try replica.updateTask(uuid: uuid, description: nil, status: statusString, project: nil, priority: nil, due: nil, obsidianNote: nil)
-                    logger.debug("Updated task \(uuid) to \(statusString)")
+                    if let taskData = replica.get_task(uuid) {
+                        // Create new TaskData with updated status
+                        let updatedTaskData = new_task_data(uuid, taskData.task_data_get_description())
+                        updatedTaskData.task_data_set_status(statusString)
+                        if let project = taskData.task_data_get_project() {
+                            updatedTaskData.task_data_set_project(project)
+                        }
+                        if let priority = taskData.task_data_get_priority() {
+                            updatedTaskData.task_data_set_priority(priority)
+                        }
+                        if let due = taskData.task_data_get_due() {
+                            updatedTaskData.task_data_set_due(due)
+                        }
+                        
+                        try replica.update_task(uuid, updatedTaskData)
+                        logger.debug("Updated task \(uuid) to \(statusString)")
+                    }
                 } catch {
                     logger.error("Failed to update task \(uuid): \(error)")
                     throw error
@@ -259,33 +289,28 @@ public class TaskchampionService {
                 dueString = nil
             }
             
-            // Use low-level TaskChampion bridge API directly (bypassing broken wrapper)
-            logger.debug("🔧 Updating task using low-level bridge API...")
-            let taskObject = try replica.get_task_by_uuid(task.uuid)
-            logger.debug("✅ Task object retrieved, now updating properties...")
+            // Use the new TaskChampion bridge API
+            logger.debug("🔧 Updating task using new bridge API...")
             
-            // Update properties directly using bridge API
-            taskObject.set_property("description", task.description)
-            taskObject.set_property("status", statusString)
+            // Create TaskData object with updated values
+            let taskData = new_task_data(task.uuid, task.description)
+            taskData.task_data_set_status(statusString)
             
             if let project = task.project, !project.isEmpty {
-                taskObject.set_property("project", project)
+                taskData.task_data_set_project(project)
             }
             
             if let priorityString = priorityString, !priorityString.isEmpty {
-                taskObject.set_property("priority", priorityString)
+                taskData.task_data_set_priority(priorityString)
             }
             
             if let dueString = dueString, !dueString.isEmpty {
-                taskObject.set_property("due", dueString)
+                taskData.task_data_set_due(dueString)
             }
             
-            if let obsidianNote = task.obsidianNote, !obsidianNote.isEmpty {
-                taskObject.set_property("obsidianNote", obsidianNote)
-            }
-            
-            // Note: TaskChampion bridge set_property() should commit changes immediately
-            logger.debug("📝 Properties updated using bridge API (should auto-commit)")
+            // Update task using bridge API
+            try replica.update_task(task.uuid, taskData)
+            logger.debug("📝 Task updated using bridge API")
             
             logger.info("Successfully updated task: \(task.uuid)")
         } catch {
@@ -331,45 +356,35 @@ public class TaskchampionService {
             
             logger.debug("📝 Task properties: project=\(task.project ?? "nil"), priority=\(priorityString ?? "nil"), due=\(dueString ?? "nil"), obsidianNote=\(task.obsidianNote ?? "nil")")
             
-            // Use low-level TaskChampion bridge API directly (bypassing broken wrapper)
-            logger.debug("🔧 Creating task using low-level bridge API...")
+            // Use the new TaskChampion bridge API
+            logger.debug("🔧 Creating task using new bridge API...")
             logger.debug("🔍 UUID format check: '\(task.uuid)' (length: \(task.uuid.count))")
             
-            let taskObject: Task
-            do {
-                logger.info("🔎 About to call replica.create_task with UUID: '\(task.uuid)'")
-                taskObject = try replica.create_task(task.uuid)
-                logger.debug("✅ Task object created, now setting properties...")
-            } catch let error as RustString {
-                logger.error("❌ RustString error details: '\(error.toString())'")
-                throw TCError.genericError("TaskChampion create_task failed: \(error.toString())")
-            } catch {
-                logger.error("❌ Unknown error type: \(type(of: error)) - \(error)")
-                throw error
-            }
+            // Create TaskData object
+            let taskData = new_task_data(task.uuid, task.description)
             
-            // Set properties directly using bridge API
-            taskObject.set_property("description", task.description)
-            
+            // Set optional properties
             if let project = task.project, !project.isEmpty {
-                taskObject.set_property("project", project)
+                taskData.task_data_set_project(project)
             }
             
             if let priorityString = priorityString, !priorityString.isEmpty {
-                taskObject.set_property("priority", priorityString)
+                taskData.task_data_set_priority(priorityString)
             }
             
             if let dueString = dueString, !dueString.isEmpty {
-                taskObject.set_property("due", dueString)
+                taskData.task_data_set_due(dueString)
             }
             
-            if let obsidianNote = task.obsidianNote, !obsidianNote.isEmpty {
-                taskObject.set_property("obsidianNote", obsidianNote)
+            // Create task using bridge API
+            do {
+                logger.info("🔎 About to call replica.create_task with TaskData")
+                let createdUuid = try replica.create_task(taskData)
+                logger.debug("✅ Task created with UUID: \(createdUuid)")
+            } catch {
+                logger.error("❌ Failed to create task: \(error)")
+                throw error
             }
-            
-            // Note: TaskChampion bridge set_property() should commit changes immediately
-            // If operations need explicit commit, we'll need to use new_operations() + commit_operations()
-            logger.debug("📝 Properties set using bridge API (should auto-commit)")
             
             logger.info("✅ Successfully created task: \(task.uuid)")
             
@@ -399,17 +414,13 @@ public class TaskchampionService {
         
         do {
             // Use real TaskChampion encrypted sync with access key authentication
-            let success = replica.sync_to_aws_with_access_key(
+            try replica.sync_to_aws_with_access_key(
                 config.accessKeyId,
                 config.secretAccessKey,
                 config.region,
                 config.bucket,
                 config.encryptionSecret
             )
-            
-            if !success {
-                throw TCError.genericError("TaskChampion S3 sync failed")
-            }
             
             logger.info("Real TaskChampion S3 sync completed successfully")
         } catch {
@@ -486,7 +497,7 @@ public class TaskchampionService {
         }
         
         // Get task from TaskChampion using real API
-        guard let taskData = try replica.getTask(uuid: uuid) else {
+        guard let taskData = replica.get_task(uuid) else {
             throw TCError.genericError("Task not found: \(uuid)")
         }
         
@@ -524,7 +535,7 @@ public class TaskchampionService {
     private func convertTaskDataToTCTask(_ taskData: TaskData) -> TCTask? {
         // Convert TaskChampion TaskData to TCTask with full property support
         let status: TCTask.Status
-        switch taskData.status.lowercased() {
+        switch taskData.task_data_get_status().lowercased() {
         case "completed":
             status = .completed
         case "deleted":
@@ -535,7 +546,7 @@ public class TaskchampionService {
         
         // Convert priority string to TCTask.Priority
         let priority: TCTask.Priority?
-        if let priorityString = taskData.priority {
+        if let priorityString = taskData.task_data_get_priority() {
             switch priorityString.lowercased() {
             case "high":
                 priority = .high
@@ -552,20 +563,20 @@ public class TaskchampionService {
         
         // Convert due date string to Date
         let due: Date?
-        if let dueString = taskData.due, let dueTimestamp = Double(dueString) {
+        if let dueString = taskData.task_data_get_due(), let dueTimestamp = Double(dueString) {
             due = Date(timeIntervalSince1970: dueTimestamp)
         } else {
             due = nil
         }
         
         return TCTask(
-            uuid: taskData.uuid,
-            project: taskData.project?.isEmpty == true ? nil : taskData.project,
-            description: taskData.description,
+            uuid: taskData.task_data_get_uuid(),
+            project: taskData.task_data_get_project()?.isEmpty == true ? nil : taskData.task_data_get_project(),
+            description: taskData.task_data_get_description(),
             status: status,
             priority: priority,
             due: due,
-            obsidianNote: taskData.obsidianNote?.isEmpty == true ? nil : taskData.obsidianNote
+            obsidianNote: nil // TaskData doesn't include obsidianNote yet
         )
     }
     
